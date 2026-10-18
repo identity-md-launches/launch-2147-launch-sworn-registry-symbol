@@ -1,0 +1,14 @@
+{
+  "Renderer": {
+    "abiHash": "ff2f9c0fd5354f0a0431cd740506b287640ff3a611675ffc2803317de04aa09e",
+    "sourceCommit": "b86d7aea5bd2d67e38c6868148168fabf3c83b3d"
+  },
+  "Composer": {
+    "abiHash": "380e8f3258110a8e65660bc749924b444984fc68f88736cdf6ca4abf2fd3d361",
+    "sourceCommit": "b86d7aea5bd2d67e38c6868148168fabf3c83b3d"
+  },
+  "Registry": {
+    "abiHash": "5f96e03a53e314363da9bf6b9fc79c8753dfc8c5f8b5e8f42e5f4f0ff8edc53b",
+    "sourceCommit": "b86d7aea5bd2d67e38c6868148168fabf3c83b3d"
+  }
+}

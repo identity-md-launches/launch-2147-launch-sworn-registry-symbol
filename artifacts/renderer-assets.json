@@ -1,0 +1,52 @@
+{
+  "logo": {
+    "method": "Renderer.tokenURI(Card) via eth_call on Ethereum mainnet",
+    "renderer": "0xea9185cc6dffe42a8c059b099c50cb21021439ad",
+    "tokenId": 0,
+    "claimant": "0x000000000000000000000000000000000000c1a1",
+    "top": [
+      101,
+      202,
+      303,
+      404,
+      503,
+      601,
+      701,
+      801,
+      901,
+      1001,
+      1101,
+      1201,
+      1301
+    ],
+    "communityCount": 8192,
+    "tokenNumberRemoved": true,
+    "bytes": 9548,
+    "sha256": "8f3697f6114b57102f93ce488502f9ffda92213845494d554d52edb49adbb933"
+  },
+  "sample-card": {
+    "method": "Renderer.tokenURI(Card) via eth_call on Ethereum mainnet",
+    "renderer": "0xea9185cc6dffe42a8c059b099c50cb21021439ad",
+    "tokenId": 0,
+    "claimant": "0x000000000000000000000000000000000000c1a1",
+    "top": [
+      101,
+      202,
+      302,
+      402,
+      502,
+      0,
+      701,
+      0,
+      0,
+      0,
+      1105,
+      0,
+      1301
+    ],
+    "communityCount": 0,
+    "tokenNumberRemoved": false,
+    "bytes": 4427,
+    "sha256": "4a295d78259308063815a27b897ac6c7ee2f460dc5b07c756ce82111c88cd779"
+  }
+}

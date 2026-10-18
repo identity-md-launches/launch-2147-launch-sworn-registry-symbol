@@ -1,0 +1,19 @@
+{
+  "chainId": 1,
+  "block": 26217756,
+  "endpoint": "https://rpc.mevblocker.io",
+  "contracts": {
+    "Registry": {
+      "runtimeHash": "0x9c88410fb6463610043b3adeea1ab857096e83ca8e0aea4f73f63433fbfb42d2",
+      "matches": true
+    },
+    "Renderer": {
+      "runtimeHash": "0x1fb854135321f70bb61cefbd688f8375179cdb7c4fb2af2009583786f7d47efb",
+      "matches": true
+    },
+    "Composer": {
+      "runtimeHash": "0x79359a04f91e52693816feb7a9d90b4c75e44abb838f9061e8eee209f6ca417e",
+      "matches": true
+    }
+  }
+}

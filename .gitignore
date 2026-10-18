@@ -6,3 +6,43 @@ node_modules/
 *.swp
 .DS_Store
 __pycache__/
+
+# Sworn evidence path budget: 2,097,152 bytes total (see artifacts/path-budget.json).
+# Named PNGs: 262,144 bytes each; taste.json: 131,072 bytes; other reports: 65,536 bytes.
+# Include only these delivery files; additional generated files stay excluded.
+!/artifacts/
+/artifacts/*
+!/artifacts/screenshots/
+/artifacts/screenshots/*
+!/artifacts/abi-verification.json
+!/artifacts/browser-validation.json
+!/artifacts/chain-verification.json
+!/artifacts/export-manifest.json
+!/artifacts/fork-validation.json
+!/artifacts/live-browser-validation.json
+!/artifacts/path-budget.json
+!/artifacts/renderer-assets.json
+!/artifacts/screenshots/about-1280.png
+!/artifacts/screenshots/about-390.png
+!/artifacts/screenshots/catalog-1280.png
+!/artifacts/screenshots/catalog-390.png
+!/artifacts/screenshots/claim-1280.png
+!/artifacts/screenshots/claim-390.png
+!/artifacts/screenshots/explorer-1280.png
+!/artifacts/screenshots/explorer-390.png
+!/artifacts/screenshots/explorer-live-1280.png
+!/artifacts/screenshots/explorer-live-390.png
+!/artifacts/screenshots/fact-vs-artifact-1280.png
+!/artifacts/screenshots/fact-vs-artifact-390.png
+!/artifacts/screenshots/focus-390.png
+!/artifacts/screenshots/integrate-1280.png
+!/artifacts/screenshots/integrate-390.png
+!/artifacts/screenshots/landing-1280.png
+!/artifacts/screenshots/landing-390.png
+!/artifacts/screenshots/mismatch-390.png
+!/artifacts/screenshots/verified-source-390.png
+!/artifacts/screenshots/whitelistcurator-1280.png
+!/artifacts/screenshots/whitelistcurator-390.png
+!/artifacts/submission-audit.json
+!/artifacts/taste.json
+!/artifacts/validation.md

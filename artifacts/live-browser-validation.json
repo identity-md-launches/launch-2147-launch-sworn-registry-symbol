@@ -1,0 +1,21 @@
+{
+  "results": [
+    {
+      "name": "live browser public contributor, 25 hasTrait calls, 13-family summary, pure Renderer preview, live price",
+      "passed": true,
+      "status": "Read at block 26,217,888 from https://ethereum-rpc.publicnode.com."
+    },
+    {
+      "name": "unproven oracle rows say not claimed, never false",
+      "passed": true
+    },
+    {
+      "name": "all RPCs unavailable discards data and shows no false or fabricated card",
+      "passed": true
+    },
+    {
+      "name": "getter mismatch red banner and wrong-chain wallet block signing",
+      "passed": true
+    }
+  ]
+}

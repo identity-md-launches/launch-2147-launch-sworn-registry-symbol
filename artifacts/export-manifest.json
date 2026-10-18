@@ -1,0 +1,19 @@
+{
+  "files": {
+    "index.html": "725df2c76d709bc6224d80a1af01b6c6b1ad6508bc4804a2adce6ffe05ca8ff6",
+    "assets/sample-card.svg": "4a295d78259308063815a27b897ac6c7ee2f460dc5b07c756ce82111c88cd779",
+    "assets/ccip-4itFlZ2A.js": "59b0329bd7d6e160a5072f4f3e1d6e8c90b52ce9845c09a09ec0bc1739e85228",
+    "assets/index-BCm35_Lj.css": "d0dd5f57e0fe6d984df5991f8a0a416b71247782a0489d8a99a5522db1f5eb45",
+    "assets/logo.svg": "8f3697f6114b57102f93ce488502f9ffda92213845494d554d52edb49adbb933",
+    "assets/index-Do0Ikc-z.js": "d37992863310f1813e11ea83dce1db651013663e61726325509bdaf7c5ac16cd",
+    "assets/share.png": "03ee263385d6865f2b8abf2d7c51b3dca46ac78dfbe31641d0dbd6365490e0be",
+    "data/curator-source.json": "69d105bf6779a73c0351042edf809d4022ac2828b2462b73eb88cc7483a6eaff",
+    "data/addresses.json": "d107d808a600387d7d92e17f565d2437e5a6b901c3a0a5c0c3d7aa704f6dfd76",
+    "data/hours.json": "9f8f8f9cd6870a117f8dbf6c12e93e1f5a75c0b16f5207ecf9ecb05443898f3d",
+    "data/launch-record.json": "5bcee904c1e768785f7a0e51e2eb87b3608f641699f06ce0e36d518486481802",
+    "examples/read-registry.sh": "498625157f77efd069b021705cdb2b9e5a4d9c3e3058964206a46f0498301f75",
+    "examples/SwornGate.sol": "157b77b613f9f11f40f280d5265573222d99f394b867fff9b6d419487b03983b"
+  },
+  "totalBytes": 680066,
+  "cleanInstallReproduced": true
+}

@@ -1,0 +1,18 @@
+{
+  "regularFiles": 231,
+  "regularFileBytes": 4515207,
+  "limitBytes": 8388608,
+  "compressedBundleUpperBoundBytes": 3145728,
+  "exportBytes": 680066,
+  "artifactBytes": 1572927,
+  "artifactPathBudgetBytes": 2097152,
+  "protectedFilesChanged": false,
+  "ignoreFilesChanged": true,
+  "ignoreChange": "Exact evidence-file allowlist with explicit per-file and total byte budgets",
+  "newSubmodules": false,
+  "dependencyOrCacheDirectoriesSubmitted": false,
+  "requiredAssetsPresent": true,
+  "relativeIndexAssetsResolve": true,
+  "sourceDataCopiesMatch": true,
+  "allNamedEvidenceIncluded": true
+}

@@ -1,0 +1,144 @@
+{
+  "initialRun": {
+    "upstream": "https://ethereum-rpc.publicnode.com",
+    "block": "26217852",
+    "localOnly": true,
+    "results": [
+      {
+        "name": "launch code and getters on the local mainnet fork",
+        "details": {
+          "block": "26217852"
+        }
+      },
+      {
+        "name": "one exact-output canonical Router swap, exact IMD receipt, unused ETH returned",
+        "details": {
+          "maximumWei": "225303950952475",
+          "actualWei": "223073218764826",
+          "returnedWei": "2230732187649",
+          "exactImd": "100000000000000000"
+        }
+      },
+      {
+        "name": "exact approval and mint, Registry.tokenURI for a minted wallet",
+        "details": {
+          "tokenId": "2",
+          "traits": []
+        }
+      },
+      {
+        "name": "paid panel request with live maxPrice; pending does not become a true fact",
+        "details": {
+          "price": "500000000000000000",
+          "outcomes": [
+            "Trait 1301 requested. The oracle verdict is pending."
+          ]
+        }
+      },
+      {
+        "name": "community registration derives id from its own SpecRegistered receipt",
+        "details": {
+          "traitId": 10001
+        }
+      },
+      {
+        "name": "unminted public contributor gets a pure Renderer preview",
+        "details": {
+          "traits": [
+            101,
+            201,
+            202,
+            601
+          ],
+          "tokenId": "0"
+        }
+      },
+      {
+        "name": "sponsored pool claim and exact fresh burn-fee attachment",
+        "details": {
+          "valueWei": "0",
+          "outcomes": [
+            "Trait 701 requested. The oracle verdict is pending."
+          ]
+        }
+      },
+      {
+        "name": "pool daily-limit revert is explained in words",
+        "details": {
+          "message": "You already used the pool today (UTC). Try after the next UTC day."
+        }
+      }
+    ]
+  },
+  "finalRun": {
+    "upstream": "https://ethereum-rpc.publicnode.com",
+    "block": "26218094",
+    "localOnly": true,
+    "results": [
+      {
+        "name": "launch code and getters on the local mainnet fork",
+        "details": {
+          "block": "26218094"
+        }
+      },
+      {
+        "name": "one exact-output canonical Router swap, exact IMD receipt, unused ETH returned",
+        "details": {
+          "maximumWei": "234478352884979",
+          "actualWei": "232156785034632",
+          "returnedWei": "2321567850347",
+          "exactImd": "100000000000000000"
+        }
+      },
+      {
+        "name": "exact approval and mint, Registry.tokenURI for a minted wallet",
+        "details": {
+          "tokenId": "2",
+          "traits": []
+        }
+      },
+      {
+        "name": "paid panel request with live maxPrice; pending does not become a true fact",
+        "details": {
+          "price": "500000000000000000",
+          "outcomes": [
+            "Trait 1301 requested. The oracle verdict is pending."
+          ]
+        }
+      },
+      {
+        "name": "community registration derives id from its own SpecRegistered receipt",
+        "details": {
+          "traitId": 10001
+        }
+      },
+      {
+        "name": "unminted public contributor gets a pure Renderer preview",
+        "details": {
+          "traits": [
+            101,
+            201,
+            202,
+            601
+          ],
+          "tokenId": "0"
+        }
+      },
+      {
+        "name": "sponsored pool claim and exact fresh burn-fee attachment",
+        "details": {
+          "valueWei": "0",
+          "outcomes": [
+            "Trait 701 requested. The oracle verdict is pending."
+          ]
+        }
+      },
+      {
+        "name": "pool daily-limit revert is explained in words",
+        "details": {
+          "message": "You already used the pool today (UTC). Try after the next UTC day."
+        }
+      }
+    ]
+  }
+}
