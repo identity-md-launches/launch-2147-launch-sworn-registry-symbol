@@ -1,0 +1,27 @@
+{
+  "kind": "evm_contracts",
+  "contracts": [
+    {
+      "contract": "Renderer",
+      "constructorArgs": []
+    },
+    {
+      "contract": "Composer",
+      "constructorArgs": []
+    },
+    {
+      "contract": "Registry",
+      "constructorArgs": [
+        "0xcb0b0531e86a9ac36fa865ca8e3dbccf047fda91",
+        "0x0000ec93127baa929e58e97dd0095a2bfb38ec1d",
+        "0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7",
+        "0xa43e6f75ee006411f79ac1c84120606c2330de82",
+        "0x5598aa9146215bc13eb26f2c692ad1461fd32982",
+        "$contract:Renderer",
+        "$contract:Composer",
+        "0xe29386719C155B6847aD5a4E97C6674f10ffc750"
+      ]
+    }
+  ],
+  "notes": "Ethereum mainnet (chain ID 1): deploy only Renderer, Composer, then the Sworn registry (symbol SWORN). All three contracts are ownerless; there are no owner arguments or initialization calls. Registry arguments are curator, idmd, imd, intake, attester, renderer, composer and burnExecutor, in that order, with the approved fixed addresses and references to the two preceding deployments. The nonzero BurnExecutor V2 enables the accepted best-effort burn rule: sponsored callers must read a current quote and supply the fee when the preview meets the 69 IMD minimum and 0.005 ETH cap. V2 can return zero for a gas-starved inner quote, allowing the call to skip the burn without an event; the documented BurnSkipped(1) expectation for that case is an accepted documentation erratum. BurnTriggered records source-chain bridge submission, not completed Base delivery. Accepted executable source, constructor behavior, libraries and build settings are unchanged; the only adaptation is this manifest."
+}
