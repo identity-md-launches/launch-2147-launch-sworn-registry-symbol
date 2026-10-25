@@ -1,87 +1,116 @@
-# Sworn interface
+# Sworn v2 interface
 
 ## Overview
 
-Sworn is a public instrument panel for one Ethereum registry. Its eight hash routes use dense tables, numbered procedures and thin rules. The address search is the landing page’s primary action. Wallet controls live in the claim guide. The implementation is in `site/src/`; `dist/` is the static production export.
+The final source is `web/` from `banse/sworn` commit `f4e16276a954f0c9c7327733ba6adee298279fa6`; `dist/` is that commit's unchanged production export. This document describes the implementation, not a redesign. The earlier `site/` frontend is retained history.
 
-The brief’s exact copy, monospace prose, tracked uppercase labels, small type, square controls and Renderer artwork are intentional product requirements. Apply those choices consistently when adding another page.
+Sworn is a public instrument for inspecting wallet facts on Ethereum, minting an optional card, requesting facts and curating wallet lists. Its visual system uses system monospace, near-black surfaces, green actions, square controls, thin structural rules and a thirteen-family hive. The landing puts the address form before its explanatory prose. The hive is supporting artwork, with synthetic illustrations explicitly labeled.
 
 ## Colors
 
-The canonical tokens are at `site/src/styles.css:1`.
+The app's canonical tokens are at `web/src/styles.css:1`.
 
-| Token | Value | Role |
+| Token | Value | Implemented role |
 | --- | --- | --- |
-| `--bg` | `#0a0a0a` | Page, fields and controls |
-| `--text` | `#d9e0da` | Reading text and focus outlines |
-| `--muted` | `#8c968e` | Sources, labels, navigation, captions |
-| `--faint` | `#5f6861` | Large step numbers, source line numbers, field borders |
-| `--rule` | `#1f1f1f` | Section and structural rules |
-| `--row-rule` | `#151515` | Table rows and selected-row surface |
-| `--accent` | `#00ff41` | Links, primary buttons, active menu, header rule |
-| `--direct` | `#00cc33` | Direct evidence and the verified source excerpt |
-| `--shared` | `#dbfee6` | Shared evidence |
+| `--bg` | `#0a0a0a` | Page, fields, buttons and dialogs |
+| `--text` | `#d9e0da` | Primary text and keyboard focus outline |
+| `--muted` | `#8c968e` | Secondary text, sources and navigation |
+| `--faint` | `#5f6861` | Neutral field/button borders and limited secondary marks |
+| `--rule` | `#1f1f1f` | Structural separators and disabled borders |
+| `--row-rule` | `#151515` | Hover and disabled surfaces |
+| `--accent` | `#00ff41` | Links, primary fills, selected navigation and status emphasis |
+| `--direct` | `#00cc33` | Direct evidence |
+| `--shared` | `#dbfee6` | Shared evidence and primary hover fill |
 | `--panel` | `#8ff0a4` | Panel evidence |
-| `--danger` | `#ff7777` | Mismatch banner and input errors |
+| `--danger` | `#ff7777` | Error text and invalid field border |
 
-The card retains the Renderer’s class colors. White dots mark exactly 202, 801, 901, 1001, 1101–1104 and 1201; `isRare` is in `site/src/catalog.ts`.
+The rendered landing's solid text/background pairs passed the pinned contrast probe. Inline links have a separate distinction issue: axe measured green against surrounding body text at 1.01:1; see validation. No full accessibility pass is claimed.
 
-Measured solid text/background contrast against `--bg`: text 14.73:1, muted 6.48:1, accent 14.50:1, direct 9.13:1 and error 7.69:1. Faint is 3.43:1. Large step numbers meet the large-text threshold; the required 12px source line numbers do not meet the 4.5:1 small-text threshold. Their exact prescribed color is retained and recorded as a review limitation, not an accessibility pass.
+Verification progress adds local colors in `web/src/progress-experience.css`: the overview uses `#0b130d` with a `#285c35` border; summary states use `#69ed8b`, `#ff9d9d` and `#bdc8bf`. These are implemented exceptions to the global tokens, not additional global ramps.
+
+The bundled handbook has its own stylesheet at `web/public/docs/style.css`: background `#090b09`, surface `#101510`, text `#dce3da`, muted `#a0aca0`, accent `#6be64b`, border `#293329` and focus `#b2ff93`. Its print media block switches to a light paper palette. No app theme switch exists.
 
 ## Typography
 
-All interface text uses `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`. There are no downloaded fonts. The SVG assets retain the Renderer’s own font declaration.
+The app stack is `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`. There are no downloadable fonts. Actual installed system faces depend on the visitor's platform. Body line-height is 1.6, prose 1.65 and code 1.7; root numbers use `tabular-nums`.
 
-| Role | Size | Weight / spacing |
+| Token | Size | Use |
 | --- | --- | --- |
-| Landing headline | 34px | 500; line height 1.25 |
-| Page title, statistics, step numbers | 24px | Titles 500; steps 400 |
-| Brand | 15px | 600; tracking 0.22em |
-| Procedure headings | 15px | 500 |
-| Body | 13px | 400; line height 1.55 |
-| Table body and menu | 12px | 400 |
-| Section labels | 11px | 500; uppercase; tracking 0.12em |
-| Family labels | 11px | Uppercase; tracking 0.08em |
-| Table heads and sources | 10px | Heads tracked 0.12em; sources untracked |
+| `--label` | 11px | Sources and small labels |
+| `--small` | 12px | Navigation, status and captions |
+| `--body` | 13px | Default UI and data |
+| `--prose` | 15px | Prose, brand and tertiary headings |
+| `--step` | 19px | Procedure/progress emphasis |
+| `--title` | 24px | Section headings |
+| `--display` | 34px | Page titles and landing headline |
 
-Captions are 11px. Phone input text is 16px to avoid Safari’s automatic field zoom. Strong text uses 600. Tables use line height 1.6, code 1.7 and the verbatim source 1.8. Long prose generally uses `.measure` at 76ch. Addresses wrap; code and tables scroll within focusable regions. Numeric formatting is explicitly `en-US`, and integer token metadata is losslessly decoded.
+Weights are predominantly 400 and 600. Main titles use 600, balanced wrapping, line-height 1.3 and tracking −0.02em. Landing titles use line-height 1.25 and tracking −0.03em, with a width of 19ch on desktop and 22ch on phones. The wordmark uses 0.12em tracking. `h4` and `.subpart-title` are uppercase and muted. Two landing section labels are authored in capitals.
+
+At 600px and below, the address, form-grid and recovery fields use 16px input text. Long addresses, proof text and statuses wrap with `overflow-wrap: anywhere`; code blocks scroll locally. Prose spans its available content width unless a specific component sets a measure. Curator paragraphs cap at 78ch; transaction payment explanations cap at 65ch. The landing probe observed six sizes, including one-off sizes; the global source declares the seven tokens above.
+
+The handbook uses a system monospace stack, a 16px root and 1.75 line-height, reduced to a 15px root under 540px. Its title uses `clamp(2rem, 3.7vw, 3.35rem)` and its prose is limited to 74ch. It is a distinct reading surface, not the app's compact scale.
 
 ## Layout
 
-The header, main and footer have a 1,200px maximum outer width and 32px side padding. Claim and About use 976px content, equivalent to a 1,040px frame with the same side padding. At 600px and below the outer padding becomes 16px.
+`web/src/styles.css` defines a 1,264px maximum outer frame with 32px side padding, giving 1,200px content at the maximum. Header, main and footer align to that frame. Main padding is 40px above and 72px below. Phones use 16px side padding and 28px/48px main vertical padding.
 
-Sections have a 1px top rule and 30px vertical padding, reduced to 24px on phones. Common control gaps are 8–12px; larger groups use 24–36px. The desktop landing pairs the intro and address form with a 330px sample card, then four bordered statistic cells and a three-column procedure. Explorer places a 300px card to the left of the family table. The claim mint block has one accent border, a 300px card on the left and text and action on the right. Claim steps reserve a 48px number column.
+The spacing tokens are `--s1: 4px`, `--s2: 8px`, `--s3: 12px`, `--s4: 16px`, `--s5: 20px`, `--s6: 24px`, `--s8: 32px`, `--s10: 40px` and `--s12: 48px`. Existing components also contain literal spacings.
 
-At 1,100px the header and address controls wrap. At 780px the landing, Explorer and mint block stack; the claim mint action precedes its image visually so it remains on the first phone screen. At 600px statistics become two columns, address controls stack, and spec fields become one column. Tables retain their columns and scroll sideways with a visible instruction. The 66-hour chart scales to its container and has a complete data table.
+The desktop landing has a 1.1fr/1fr split, a 48px gap, copy/address form on the left and a square hive on the right. The four-cell record strip and evidence grids follow it. Sections use top rules. Catalogue rows align fact, rule and evidence without nested decorative cards.
 
-Production pages were checked at 320, 390, 780 and 1,280px in Chromium and WebKit, and at 1,440px by the pinned probe. Page-width overflow was absent. At 390 × 844 the landing action ended at 675.97px and the claim mint action at 837.33px in both engines.
+| Breakpoint | Implemented behavior |
+| --- | --- |
+| ≤1150px | Header navigation gets its own row; input/action groups wrap; landing gap shrinks |
+| ≤1000px | Curator facts and numeric ranges become two columns; progress layouts adapt |
+| ≤900px | Evidence classes become two columns; catalogue proportions tighten |
+| ≤780px | Landing, Explorer, mint and comparison layouts stack; records become two columns; catalogue rows put the rule below the fact |
+| ≤640px | Wallet picker becomes a full-width bottom sheet; forms, evidence and fact rows become one column |
+| ≤600px | 16px frame padding; full-width stacked address action; compact section gaps; 16px form text; Curator grids become one column |
+| ≤480px | Task-tab padding and mint/payment gaps tighten |
+
+Curator's seven-column table has a 1,050px minimum width inside a focusable horizontal scroll region. Code and the handbook's tables also scroll within their own containers. The page itself did not overflow at 320, 390, 780 or 1440px on any of the nine app routes checked in Chromium.
+
+At 390 × 844, the home address action occupies y=455.39–499.39px. Product heading, field and action are visible in the first screen. This measurement is for the homepage, not every transaction step. The handbook switches from a sidebar layout to stacked navigation at 950px and tightens again at 540px.
 
 ## Elevation & Depth
 
-The surface system is flat. Rules carry structure; the single accent border identifies the card mint. There are no shadows, gradients, overlays, entrance effects or animations. Hover, pressed, focus, selected and disabled states change instantly.
+The app is primarily flat: near-black surfaces, one-pixel rules and state borders. There are no decorative card shadows or gradient text. Native dialogs sit in the top layer with a dark backdrop. Progress summaries use modest tonal surfaces and borders; Curator notices use a left accent rule.
+
+Loading uses a labeled progress state. The `swarm-wait` animation is enabled only for `prefers-reduced-motion: no-preference`; the landing has no endless animation. The handbook explicitly removes animations and transitions for reduced motion. No theme transition exists.
 
 ## Shapes
 
-All containers and controls have radius 0. The only round UI marks are the required 4px white rarity dots; these are evidence marks rather than rounded surfaces. The committed logo is the full-house Renderer image with its token-number text removed. The sample is the specified synthetic Renderer preview. Generation and hashes are recorded in `artifacts/renderer-assets.json`.
+Buttons, fields and panels use square corners. The hive's hexagons are data/artwork, not general panel shapes. The white rarity dot accompanies a text label. Existing wallet marks retain their vendor colors and forms in `web/src/wallet-icons.ts`. No new image, icon, font or palette asset was introduced by this import.
 
 ## Components
 
-`site/src/components.tsx` supplies `Section`, `Source`, `AddressForm`, `Table`, `ClassMark`, `ContractAddress`, `WhySworn` and `HowToVerify`. Reuse these instead of adding another surface style. `Table` owns its focusable scroll region; `Source` provides the small muted attribution beside a quantity. `AddressForm` validates a full address, focuses errors and announces its result. The verbatim source uses one flex row per line and a fixed, non-shrinking 48px line-number gutter.
+| Source | Reuse points and behavior |
+| --- | --- |
+| `web/src/components.tsx` | `Section`, `Status`, `Mark`, `AddressForm`, `ContractList`, `Sources`, `CodeBlock`, `Card`, `CommunityCard`, `WalletFactRows` |
+| `web/src/App.tsx` | Shared header/footer, route titles, main focus, skip link, public read recovery and global providers |
+| `web/src/task-navigation.mjs` | Mint Card, Mint Facts and Mint Rule tasks plus legacy bookmark resolution |
+| `web/src/wallet.tsx` | `ConnectControl`, native modal wallet sheet, EIP-6963 discovery, mobile wallet-browser links and Coinbase connector |
+| `web/src/claim.tsx` | Card snapshot, fact picker, costs and immutable-rule form |
+| `web/src/controllers/transactions.tsx` | Explicit preparation, signature, pending, receipt and recovery states |
+| `web/src/swarm.tsx` | Request progress, agreement and recorded-result presentation |
+| `web/src/curator.tsx`, `web/src/curator.css` | Fact/weight selection, evidence modes, historical filtering, current reads, CSV/JSON export and consumer tabs |
+| `web/src/wallet-facts.tsx` | Connected-wallet facts and request history |
+| `web/public/docs/app.js` | Local handbook search, clear/Escape behavior and desktop contents disclosure |
 
-Buttons and button links have a minimum 44px height. Primary actions use accent fill and dark text; secondary actions have an accent outline. Focus uses a 2px text-color outline with 4px offset. Native labels, selects, checkboxes, radios, details and links provide keyboard behavior. Rare marks have image roles and accessible names. Code regions are focusable for keyboard scrolling.
+Buttons have a minimum 44px height. Primary actions are green with dark text; secondary buttons are transparent with a neutral border. Hover adjusts border/text/surface, active fills accent, and disabled controls use muted text and structural borders. Inputs follow the same square treatment and use a danger border when invalid. Focus is a 2px text-color outline with 4px offset. Some navigation/link targets are smaller than 44px; the landing target-spacing probe passed the 24px baseline.
 
-`site/src/Claim.tsx` owns the four trait procedures and the separate card mint. `site/src/flow.ts` owns explicit ready, wallet, pending, confirmed, rejected, failed, replaced and unknown transaction states. Eligibility is read before buying or approving IMD, so existing cards and verified/pending requests stop before funding. Each receipt is checked before another transaction; reconnecting revalidates earlier receipts. A tab-scoped transaction journal permits reload recovery and never automatically broadcasts. Wallet identity, connection, keys and signatures are not persisted.
+`AddressForm` rejects malformed addresses, focuses the input and updates a status region. `Card` uses local SVG artwork or the deployed Renderer image; interactive hive cells are named buttons that filter families. The wallet sheet uses `showModal()`, keyboard navigation, Escape and backdrop dismissal, and restores its opener. On phones it includes safe-area bottom padding.
 
-`site/src/chain.ts` owns checked mainnet reads and complete wallet snapshots. Failure clears the result and displays RPC unavailable. A dependency mismatch is a red text-and-border banner and blocks signing. Oracle entries without accepted evidence say “not claimed.”
+Current chain data comes through `web/src/chain.ts` and `web/src/rpc.mjs`, with deployment/ABI/runtime checks and explicit unavailable states. Historical candidate data is labeled separately from accepted Registry facts. The transaction journal does not make a transaction successful until confirmed evidence supports it. These behaviors were inspected up to the wallet-signing boundary; no real wallet flow was executed.
 
-## Do’s and Don’ts
+## Do's and Don'ts
 
-- Start a page with the existing `main` frame, one page title and `Section` components.
-- Keep comparable facts in tables, with the same column order and a source beside quantities.
-- Preserve exact protocol names, ids, owner-approved copy and Renderer art.
-- Keep primary interactions visible at 390px; verify the production export after changing density.
-- Use the existing class markers for evidence and words for transaction status.
-- Keep radius 0 and the single accent. Do not add fonts, icon sets, decorative imagery, gradients, shadows or motion.
-- Preserve lossless integers and fail-closed RPC behavior when changing data views.
+- For this pinned release, preserve every source/export byte; keep reports and release tooling outside `dist/` and `web/`.
+- For a future page, reuse the shared frame and route system, one page title, `Section`, `Status`, existing field/button styles and evidence marks.
+- Select a color by its implemented role and reuse the spacing tokens before adding literals.
+- Keep wallet credentials separate from card ownership and historical candidates separate from current Registry evidence.
+- Preserve complete addresses, amounts and metadata; use wrapping or an explicit local scroll container.
+- Check the first phone screen, dialog keyboard path and static gateway subpath after future changes.
+- Record accessibility findings; the frozen export is not permission to claim an audit pass.
 
-Design review used the pinned Better Interface guide across all six domains. Guidance attribution: [Jakub Krehel, Better Interface](https://github.com/jakubkrehel/skills/tree/267330e1adfc66a718fb65fa6918c1f06d0a689e/skills/better-interface), MIT; documentation method: [Paul Bakaus, Impeccable](https://github.com/pbakaus/impeccable/blob/9d715cc4f5564a990ca8345abfdd5df6dc9b41c8/skill/reference/document.md), Apache-2.0. The supplied license texts are preserved in `site/LICENSES/Better-Interface.txt`.
+Review used all six domains of the pinned Better Interface guide. Guidance: [Jakub Krehel, Better Interface](https://github.com/jakubkrehel/skills/tree/267330e1adfc66a718fb65fa6918c1f06d0a689e/skills/better-interface), MIT. Documentation method: [Paul Bakaus, Impeccable](https://github.com/pbakaus/impeccable/blob/9d715cc4f5564a990ca8345abfdd5df6dc9b41c8/skill/reference/document.md), Apache-2.0. License notices are retained in `web/LICENSES/Better-Interface.txt`. Coverage, source findings and unperformed checks are in `artifacts/validation.md`.

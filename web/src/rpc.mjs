@@ -1,0 +1,278 @@
+import { noteReadFailure } from "./read-recovery.mjs";
+// Public reads only. Wallet submissions always use the connected EIP-1193 provider.
+export const READ_RPCS = [
+  "https://ethereum-rpc.publicnode.com",
+  "https://gateway.tenderly.co/public/mainnet",
+  "https://rpc.mevblocker.io/fast",
+  "https://1.rpc.thirdweb.com",
+];
+// An endpoint that errors or answers 429 sits out, then is tried again. The
+// pause grows with repeated failures and never exceeds MAX_PAUSE_MS.
+export const MAX_PAUSE_MS = 60000;
+const pauseFor = (failures) =>
+  Math.min(MAX_PAUSE_MS, 15000 * 2 ** (failures - 1));
+// Range refusals name their size limit; they are not endpoint failures.
+const SIZE_REFUSAL =
+  /block range|range (is )?too (large|wide|big)|too (many|large)|exceed|limit|maximum|max(imum)? (allowed )?(number of )?(requested )?blocks|more than \d+ (results|logs|blocks)|response size|query timeout|10,?000 results/i;
+// A read whose caller gave up (deadline, page or wallet change) sends nothing more.
+export const STOPPED = "Read stopped by its caller.";
+const halt = (signal) => {
+  if (signal?.aborted) throw Object.assign(Error(STOPPED), { stopped: true });
+};
+// A rate limit is never a size refusal, whatever words it uses.
+const RATE_LIMIT =
+  /rate.?limit|too many requests|throttl|request limit|credits/i;
+const sizeRefused = (text) =>
+  !/archive/i.test(text) && !RATE_LIMIT.test(text) && SIZE_REFUSAL.test(text);
+const hex = (v) =>
+  typeof v === "string" && /^0x[0-9a-f]+$/i.test(v) ? BigInt(v) : null;
+// At most this many requests are in flight at once; the rest wait their turn.
+export const MAX_IN_FLIGHT = 6;
+// A first-in, first-out gate: run(task) starts task once fewer than `limit`
+// tasks are running.
+export function limiter(limit = MAX_IN_FLIGHT) {
+  let active = 0;
+  const queue = [];
+  const release = () => {
+    active--;
+    queue.shift()?.();
+  };
+  return async function run(task) {
+    if (active >= limit) await new Promise((go) => queue.push(go));
+    active++;
+    try {
+      return await task();
+    } finally {
+      release();
+    }
+  };
+}
+export function resilientRpc({
+  urls = READ_RPCS,
+  fetcher: send = fetch,
+  timeout = 8000,
+  now = () => Date.now(),
+  onRead,
+  maxInFlight = MAX_IN_FLIGHT,
+} = {}) {
+  const gate = limiter(maxInFlight);
+  // The timeout starts when the request leaves the queue, not while it waits.
+  const fetcher = (url, init, signal) =>
+    gate(() => {
+      halt(signal);
+      return send(url, {
+        ...init,
+        signal: signal
+          ? AbortSignal.any([signal, AbortSignal.timeout(timeout)])
+          : AbortSignal.timeout(timeout),
+      }).then(async (response) => {
+        // Read the body inside the slot so a slow body still counts as in flight.
+        let text = "";
+        try {
+          text =
+            typeof response.text === "function"
+              ? await response.text()
+              : JSON.stringify(await response.json());
+        } catch {}
+        return { ok: response.ok, status: response.status, text };
+      });
+    });
+  let sequence = 0;
+  const health = new Map(urls.map((u) => [u, { until: 0, failures: 0 }]));
+  const verifiedChains = new Set();
+  const pause = (url) => {
+    const h = health.get(url);
+    h.failures++;
+    h.until = now() + pauseFor(h.failures);
+  };
+  const recover = (url) => {
+    const h = health.get(url);
+    h.failures = 0;
+    h.until = 0;
+  };
+  async function at(url, method, params, signal) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      halt(signal);
+      try {
+        const response = await fetcher(
+          url,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              id: ++sequence,
+              method,
+              params,
+            }),
+          },
+          signal,
+        );
+        if (!response.ok) {
+          const text = response.text;
+          throw Object.assign(Error(`RPC HTTP ${response.status}`), {
+            status: response.status,
+            sizeRefusal:
+              method === "eth_getLogs" &&
+              (response.status === 413 ||
+                (![403, 429, 503].includes(response.status) &&
+                  sizeRefused(text))),
+            final: response.status === 403,
+          });
+        }
+        const body = JSON.parse(response.text);
+        if (body.error) {
+          const error = Object.assign(
+            new Error(body.error.message || "RPC read refused"),
+            {
+              code: body.error.code,
+              data: body.error.data,
+              // An answered call that reverts is a contract refusal, not an
+              // unavailable endpoint. Preserve its ABI data for a plain explanation.
+              contractRefusal:
+                ["eth_call", "eth_estimateGas"].includes(method) &&
+                (body.error.code === 3 ||
+                  /^0x[0-9a-f]*$/i.test(body.error.data || "") ||
+                  /revert|insufficient funds|out of gas/i.test(
+                    body.error.message || "",
+                  )),
+              sizeRefusal:
+                method === "eth_getLogs" &&
+                sizeRefused(body.error.message || ""),
+            },
+          );
+          throw error;
+        }
+        if (!("result" in body)) throw Error("Incomplete RPC response");
+        return body.result;
+      } catch (error) {
+        halt(signal);
+        if (error.contractRefusal || error.sizeRefusal || error.final)
+          throw error;
+        if (attempt) throw error;
+      }
+    }
+  }
+  // Ready endpoints in row order; paused ones only when every endpoint is paused,
+  // soonest first, so a complete outage is retried on the next read.
+  function candidates(excluded) {
+    const open = urls.filter((u) => !excluded.has(u));
+    const ready = open.filter((u) => health.get(u).until <= now());
+    return ready.length
+      ? ready
+      : open.sort((a, b) => health.get(a).until - health.get(b).until);
+  }
+  async function one(url, method, params, signal) {
+    if (method !== "eth_chainId" && !verifiedChains.has(url)) {
+      if ((await at(url, "eth_chainId", [], signal)) !== "0x1")
+        throw Error("RPC answers the wrong chain");
+      verifiedChains.add(url);
+    }
+    const result = await at(url, method, params, signal);
+    if (method === "eth_chainId") {
+      if (result !== "0x1") throw Error("RPC answers the wrong chain");
+      verifiedChains.add(url);
+    }
+    recover(url);
+    onRead?.({ url, method, params });
+    return result;
+  }
+  async function next(method, params, signal, excluded = new Set()) {
+    for (const url of candidates(excluded)) {
+      halt(signal);
+      try {
+        return { url, result: await one(url, method, params, signal) };
+      } catch (error) {
+        if (error.contractRefusal || error.stopped) throw error;
+        pause(url);
+      }
+    }
+    noteReadFailure();
+    throw Error("Cannot read the chain, retrying.");
+  }
+  const logKey = (logs) =>
+    JSON.stringify(
+      logs
+        .map((l) => [
+          l.blockHash,
+          l.transactionHash,
+          l.logIndex,
+          l.address?.toLowerCase(),
+          l.topics,
+          l.data,
+        ])
+        .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))),
+    );
+  // Logs count only when two endpoints return the same list. A range is read
+  // in two halves only when every endpoint that refused it refused it for its
+  // size; a rate limit, an archive refusal or an outage never splits a range.
+  async function logs(params, signal) {
+    const answers = [];
+    const tried = new Set();
+    let refused = 0,
+      sizeRefused = 0;
+    while (answers.length < 2) {
+      halt(signal);
+      const url = candidates(tried)[0];
+      if (!url) break;
+      tried.add(url);
+      try {
+        const result = await one(url, "eth_getLogs", params, signal);
+        if (!Array.isArray(result))
+          throw Error("Incomplete historical logs; payment blocked.");
+        answers.push(result);
+      } catch (error) {
+        if (error.stopped) throw error;
+        refused++;
+        if (error.sizeRefusal) sizeRefused++;
+        else pause(url);
+      }
+    }
+    halt(signal);
+    const sized = refused > 0 && sizeRefused === refused;
+    if (answers.length === 2) {
+      if (logKey(answers[0]) !== logKey(answers[1]))
+        throw Error(
+          "Historical RPCs disagree; logs were not read in full. Payment blocked.",
+        );
+      return answers[0];
+    }
+    const filter = params?.[0] || {};
+    const from = hex(filter.fromBlock),
+      to = hex(filter.toBlock);
+    if (sized && from !== null && to !== null && to > from) {
+      const middle = from + (to - from) / 2n;
+      const part = (a, b) => [
+        {
+          ...filter,
+          fromBlock: `0x${a.toString(16)}`,
+          toBlock: `0x${b.toString(16)}`,
+        },
+        ...params.slice(1),
+      ];
+      return [
+        ...(await logs(part(from, middle), signal)),
+        ...(await logs(part(middle + 1n, to), signal)),
+      ];
+    }
+    noteReadFailure();
+    throw Error(
+      answers.length
+        ? "Historical logs need two agreeing RPCs; logs were not read in full. Payment blocked."
+        : "Cannot read the chain, retrying.",
+    );
+  }
+  async function request({ method, params = [] }, signal) {
+    halt(signal);
+    if (method === "eth_getLogs") return logs(params, signal);
+    return (await next(method, params, signal)).result;
+  }
+  return {
+    request: (args) => request(args),
+    // The same pool for one caller: after its signal aborts (deadline passed,
+    // page or wallet changed) this read sends no further request.
+    scoped: (signal) => ({ request: (args) => request(args, signal) }),
+    // Test notes and diagnostics: the pause state of each endpoint.
+    pausedUntil: (url) => health.get(url)?.until || 0,
+  };
+}

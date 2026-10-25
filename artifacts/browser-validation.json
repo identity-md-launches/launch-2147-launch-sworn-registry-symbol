@@ -1,922 +1,706 @@
 {
-  "results": [
+  "exportCommit": "f4e16276a954f0c9c7327733ba6adee298279fa6",
+  "productionBuildRun": false,
+  "servedUnderSubpath": "/preview/",
+  "mainnetSource": "https://ethereum-rpc.publicnode.com",
+  "rpcTransport": "Contributor read-only RPC override; exported files unchanged",
+  "engines": {
+    "chromium": "156.0.8078.4",
+    "webkit": "Unavailable"
+  },
+  "checks": [
     {
-      "name": "chromium: landing exact copy and first-screen action",
+      "name": "390px first screen contains product, address field and main action",
       "passed": true,
-      "details": {
-        "buttonBottom": 675.96875
+      "result": {
+        "actionTop": 455.390625,
+        "actionBottom": 499.390625,
+        "viewportHeight": 844
       }
     },
     {
-      "name": "chromium: claim mint action on the first phone screen",
-      "passed": true,
-      "details": {
-        "buttonBottom": 837.328125
-      }
-    },
-    {
-      "name": "chromium: address validation",
+      "name": "Invalid address shows a correction, sets aria-invalid and focuses input",
       "passed": true
     },
     {
-      "name": "chromium: primary address action and honest RPC failure",
+      "name": "Wallet dialog keyboard containment, Escape, backdrop and focus return",
       "passed": true
     },
     {
-      "name": "chromium: keyboard focus and skip link",
+      "name": "Ethereum deployment verification and current price read",
+      "passed": true,
+      "result": "Ethereum mainnet \u00b7 block 26,267,585 \u00b7 current oracle quote"
+    },
+    {
+      "name": "Valid address loads real Registry/Curator facts and Renderer metadata",
+      "passed": true,
+      "result": {
+        "walletSource": "dist/data/eligibility/wallets-0.json",
+        "metadataName": "Sworn #1",
+        "attributes": 15
+      }
+    },
+    {
+      "name": "Route / at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "chromium: landing at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: catalog at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: explorer at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: claim at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: fact-vs-artifact at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: integrate at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: whitelistcurator at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: about at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: landing at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: catalog at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: explorer at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: claim at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: fact-vs-artifact at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: integrate at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: whitelistcurator at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: about at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: landing at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: catalog at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: explorer at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: claim at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: fact-vs-artifact at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: integrate at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: whitelistcurator at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: about at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: landing at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: catalog at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: explorer at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: claim at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: fact-vs-artifact at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: integrate at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: whitelistcurator at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: about at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "chromium: claim pre-wallet, payment choice and recoverable flow",
+      "name": "Route /catalog at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "chromium: catalog / source navigation",
+      "name": "Route /mint at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "chromium: automated accessibility / landing",
-      "passed": true,
-      "details": {
-        "passes": 26,
-        "incomplete": 1,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / catalog",
-      "passed": true,
-      "details": {
-        "passes": 27,
-        "incomplete": 2,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / explorer",
-      "passed": true,
-      "details": {
-        "passes": 25,
-        "incomplete": 0,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / claim",
-      "passed": true,
-      "details": {
-        "passes": 28,
-        "incomplete": 0,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / fact-vs-artifact",
-      "passed": true,
-      "details": {
-        "passes": 27,
-        "incomplete": 1,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / integrate",
-      "passed": true,
-      "details": {
-        "passes": 23,
-        "incomplete": 1,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / whitelistcurator",
-      "passed": true,
-      "details": {
-        "passes": 28,
-        "incomplete": 1,
-        "ownerApproved": [
-          {
-            "id": "color-contrast",
-            "nodes": 53,
-            "reason": "The brief explicitly pins source line numbers to #5f6861. Measured contrast is 3.43:1 at 12px; retained and documented, not an AA pass."
-          }
-        ]
-      }
-    },
-    {
-      "name": "chromium: automated accessibility / about",
-      "passed": true,
-      "details": {
-        "passes": 21,
-        "incomplete": 0,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "chromium: no runtime API, font or script CDN calls",
-      "passed": true,
-      "details": [
-        "rpc.mevblocker.io",
-        "ethereum-rpc.publicnode.com",
-        "1.rpc.thirdweb.com"
-      ]
-    },
-    {
-      "name": "chromium: local resources and console",
-      "passed": true,
-      "details": {
-        "localFailures": [],
-        "scriptErrors": [],
-        "expectedRpcErrors": []
-      }
-    },
-    {
-      "name": "webkit: landing exact copy and first-screen action",
-      "passed": true,
-      "details": {
-        "buttonBottom": 675.96875
-      }
-    },
-    {
-      "name": "webkit: claim mint action on the first phone screen",
-      "passed": true,
-      "details": {
-        "buttonBottom": 837.328125
-      }
-    },
-    {
-      "name": "webkit: address validation",
+      "name": "Route /request at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "webkit: primary address action and honest RPC failure",
+      "name": "Route /register at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "webkit: keyboard focus and skip link",
+      "name": "Route /wallet at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "webkit: landing at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: catalog at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: explorer at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: claim at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: fact-vs-artifact at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: integrate at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: whitelistcurator at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: about at 390",
-      "passed": true,
-      "details": {
-        "width": 390,
-        "scroll": 390,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: landing at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: catalog at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: explorer at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: claim at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: fact-vs-artifact at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: integrate at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: whitelistcurator at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: about at 1280",
-      "passed": true,
-      "details": {
-        "width": 1280,
-        "scroll": 1280,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: landing at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: catalog at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: explorer at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: claim at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: fact-vs-artifact at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: integrate at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: whitelistcurator at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: about at 320",
-      "passed": true,
-      "details": {
-        "width": 320,
-        "scroll": 320,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: landing at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Facts about wallets, onchain and sworn by the swarm.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: catalog at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Catalog",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: explorer at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Explorer",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: claim at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Mint your card now. It updates itself.",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: fact-vs-artifact at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Fact vs artifact",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: integrate at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "Integrate",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: whitelistcurator at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "WhitelistCurator",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: about at 780",
-      "passed": true,
-      "details": {
-        "width": 780,
-        "scroll": 780,
-        "h1": "About",
-        "images": true
-      }
-    },
-    {
-      "name": "webkit: claim pre-wallet, payment choice and recoverable flow",
+      "name": "Route /curator at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "webkit: catalog / source navigation",
+      "name": "Route /integrate at 320px: heading and no page overflow",
       "passed": true
     },
     {
-      "name": "webkit: automated accessibility / landing",
+      "name": "Route /about at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route / at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route / at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route / at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Unknown hash route has a usable return link",
+      "passed": true
+    },
+    {
+      "name": "Legacy claim bookmark resolves to the Mint Card task",
+      "passed": true
+    },
+    {
+      "name": "Mint/request tasks offer connection before signing",
+      "passed": true
+    },
+    {
+      "name": "Curator fact filtering exports a real historical JSON selection",
       "passed": true,
-      "details": {
-        "passes": 26,
-        "incomplete": 1,
-        "ownerApproved": []
+      "result": {
+        "exportedWallets": 4931,
+        "selectionSource": "historical-candidates"
       }
     },
     {
-      "name": "webkit: automated accessibility / catalog",
+      "name": "Curator tab keyboard navigation and malformed consumer validation",
+      "passed": true
+    },
+    {
+      "name": "Documentation search returns local results and Escape clears them",
       "passed": true,
-      "details": {
-        "passes": 27,
-        "incomplete": 2,
-        "ownerApproved": []
+      "result": {
+        "displayedResults": 12
       }
     },
     {
-      "name": "webkit: automated accessibility / explorer",
-      "passed": true,
-      "details": {
-        "passes": 25,
-        "incomplete": 0,
-        "ownerApproved": []
-      }
+      "name": "Explicit RPC failure displays an honest unavailable state",
+      "passed": true
     },
     {
-      "name": "webkit: automated accessibility / claim",
-      "passed": true,
-      "details": {
-        "passes": 28,
-        "incomplete": 0,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "webkit: automated accessibility / fact-vs-artifact",
-      "passed": true,
-      "details": {
-        "passes": 27,
-        "incomplete": 1,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "webkit: automated accessibility / integrate",
-      "passed": true,
-      "details": {
-        "passes": 23,
-        "incomplete": 1,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "webkit: automated accessibility / whitelistcurator",
-      "passed": true,
-      "details": {
-        "passes": 28,
-        "incomplete": 1,
-        "ownerApproved": [
-          {
-            "id": "color-contrast",
-            "nodes": 53,
-            "reason": "The brief explicitly pins source line numbers to #5f6861. Measured contrast is 3.43:1 at 12px; retained and documented, not an AA pass."
-          }
-        ]
-      }
-    },
-    {
-      "name": "webkit: automated accessibility / about",
-      "passed": true,
-      "details": {
-        "passes": 21,
-        "incomplete": 0,
-        "ownerApproved": []
-      }
-    },
-    {
-      "name": "webkit: no runtime API, font or script CDN calls",
-      "passed": true,
-      "details": [
-        "rpc.mevblocker.io",
-        "ethereum-rpc.publicnode.com",
-        "1.rpc.thirdweb.com"
-      ]
-    },
-    {
-      "name": "webkit: local resources and console",
-      "passed": true,
-      "details": {
-        "localFailures": [],
-        "scriptErrors": [],
-        "expectedRpcErrors": []
-      }
+      "name": "No uncaught page errors or failed local resources",
+      "passed": true
     }
   ],
-  "shots": [
+  "layouts": [
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Facts",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/wallet",
+      "heading": "Wallet",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Facts",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/wallet",
+      "heading": "Wallet",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Facts",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/wallet",
+      "heading": "Wallet",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Facts",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/wallet",
+      "heading": "Wallet",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "screenshots": [
     "landing-390.png",
     "catalog-390.png",
-    "explorer-390.png",
-    "claim-390.png",
-    "fact-vs-artifact-390.png",
+    "mint-390.png",
+    "request-390.png",
+    "register-390.png",
+    "wallet-390.png",
+    "curator-390.png",
     "integrate-390.png",
-    "whitelistcurator-390.png",
     "about-390.png",
-    "landing-1280.png",
-    "catalog-1280.png",
-    "explorer-1280.png",
-    "claim-1280.png",
-    "fact-vs-artifact-1280.png",
-    "integrate-1280.png",
-    "whitelistcurator-1280.png",
-    "about-1280.png"
-  ]
+    "landing-1440.png"
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "localHttpErrors": [],
+  "limitations": [
+    "WebKit did not run: host system is missing required shared libraries.",
+    "No wallet account, signature, transaction broadcast, native-device, screen-reader or browser-native zoom test."
+  ],
+  "accessibility": {
+    "tool": "axe-core through @axe-core/playwright",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "routes": [
+      {
+        "route": "#/",
+        "violations": [
+          {
+            "id": "link-in-text-block",
+            "impact": "serious",
+            "help": "Links must be distinguishable without relying on color",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "nodes": [
+              {
+                "target": [
+                  "a[href$=\"docs\"][target=\"_blank\"][rel=\"noreferrer\"]"
+                ],
+                "html": "<a href=\"https://imd.fun/docs\" target=\"_blank\" rel=\"noreferrer\">IMD agents</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  "a[href$=\"#/mint#mint\"]"
+                ],
+                "html": "<a href=\"#/mint#mint\">Mint Card</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  "a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  "p > a[href$=\"#/register\"]"
+                ],
+                "html": "<a href=\"#/register\">Mint Rule</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  "p > a[href$=\"#/integrate\"]"
+                ],
+                "html": "<a href=\"#/integrate\">Read <code>hasTrait</code></a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              }
+            ]
+          }
+        ],
+        "passes": 29,
+        "incomplete": [
+          {
+            "id": "aria-valid-attr-value",
+            "nodes": 1
+          },
+          {
+            "id": "color-contrast",
+            "nodes": 2
+          }
+        ]
+      },
+      {
+        "route": "#/catalog",
+        "violations": [
+          {
+            "id": "link-in-text-block",
+            "impact": "serious",
+            "help": "Links must be distinguishable without relying on color",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "nodes": [
+              {
+                "target": [
+                  "#chain > .cost-line > a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts \u2197</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  "#shared > .cost-line > a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts \u2197</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  "#panel > .cost-line > a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts \u2197</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  ".muted > a[href$=\"#/register\"]"
+                ],
+                "html": "<a href=\"#/register\">Mint the first rule</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              }
+            ]
+          }
+        ],
+        "passes": 29,
+        "incomplete": [
+          {
+            "id": "aria-prohibited-attr",
+            "nodes": 9
+          },
+          {
+            "id": "aria-valid-attr-value",
+            "nodes": 1
+          },
+          {
+            "id": "color-contrast",
+            "nodes": 9
+          }
+        ]
+      },
+      {
+        "route": "#/mint",
+        "violations": [
+          {
+            "id": "link-in-text-block",
+            "impact": "serious",
+            "help": "Links must be distinguishable without relying on color",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "nodes": [
+              {
+                "target": [
+                  ".prose > a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              }
+            ]
+          }
+        ],
+        "passes": 26,
+        "incomplete": []
+      },
+      {
+        "route": "#/request",
+        "violations": [],
+        "passes": 26,
+        "incomplete": []
+      },
+      {
+        "route": "#/register",
+        "violations": [
+          {
+            "id": "link-in-text-block",
+            "impact": "serious",
+            "help": "Links must be distinguishable without relying on color",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "nodes": [
+              {
+                "target": [
+                  ".prose:nth-child(1) > a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              },
+              {
+                "target": [
+                  ".muted:nth-child(4) > a[href$=\"#/request\"]"
+                ],
+                "html": "<a href=\"#/request\">Mint Facts</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              }
+            ]
+          }
+        ],
+        "passes": 29,
+        "incomplete": []
+      },
+      {
+        "route": "#/curator",
+        "violations": [
+          {
+            "id": "link-in-text-block",
+            "impact": "serious",
+            "help": "Links must be distinguishable without relying on color",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "nodes": [
+              {
+                "target": [
+                  ".muted:nth-child(6) > a[href$=\"#/register\"]"
+                ],
+                "html": "<a href=\"#/register\">Mint Rule</a>",
+                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
+              }
+            ]
+          }
+        ],
+        "passes": 32,
+        "incomplete": [
+          {
+            "id": "color-contrast",
+            "nodes": 5
+          },
+          {
+            "id": "th-has-data-cells",
+            "nodes": 1
+          }
+        ]
+      },
+      {
+        "route": "docs/index.html",
+        "violations": [],
+        "passes": 30,
+        "incomplete": [
+          {
+            "id": "color-contrast",
+            "nodes": 3
+          }
+        ]
+      }
+    ]
+  },
+  "additionalVisualInspection": {
+    "desktop": {
+      "viewport": [
+        1280,
+        844
+      ],
+      "screenshot": "artifacts/screenshots/landing-1280.png"
+    },
+    "keyboardFocus": {
+      "viewport": [
+        390,
+        844
+      ],
+      "element": "#explore-address",
+      "outline": "rgb(217, 224, 218) solid 2px",
+      "screenshot": "artifacts/screenshots/focus-390.png",
+      "visuallyInspected": true
+    }
+  }
 }

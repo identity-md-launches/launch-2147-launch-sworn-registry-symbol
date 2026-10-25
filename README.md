@@ -1,162 +1,132 @@
-# Sworn
+# Sworn · version 2
 
-## Sworn: for judges
+The static site under the existing name **sworn** now serves the version 2 app from [banse/sworn](https://github.com/banse/sworn/tree/f4e16276a954f0c9c7327733ba6adee298279fa6), commit `f4e16276a954f0c9c7327733ba6adee298279fa6`. The previous redirect to `swornbyswarm.sites.imd.fun` is replaced by the app itself.
 
-Sworn is an ownerless Ethereum-mainnet registry of verifiable facts about wallets, collection symbol **SWORN**. Its credential is `hasTrait(wallet, traitId)`; an ERC-721 card is a transferable display artifact whose facts remain attached to its claimant wallet. Direct facts are read live from WhitelistCurator.sol and Identity.md, while oracle facts require a Registry-verified IMD Oracle attestation.
+**Release policy:** `dist/` is the upstream production export, copied unchanged: **85 files, 2,305,898 bytes**. No production build was run for this delivery. Serve this directory directly. Its title, branding, ABIs, deployment metadata, documentation, agent files, snapshots, images and JavaScript are the pinned upstream bytes.
 
-**Use-funds warning.** This is a live mainnet integration, not an independent security audit. The delivery exercised transactions on a local mainnet fork, not through a real browser wallet; Oracle, Intake, BurnExecutor V2, bridge, public RPC and wallet dependencies can fail or change outside the ownerless Registry. An oracle request may spend IMD without becoming a trait. The supplied evidence says there is no attestation signed for this Registry yet, so the vector below proves oracle format/signature only, not a completed Sworn claim.
+## Preview the delivered site
 
-Two built-site issues remain: WhitelistCurator does not display the requested census-band/ETH totals, and Landing/About link to `@swornbyswarm` although the supplied project records do not establish control of that account. Documentation does not represent those as fixed.
-
-| Hackathon criterion | Evidence |
-| --- | --- |
-| Launch record | [Launch PR](https://github.com/identity-md-launches/launch-2147-launch-sworn-registry-symbol/pull/1), source commit `b86d7aea5bd2d67e38c6868148168fabf3c83b3d` |
-| Registry deployment | [Registry on Etherscan](https://etherscan.io/address/0x39bec7648259d5a128c29b24951eabcd4d1f95a6), [runtime/getter record](artifacts/chain-verification.json) |
-| Public identity | The site links [@swornbyswarm](https://x.com/swornbyswarm), but that handle is **not vouched for** by the supplied records |
-| Radar | No Radar entry or URL is present in this checkout; none is claimed as evidence |
-
-### A live fact read
-
-The first public contributor named in the fork tests has Spawned (101). This command returned `true` against PublicNode during this documentation pass:
+From the repository root, without installing dependencies or rebuilding:
 
 ```sh
-cast call 0x39bec7648259d5a128c29b24951eabcd4d1f95a6 \
-  'hasTrait(address,uint16)(bool)' \
-  0x200e710acaa6a93bbc77146026328c40f1d60fb1 101 \
-  --rpc-url https://ethereum-rpc.publicnode.com
-# true
+python3 -m http.server 4173 --directory dist
 ```
 
-### Attestation format check
+Open `http://localhost:4173/`. The entry assets use `./` URLs, and the app uses hash routes. The export also passed checks served under `/preview/`, as required for gateway subpaths. A static host needs no application route rewrite or backend.
 
-This [served oracle attestation](https://api.imd.fun/oracle/requests/91782ffa-316d-4ea9-853c-f18b8352e068/attestation) has UUID `91782ffa-316d-4ea9-853c-f18b8352e068`, derived from the first 16 bytes of its `oracleRequestId`. It predates Sworn. The served fixture spells typed `uint8` as `"bool"`, so this fresh-clone command normalizes just that representation before checking it against the configured attester:
+The publication system consumes `dist/` under the existing `sworn.site.identitymd.eth` name after submission. This delivery does not invoke a hosting or blockchain deployment command.
+
+## Source and installation
+
+| Path | Contents |
+| --- | --- |
+| `dist/` | Exactly the 85-file pinned export; this is the hosting payload |
+| `web/` | Pinned React/TypeScript source, public assets, scripts, tests, package manifest and lockfile |
+| `site/` | Preserved earlier frontend and redirect source; not the source of the current export |
+| `src/`, `script/`, `test/` | Preserved Solidity project for the earlier launch |
+| `tools/verify-sworn-v2.py` | Dependency-free export/source integrity verification |
+| `tools/validate-sworn-v2.mjs` | Read-only Chromium interaction and responsive checks |
+| `artifacts/validation.md` | This delivery's results, design review and limitations |
+| `DESIGN.md` | Tokens, components and responsive behavior of version 2 |
+
+All 227 included `web/` files match the pinned commit. Only upstream `web/.gitignore` is omitted; existing ignore rules already exclude `node_modules/` at every level. No existing build configuration, dependency manifest or lockfile was changed. The added `web/package.json` and `web/package-lock.json` are the original upstream frontend files.
+
+For source work, use Node.js 24 and npm:
 
 ```sh
-tmp=$(mktemp)
-sed 's/"answerType": "bool"/"answerType": 0/' \
-  reference/attestations/2026-10-11-nonce-true.json > "$tmp"
-cast wallet verify --address 0x5598aa9146215bc13eb26f2c692ad1461fd32982 \
-  --data --from-file "$tmp" \
-  0x8eeb0914ad4737db829200a167532b234e885b042a463fe1448128c01113a81a62cf5cf525efe4b2168e007769abd3a4ab43f9cb4c410bdc771fd67e355c2bb61c
-# Validation succeeded. Address 0x5598Aa9146215Bc13eb26f2c692Ad1461Fd32982 signed this message.
-```
-
-### Renderer golden cards
-
-The following regular SVGs are decoded Renderer golden outputs, not screenshots or private-wallet data.
-
-| Golden | SVG |
-| --- | --- |
-| Synthetic full house | [synthetic_fullhouse.svg](docs/cards/synthetic_fullhouse.svg) |
-| Synthetic honey | [synthetic_honey.svg](docs/cards/synthetic_honey.svg) |
-| Synthetic collector | [synthetic_collector.svg](docs/cards/synthetic_collector.svg) |
-
-### Entrant disclosure
-
-The existing disclosure says the entrant operates IMD seats IDMD #420, #3 and #7, and that the seats/wallets abstain from sponsor-pool upgrades and showcases. This checkout does **not** provide seat URLs, proof that those seats did not work on jobs before launch, a site-job record naming them, or a recusal request to the organiser. The supplied public links are the [launch record](https://github.com/identity-md-launches/launch-2147-launch-sworn-registry-symbol/pull/1) and [job-record index](https://github.com/identity-md-launches/launch-2147-launch-sworn-registry-symbol/pulls). This is an incomplete disclosure, not evidence that the missing records or recusal exist.
-
-## What this project is
-
-This repository contains Solidity source for the deployed Registry, Composer and Renderer and a static React/TypeScript site in [site/](site/). Its intended URL is [sworn.site.identitymd.eth.limo](https://sworn.site.identitymd.eth.limo/); the checked-in static export is [dist/](dist/). The site uses hash routes and needs no server rewrite rule.
-
-| Contract | Address |
-| --- | --- |
-| Registry | `0x39bec7648259d5a128c29b24951eabcd4d1f95a6` |
-| Composer | `0x06bf2168dd115fa37bd1637fa1f50adb29a3029d` |
-| Renderer | `0xea9185cc6dffe42a8c059b099c50cb21021439ad` |
-| WhitelistCurator.sol | `0xcB0b0531e86A9aC36Fa865cA8e3dbccF047FDA91` |
-| Identity.md / IDMD | `0x0000eC93127BAA929E58E97dd0095A2BFb38ec1D` |
-| IMD | `0xD34a99Bc0f67aE1bbd63C660e6d0b0dd03E263B7` |
-| Intake v2 | `0xa43e6f75ee006411f79ac1c84120606c2330de82` |
-| Attester | `0x5598aa9146215bc13eb26f2c692ad1461fd32982` |
-| BurnExecutor V2 | `0xe29386719C155B6847aD5a4E97C6674f10ffc750` |
-
-The frozen families are Spawned, Zero-Shot, Hopper, Bullfrog, Benchmarked, Armed, Uptime, Holdout, Final Token, Hotfix, PID, Top Weights and Pretrained. [CATALOG.md](CATALOG.md) holds the 25 ids and rules. SWORN is a card collection symbol, not a new coin; fees use IMD.
-
-## Build, test, and serve
-
-Use Node.js 22.12+ and npm. From a fresh clone, run the development server:
-
-```sh
-git clone https://github.com/identity-md-launches/launch-2147-launch-sworn-registry-symbol.git sworn
-cd sworn/site
+cd web
 npm ci
+npm run typecheck
 npm run dev
 ```
 
-To check and serve a production build:
+The lockfile pins React 19.3.1, Vite 8.3.5, TypeScript 7.0.2, viem 2.57.7 and wagmi 3.7.9, alongside Coinbase Wallet and React Query. Dependencies are installed normally; no dependency archives, caches or installed modules are part of this delivery.
+
+## Rebuilding for future source changes
+
+This is the upstream rebuild recipe for a future development release. **It was not run for this immutable import.** A rebuild replaces `dist/` and should not be used to recreate this pinned release for publication.
 
 ```sh
-cd sworn/site
+cd web
 npm ci
 npm run typecheck
-npm test
-npm run check:abi
 npm run build
 npm run preview
 ```
 
-`npm run build` writes `../dist/`. Serve that complete directory. Routes look like `#/explorer?address=0x…`, so no fallback route is needed. Every script/image is bundled; the browser has no API key, analytics, CDN or request to `api.imd.fun`. It tries public RPCs in order—MEV Blocker, PublicNode, Thirdweb—and shows **RPC unavailable** instead of fabricating a read.
+The build verifies pinned source inputs and ABI hashes, runs Vite with `base: './'`, writes `../dist/`, creates its deployment manifest and checks the static release. Rebuilding is documented, not certified here as byte-reproducible across runtimes. For this release, restore the upstream `dist/` from the exact commit instead of regenerating it.
 
-[artifacts/validation.md](artifacts/validation.md) reports the worker’s 27 frontend tests, 98 browser checks, local-fork transaction flow, and 24 burn-rule EVM tests. It is not independent certification. No separate fuzz report is supplied; its 64 fuzz runs and source-suite notes are reported in [test/NOTES.md](test/NOTES.md). The launch audit result here is the matching runtime/getter record in [artifacts/chain-verification.json](artifacts/chain-verification.json), not a third-party audit.
+## What the app does
 
-## Use the site
+Sworn is an ownerless Ethereum mainnet registry of wallet facts. A fact belongs to its original wallet; the optional ERC-721 card displays that record and can be transferred separately. The homepage's main action is **Explore wallet**, which works without connecting a wallet.
 
-Read-only routes need no wallet. Claim actions require an injected EIP-1193 wallet on Ethereum mainnet and a positive runtime/dependency check; a mismatch becomes a red banner and blocks signing.
+| Route | Main interaction |
+| --- | --- |
+| `#/` | Enter an Ethereum address and explore its record |
+| `#/catalog` | Read the 25 facts, evidence classes and embedded Explorer |
+| `#/explorer?address=…` | Inspect a wallet, card, fact families and exact Renderer metadata |
+| `#/mint` | Mint an optional card through the visitor's wallet |
+| `#/request` | Request or apply facts; follow verification progress |
+| `#/register` | Define an immutable community rule |
+| `#/wallet` | Read a connected wallet's facts and request history |
+| `#/curator` | Filter historical candidates, export lists and check current eligibility |
+| `#/integrate`, `#/about` | Contract integration, evidence and background |
+| `docs/index.html` | Bundled handbook with local search |
 
-| Route | What it does | Permission and failure mode |
-| --- | --- | --- |
-| `#/` | Introduction and address lookup. | Public; incomplete address is rejected. |
-| `#/catalog` | 25 facts, families, evidence classes and windows. | Public/static; frozen populations are not live counts. |
-| `#/explorer?address=0x…` | Reads 25 facts, Curator/IDMD values, card, pending/verified facts and Renderer preview. | Any valid address, no wallet. RPC failure clears data and offers retry; no proof is not a negative verdict. |
-| `#/claim` | Mint, paid/sponsored requests, community registration, shared facts, and exact-IMD ETH purchase. | Mainnet wallet and integrity check required. Rejection, stale price/quote, wrong account/chain, failed receipt, failed RPC, eligibility check or contract revert stops the flow; no unresolved transaction is resent automatically. |
-| `#/fact-vs-artifact` | Credential/card comparison and verification guide. | Public/static, no write. |
-| `#/integrate` | Solidity/cast examples and checked addresses. | Public/static; an unavailable browser RPC is not a deployment certification. |
-| `#/whitelistcurator` | Bundled 66-hour census and source excerpt. | Public/local JSON. Its bands are `00–23`, `24–64`, `65`, not the required census-band presentation, and lack ETH totals. |
-| `#/about` | Ownerlessness, limits and public links. | Public/static; its X link is not established by the project records. |
+Legacy hash bookmarks are handled inside the app. Unknown routes offer a return link.
 
-Only transaction intent and hashes are retained in tab-scoped session storage for reload recovery. No wallet identity, connection, key, or signature is persisted.
+The browser reads mainnet through the supplied public RPC pool, `api.imd.fun`, and IPFS gateways. Required static assets are bundled locally. These external services, wallet providers and network access are still needed for their respective live interactions. No backend, API key or relay project ID is required by this export.
 
-## Registry public entry points
+The app preserves the **launch #2404** deployment recorded in [web/deployment-handoff.json](web/deployment-handoff.json) and [dist/imd-deployment.json](dist/imd-deployment.json). The older launch #2147 Solidity source and its evidence remain in the repository as history. This import neither retargets the upstream app to that older registry nor changes any contract. The read-only browser check validated the version 2 deployment against mainnet before loading a real wallet's card and facts.
 
-All listed reads are callable by anyone. The standard ERC-721 surface—`name`, `symbol`, `balanceOf`, `ownerOf`, approvals, transfers and `supportsInterface`—also applies with normal ERC-721 authorization/receiver failures. Card ownership is never a credential.
+Wallet discovery uses EIP-6963 and Coinbase Wallet. On phones, the picker offers links to supported wallets' own browsers. Signing actions depend on the visitor's wallet and a valid mainnet deployment check. This worker did not connect an account, sign or broadcast a transaction.
 
-| Entry point(s) | Caller | Behavior and failure modes |
-| --- | --- | --- |
-| `hasTrait`, `traitsOf`, `tokenOf`, `claimantOf`, `mintedAtBlock`, `verified`, `verifiedSpecsOf`, `traitClass`, `traitName`, `specOf`, `pendingOf`, `pendingRequest`, `sharedPending`, `sharedFact`, `pool`, `poolUsed`, `idmdSponsored`, `lastPoolDay`, `nextSpecId`, `deployedAt`, `burnExecutor`, dependency getters/constants | Anyone, view | Inspect state. Unknown trait/absent mapping reads return false or default data; `hasTrait(address(0), id)` is false. |
-| `tokenURI`, `cardOf` | Anyone, view | Read/render a card; unknown token reverts `NoCard`. Parse metadata `fixedVal` and `threshold` as exact integers: bare JSON numbers can exceed 2^53. |
-| `composeBody`, `questionHashOf`, `attestationDigest` | Anyone, view/pure | Preview request/digests. Invalid/non-oracle ids can revert when composing. |
-| `mintCard()` | Caller, once | Pulls 0.10 IMD and mints a card. Reverts `AlreadyMinted` or on failed IMD allowance/balance. Direct facts do not need a mint. |
-| `upgrade(ids,maxPrice)` | Caller pays | Requests eligible chain ids, 1301, or community kinds 1/2/4/5. Reverts for no/direct/unknown/shared ids, duplicate/pending/verified facts, price above max, or failed IMD transfer. Price is spent even if the answer later fails. |
-| `requestSharedFact(factId,maxPrice)` | Anyone pays | Starts one T3 fact request. Reverts for non-T3, stored/pending fact, excessive price, or IMD transfer failure. |
-| `applySharedFact(factId,list)` | Caller | Marks caller if exact list hash contains them in the eligible head. Reverts for missing/wrong list, already-verified caller, or absence from list. |
-| `registerSpec(spec)` | Anyone pays | Validates/stores immutable spec at ids from 10001 for `SPEC_FEE` = 6.4 IMD. Reverts if Composer validation or IMD transfer fails. First claim is separate: 6.9 IMD at the observed 0.5 IMD request price, plus gas. |
-| `sponsor(amount)` | Anyone | Donates IMD to an irreversible pool; failed allowance/transfer reverts. |
-| `claimSponsored(traitId)` | Curator member | Pool request for eligible caller trait. Reverts for membership, trait, used/pending/verified, daily-limit, pool, or burn fee/refund failures. Submitted requests retain allowance use after a miss/abandonment. |
-| `upgradeSponsored(idmdTokenId,ids)` | IDMD holder who is a Curator member | One pool trait via a token seat. Reverts for empty/multiple ids, non-holder/member, exhausted nine-request seat, normal pool limits, or burn fee/refund failure. |
-| `abandon(requestId)` | Claimant after 14 days; anyone for shared request | Clears a pending request; reverts `NotPending`, `TooEarly`, or `NotClaimant`. It never returns payment/allowance. A contract claimant needs an authorized route to call `abandon` itself, never an unrestricted forwarder. |
-| `onResult`, `onFailure` | Intake v2 only | Callback functions; other senders revert `NotIntake`. Bad-but-decodable evidence is recorded as miss/no-verdict, not a trait. |
+## Verification
 
-### Composer and Renderer public functions
+Verify the committed payload without dependencies:
 
-Both helper contracts are view/pure-only and callable by anyone; neither has a wallet action or owner permission. Composer exposes `catalogSpec`, `hasDirectTrait`, `traitsOf`, `traitName`, `answerTypeOf`, `panelOf`, `mainnetHeightBound`, `compose`, and `validateSpec`. They respectively expose frozen catalog rules, live direct predicates, trait/name/class helpers, the off-mainnet height bound, a canonical request body, and spec validation; invalid ids/spec fields make the relevant catalog/validation call revert. Renderer exposes `template`, `offsets`, `tokenURI(Card)`, `preimage(Card)`, `image(Card)`, and `escapeJson`. They return the fixed rendering material or render supplied Card data; malformed caller-supplied Card/spec data can make an encode/render call revert or yield only the values supplied. The Registry uses these helpers, but no helper grants a caller permission to change Registry state.
+```sh
+python3 tools/verify-sworn-v2.py
+```
 
-### Sponsored burn behavior
+For an independent byte comparison, download the [pinned archive](https://codeload.github.com/banse/sworn/tar.gz/f4e16276a954f0c9c7327733ba6adee298279fa6) outside this repository and pass its path with `--archive`. During this delivery, all export and included source Git blob hashes were also compared with GitHub's recursive tree API for that commit.
 
-Sponsored requests are created before the best-effort burn. A preview that itself reverts emits `BurnSkipped(claimant, 1)`. An exhausted inner quote is caught by BurnExecutor V2 and answers `(0,0,0)`; Registry treats that as below 69 IMD, skipping fee and burn **without an event**. A quote above the 0.005 ETH cap emits code 3; a bridge failure, including a bridge-time quote above the attachment, emits code 2 and returns ETH. On success the executor keeps only its own quote and returns the rest. `BurnTriggered` records source-chain submission, not completed Base delivery.
+Run the delivered interaction checker after installing source dependencies and Chromium:
 
-## How to verify a card
+```sh
+cd web
+npx playwright install chromium
+cd ..
+node tools/validate-sworn-v2.mjs
+```
 
-1. Read `claimantOf(tokenId)`, `tokenOf(wallet)`, `hasTrait(wallet, traitId)`, and `verified(claimant, traitId)`. A zero request id means no accepted proof, not false. Decode Base64 tokenURI JSON losslessly: `fixedVal` and `threshold` can exceed 2^53. For a no-card wallet, build the documented Card input and call `Renderer.tokenURI(Card)`.
+Its output goes into `test/scratch/v2-browser/`. It serves the committed export itself, including a gateway-style subpath, and does not build. `SWORN_TEST_RPC` optionally selects a read-only verification transport while the exported public RPC configuration stays unchanged. `SWORN_PLAYWRIGHT_MODULE` optionally selects an externally installed Playwright module.
 
-2. Rerun the exact recipe/window from [CATALOG.md](CATALOG.md) and [TEMPLATES.md](TEMPLATES.md) against two public RPCs. T1 counts logs; T2 sums; T3 groups/sums/ranks with ascending-address tiebreaks; T4 compares a historical call; T5 reads historic nonce. Check the closing block hash, shared-list hash/length/order, `hasJoined` before a first hour, and that `contributedBy` is a largest single send.
+Actual results for this delivery:
 
-3. Format the first 16 bytes of an `oracleRequestId` as a UUID and open `https://api.imd.fun/oracle/requests/<uuid>/attestation`. Check canonical question hash (not whole body), answer/window/hash, issued/expiry, panel values, and EIP-712 signer `0x5598aa9146215bc13eb26f2c692ad1461fd32982` under IdentityMD Oracle v2, chain 1, this Registry. Metadata `minPanelSize`/ `minQuorum` are acceptance minima, not signed panel counts.
+| Check | Result |
+| --- | --- |
+| Upstream export and source hashes | All 85 export files and 227 included source files match |
+| Clean locked installation in a temporary copy | Passed, using `npm ci --ignore-scripts --no-audit --no-fund` |
+| `npm run typecheck` | Passed, exit 0 |
+| 28 upstream unit-test files | 189 tests passed, 0 failed |
+| Source pin / canonical ABI verification | Passed for Renderer, Composer and Registry |
+| `node scripts/manifest.mjs --check` | Passed; all 84 manifest-listed assets match |
+| `node scripts/static-release.mjs` | Passed; relative assets and no fixture transport |
+| Delivered interaction checker | 49 checks passed, 0 failed |
+| Responsive layout | Nine routes checked at 320, 390, 780 and 1440px; no page overflow |
+| First screen at 390 × 844 | Product, field and primary button visible; button ends at 499.39px |
+| Pinned `taste@1` probe | 14/16 checks passed; retained upstream casing and monospace exceptions |
+| axe accessibility scan | Seven routes checked; inline-link distinction findings remain |
+| Production build | Not run, as explicitly requested |
+| WebKit | Launch attempted; unavailable because required shared libraries are missing |
 
-4. Rebuild Solidity 0.8.24 with unchanged Foundry settings, byte-compare Registry/Composer/Renderer runtime, then compare all eight dependency getters with [site/addresses.json](site/addresses.json) and [the launch record](site/public/data/launch-record.json).
+The unit-test run selected `tests/*.test.mjs` except `skill.test.mjs`. That excluded file compiles Solidity documentation examples and expects additional upstream root files; it was not run. Four selected tests use Vite's SSR module loader in the temporary copy. No production build, Solidity build, fork, or export regeneration was performed.
 
-## Design and references
+The design review covers all six pinned Better Interface domains. Unchanged upstream accessibility findings, scope conflicts, source locations and unperformed checks are documented in [artifacts/validation.md](artifacts/validation.md). A passing interaction or contrast probe is not a full accessibility or security certification. Upstream `web/VALIDATION.md`, `web/TEST-NOTES.md` and other retained historical evidence describe earlier work; this delivery claims only the checks recorded above.
 
-[DESIGN.md](DESIGN.md) is consistent with the built site: system monospace text, thin rules, dense tables, local assets, square controls, responsive table scrolling, and the documented faint-source contrast exception. This README does not claim to repair the site audit findings above.
+## Project history and licensing
 
-Read [INTEGRATION.md](INTEGRATION.md) for Intake/attestation protocol, [CONCEPT.md](CONCEPT.md) for rationale, [DISCLOSURE.md](DISCLOSURE.md) for the existing entrant disclosure, and [reference/PROVENANCE.md](reference/PROVENANCE.md) for evidence provenance.
+The repository's original contract documentation remains in [CONCEPT.md](CONCEPT.md), [CATALOG.md](CATALOG.md), [TEMPLATES.md](TEMPLATES.md), [INTEGRATION.md](INTEGRATION.md), [DISCLOSURE.md](DISCLOSURE.md) and [reference/PROVENANCE.md](reference/PROVENANCE.md). Those documents concern their recorded launches, not a new deployment by this task.
+
+See [LICENSE](LICENSE) and [web/LICENSES/](web/LICENSES/) for the retained project and third-party notices. Better Interface guidance is credited in `DESIGN.md`.

@@ -1,87 +1,139 @@
-# Sworn delivery validation
+# Sworn v2 import validation
 
-Worker-side implementation and checks, 2026-10-18 UTC. Execution profile: none. This record is not independent certification.
+## Scope and precedence
 
-## Scope and decisions
+This delivery replaces the old redirect with the exact `dist/` from [banse/sworn, commit f4e16276a954f0c9c7327733ba6adee298279fa6](https://github.com/banse/sworn/tree/f4e16276a954f0c9c7327733ba6adee298279fa6). It retains the existing `sworn` hosting name. The publication system publishes the committed directory after this job; no publishing or blockchain command was invoked.
 
-Eight static hash routes implement the brief’s single-registry instrument panel. Source, manifest and lockfile are under `site/`; the export is `dist/`. The original Solidity sources, Foundry configuration, dependencies, `.github`, `.env` and `.git` were not edited. The root ignore file has an exact evidence-file allowlist with a 2 MiB total budget, documented in `path-budget.json`. Dependencies, compiler binaries, browser runtimes and package caches used for checks were kept outside the submission.
+The controlling requirement is **“used unchanged: no file added, changed or left out, and no build run here.”** It takes precedence over the generic production-build and design-fix criteria. Accordingly:
 
-The brief’s exact headline, landing prose, claim sentences, monospace type, uppercase tracking, prescribed sizes and quoted-source punctuation were preserved. Injected EIP-1193/EIP-6963 wallets are used on the claim page, following the assignment’s narrower wallet requirement. No wallet connection is persisted. A tab-scoped intent/hash journal is the minimum recovery state needed to prevent a repeated swap after reload; it stores no key, signature or wallet identity.
+- `dist/` contains exactly 85 upstream files, totaling 2,305,898 bytes. No banner, wrapper, new metadata, rewritten manifest or redirect was inserted.
+- No production build or export regeneration was run. The upstream production build is supplied by the requester through the pinned repository.
+- All 227 included `web/` files retain their original bytes, including source, tests, public assets, package manifest and lockfile. The only omitted upstream source-directory file is `.gitignore`; no ignore file is changed.
+- Current site source lives in `web/`. Existing `site/`, Solidity source, build configuration, lockfiles and dependencies are preserved.
+- The newer frontend retains launch #2404, as pinned in its own deployment metadata. The older repository contract/deployment history is not substituted for its runtime binding.
+- Review findings in the immutable interface are reported, not patched into the supplied source/export. Documentation and release-verification tooling are outside those directories.
 
-Read-only snapshots fail closed. Prices and proofs are never invented to make an unavailable RPC look successful. A price change stops the prepared flow. Protocol addresses, chain, PoolKey, recipients, exact output, maximum input and deadline are bound before signing. All actual transaction execution during validation occurred on an isolated local fork, with no private key or live transfer.
+There was no missing owner address, key or choice requiring requester input. No stand-in deployment value was added.
 
-## Commands and outcomes
+## Requirement record
 
-| Check | Actual result |
+| Requirement | Outcome |
 | --- | --- |
-| `npm ci` in a clean isolated copy of `site/` | Passed; lockfile reproduced the dependency graph |
-| `npm run typecheck` | Passed |
-| `npm test` | 27 frontend tests passed; 0 failed |
-| `npm run check:abi` | All three canonical ABI hashes and runtime fixtures match the launch record |
-| `npm run build` | Passed; output directed to repository `dist/` during the isolated build |
-| Second clean production build | Byte-for-byte identical to the delivered export; hashes in `export-manifest.json` |
-| `node site/tests/browser.mjs` with external Playwright and axe modules | 98 checks passed across Chromium and WebKit, with the two explicitly recorded source-line contrast exceptions |
-| `node site/tests/live-browser.mjs` | Four live Chromium checks passed: real preview/price, oracle wording, all-RPC failure, mismatch and wrong-chain blocking |
-| `SWORN_BROWSER=webkit node site/tests/live-browser.mjs` | Live HTTPS transport failed in this isolated runtime with “WebKit encountered an internal error”; not counted as a live RPC pass |
-| `node --import tsx tests/fork.mts` from the isolated site copy, with `SWORN_FORK_RPC=https://ethereum-rpc.publicnode.com` | Eight fork checks passed initially at block 26,217,852 and again after the eligibility guard at block 26,218,094 |
-| `forge test --use /tmp/solc-0.8.24 --out /tmp/sworn-burn-tests --cache-path /tmp/sworn-burn-cache --match-path test/BurnRule.t.sol --offline --fuzz-runs 64` | 24 EVM burn-rule tests passed; 0 failed/skipped |
-| Solidity integration example, solc 0.8.24 | Compiled successfully |
-| `bash site/public/examples/read-registry.sh` | Both exact published calls ran against the Registry; returned false and 0 for the synthetic wallet |
-| `python3 site/scripts/census.py` | One census produced 28,353 deposits, 19,522 FirstDeposit events and 19,522 distinct contributors; 66 rows |
-| Pinned taste probe, `--out test/scratch/taste --offline` | 11/16 checks passed; five owner-approved design differences retained |
+| Replace redirect under the existing name | Delivered: complete application at `dist/index.html`; no old redirect remains in the export |
+| Exactly the pinned upstream export | Pass: independent archive, GitHub tree Git-blob checks, SHA-256 file manifest and exact file-set comparison |
+| Source and lockfile alongside export | Pass: original `web/package.json`, `web/package-lock.json` and full frontend inputs retained |
+| Relative static assets | Pass: entry URLs use `./`; `/preview/` subpath exercised; all deployment-manifest assets verified |
+| Usable main interactions | Pass for unsigned checks: real wallet Explorer, exact metadata, wallet picker, Curator export and docs search |
+| Responsive layouts | Nine routes checked at 320, 390, 780 and 1440px without page-width overflow |
+| Main action in the first 390px screen | Pass: field and Explore wallet button visible, button bottom 499.39px in an 844px viewport |
+| Title/favicon/description/og:title/og:image | Pass, all supplied upstream; relative share image and favicon exist |
+| Typecheck | Pass, exit 0 |
+| Production build | Not run: explicit task override |
+| Better Interface six-domain review | Performed, with retained upstream findings and explicit coverage limits below |
+| Root design and install/preview/rebuild docs | `DESIGN.md` and `README.md` updated from final source |
+| Complete submission below 8 MiB | Audited using temporary submission and standalone content Git bundles; see `artifacts/submission-audit.json` |
 
-The production bundle has one Vite warning for a roughly 552 KB JavaScript chunk. The complete export is smaller than 1 MiB, includes its runtime assets and is comfortably within the submission budget. There were no missing local resources or page script errors in the final two-engine route matrix. External requests were limited to the three configured public RPC hosts; the browser did not call the attestation API or a CDN.
+## Integrity and checks actually run
 
-The supplied MCP browser launcher could not start because its expected Chrome distribution was absent. Standalone Playwright Chromium and WebKit were installed under `/tmp` instead. WebKit required isolated shared libraries and software EGL to render. It successfully ran the local UI and error-state checks; its separate live HTTPS failure remains a limitation. The first fork attempt reached the canonical swap/refund but was rate-limited by the first RPC operator; the full successful run used the second configured operator. No requester input was needed.
+The pinned archive was downloaded to a temporary directory from GitHub's codeload endpoint. The independent recursive Git tree API returned the exact requested commit and `truncated: false`. Every one of the 85 export Git blob IDs and every included frontend-source Git blob ID matched. File contents were then checked with SHA-256 and a second direct archive comparison.
 
-## Chain, transaction and data evidence
+`artifacts/export-manifest.json` records the commit, upstream tree IDs, all 85 relative paths, sizes, SHA-256 and Git blob hashes, plus the source fingerprint. The supplied `dist/imd-deployment.json` was not rewritten.
 
-- `abi-verification.json`: the three launch ABI hashes, derived from the unchanged Solidity 0.8.24 source. `chain-verification.json`: matching deployed runtimes and read block.
-- `fork-validation.json`: actual canonical Router swap, exact IMD receipt and ETH refund; exact approval; Registry mint and tokenURI; paid request with maxPrice; own-receipt community id; unminted public-contributor Renderer preview; sponsored claim; daily-limit explanation.
-- The initial fork swap bought exactly 100,000,000,000,000,000 IMD units. Its maximum was 225,303,950,952,475 wei; actual input was 223,073,218,764,826 wei and 2,230,732,187,649 wei returned. These are one fork’s recorded observations, not a current quote.
-- Frontend tests cover wrong chain, changed accounts, an aborted stale session, exact calldata and recipients, quote expiry, integer slippage rounding, failed and replaced receipts, cancellation, wallet rejection, unknown swap recovery after reload, missing approval, changed oracle price, failed/changed burn preview and the 69 IMD / 0.005 ETH boundaries. A receipt can advance only after successful account/calldata checks. Registration reads only its own SpecRegistered event.
-- The original EVM suite verifies inclusive threshold/cap behavior, no fee below threshold, over-cap skips, failed preview/bridge refunds, successful surplus returns, forced refunds, fee shortfall rollback and reentry guards.
-- `renderer-assets.json` records the two onchain pure Renderer inputs and SVG hashes. The logo’s token-number text is removed; the sample card is synthetic.
-- `reference/anchors/hours.json` records one OR-topic census, endpoint provenance, raw-stream checksum and cross-checked closing block. Only aggregate rows are published.
-- `reference/anchors/WhitelistCurator-excerpt.json` and the bundled copy retain exact source lines 4–62, API URL and full-source SHA-256. Both engines compared all 59 code strings to the reference, word for word.
-- Lossless metadata tests use 9,007,199,254,740,993 and uint256 maximum. Bare JSON integer lexemes remain exact strings. Locale checks run with `de-DE` and live Chromium with `fr-FR`; numeric formatting is explicitly en-US.
+| Command / check | Actual outcome |
+| --- | --- |
+| `python3 tools/verify-sworn-v2.py --archive <downloaded pinned archive>` | Exit 0; exact 85-file export and 227-file source comparison |
+| `npm ci --ignore-scripts --no-audit --no-fund` in an external temporary `web/` copy | Exit 0; 72 packages installed from the unchanged lockfile |
+| `npm run typecheck` in that copy | Exit 0; `tsc --noEmit` |
+| `node --test` over 28 selected `tests/*.test.mjs` files | Exit 0; 189 passed, 0 failed, 0 skipped; about 21.2 seconds |
+| `node scripts/verify-abis.mjs` in the temporary copy | Exit 0; source pin and all three canonical Keccak ABI hashes match |
+| `node scripts/manifest.mjs --check` | Exit 0; 84 manifest-listed assets, 2,292,037 bytes excluding the manifest itself |
+| `node scripts/static-release.mjs` | Exit 0; 4 script/style assets, relative entry paths, no mock runtime transport |
+| `node tools/validate-sworn-v2.mjs` against the unchanged export | Final exit 0; 49 passed, 0 failed |
+| `node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste` with external Playwright module | Exit 0; 14 of 16 measured checks passed; flags detailed below |
+| axe-core via `@axe-core/playwright` | Seven routes scanned at 390 × 844; actual violations and incomplete checks retained in browser evidence |
+| WebKit launch | Attempted; failed because required shared libraries are absent |
 
-## Better Interface coverage
+The unit-test selection excluded `skill.test.mjs`, which compiles Solidity examples and requires upstream root `agents/`, `llms.txt` and `src/Catalog.sol`. It was not run or counted. Four selected tests use Vite's SSR module loader in the temporary source copy. That is module loading for unit tests, not a production build or export regeneration. No Solidity build or fork test was run.
 
-The pinned contents/workflow and the core principles of all six domains were read and applied while building. The owner’s visual brief took precedence over conflicting house defaults.
+Dependencies, browser binaries, npm caches, downloaded archives and the temporary source checkout stayed outside the submission. No installed `node_modules/`, cache directory, vendored registry or dependency archive is delivered.
 
-| Domain | Coverage and evidence | Limits |
+## Browser evidence
+
+The delivered checker manages a bounded foreground preview under `/preview/`, exercises the committed files, then closes the browser and preview. It uses no wallet account or private key. For worker mainnet reads, the supplied contributor transport was substituted in test routing only; the published source remains `https://ethereum-rpc.publicnode.com` and the unchanged upstream RPC pool. No machine RPC address is in the export or reports.
+
+The final browser was Chromium 156.0.8078.4. Nine routes (`/`, `/catalog`, `/mint`, `/request`, `/register`, `/wallet`, `/curator`, `/integrate`, `/about`) produced their expected headings and fit the page width at 320, 390, 780 and 1440px. The desktop landing was additionally inspected at 1280 × 844. These are representative initial/unsigned states, not every possible connected transaction state.
+
+Meaningful checks included:
+
+- Home address submission rejects invalid input, sets `aria-invalid`, states the expected address format and focuses the field.
+- A real wallet address was selected from the pinned eligibility data, not invented. Its Registry/Curator facts loaded from mainnet, along with deployed Renderer metadata named `Sworn #1` with 15 attributes. The exact metadata download target decoded as valid JSON with an SVG image.
+- The native wallet dialog opens with Browser wallet/Coinbase options. Repeated Tab does not enter background controls; native browser-chrome focus is allowed. Escape and backdrop close it, and opener focus returns.
+- Legacy `#/claim` resolves to Mint Card; unknown routes offer a working return link. Mint/request routes offer connection before signing.
+- Curator filtering on fact 101 produces a real historical selection. A browser download contained 4,931 matching wallets in JSON, with historical provenance, chain ID 1 and matched fact IDs. This is a candidate list, not accepted eligibility proof.
+- Curator's ArrowRight tab navigation and malformed-address validation work.
+- Handbook search for `hasTrait` returns local results; Escape clears it.
+- Deliberately refused RPC reads produce “Cannot read the chain, retrying.” while keeping the public interface usable.
+- The final run recorded zero uncaught page errors, zero console errors and zero failed local HTTP resources.
+
+An early test harness incorrectly treated native dialog focus visiting browser chrome as escaping to a background control. Its assertion was corrected and modal cleanup added to prevent cascading test failures. A separate label lookup was corrected to use the combobox's accessible role/name, and the consumer error scenario now submits malformed input; empty input is discussed below. These are validation-harness repairs, not product changes. All 49 final checks passed after those corrections.
+
+`artifacts/browser-validation.json` includes the final check list, viewport metrics, accessibility scan details and limitations. Its `additionalVisualInspection` records the separately observed focus outline and desktop screenshot.
+
+Current screenshots, inspected as images:
+
+| File | Final surface |
+| --- | --- |
+| `artifacts/screenshots/landing-390.png` | Home first screen at 390 × 844 |
+| `artifacts/screenshots/landing-1280.png` | Home desktop at 1280 × 844 |
+| `artifacts/screenshots/focus-390.png` | Visible 2px input focus outline at 390 × 844 |
+| `artifacts/screenshots/catalog-390.png` | Catalogue/Explorer at 390 × 844 |
+| `artifacts/screenshots/claim-390.png` | Mint Card at 390 × 844; historical artifact filename retained |
+| `artifacts/screenshots/about-390.png` | About at 390 × 844 |
+| `artifacts/screenshots/integrate-390.png` | Integrate at 390 × 844 |
+
+Other existing screenshot/report files are preserved history, not additional version 2 validation claims. Probe scratch screenshots were generated and inspected separately; only budgeted delivery evidence is retained.
+
+## Six-domain Better Interface review
+
+The pinned guide's workflow, core principles for all six domains, documentation method and probe thresholds were read before validation. The decision during import was to preserve the requested visual system and exact release, then distinguish measured defects from preferences. No new font, component, wallet stack, theme or decorative asset was added.
+
+| Domain | Coverage | Evidence and limits |
 | --- | --- | --- |
-| Accessibility | Native labelled forms, links and buttons; keyboard skip/focus; focusable table/code scrolling; named rarity marks; state/error announcements; axe on all eight pages in both engines | No native screen-reader session. Required faint source line numbers retain the documented contrast limitation. Axe incomplete results are retained in the JSON summary rather than treated as full compliance. |
-| Layout | All routes at 320, 390, 780 and 1,280px in both engines; probe at 1,440px; zero page-width overflow; phone mint action; bounded table/source scrolling; fixed source gutter | No physical phone or native 200% browser zoom. English-only layout; RTL/localization variants were not requested. |
-| Writing | Exact required copy; final family names; contract naming; source labels; costs and irreversible spending; not-claimed wording; recoverable pool, quote and wallet errors | External attestation availability and asynchronous verdicts were not certified. |
-| Typography | Source/computed sizes, system monospace, tabular numerals, wrapping, readable code and sources; mobile field sizing; screenshot inspection | Platform font rendering may vary. No downloaded font was introduced. |
-| Colors | Actual prescribed solid tokens; rendered probe/axe checks; computed ratios; evidence colors also named in text; mismatch state | Small source line numbers measure 3.43:1, below 4.5:1, and retain the brief’s exact color. |
-| UI | Header active state, primary/outline controls, hover/focus/pressed/disabled states, blank/loading/RPC error, transaction states and recovery; no motion or decorative components | Real wallet-extension prompts and physical-device signing were not exercised. A local EIP-1193 test provider and a keyless fork covered the transaction path. |
+| Accessibility | Checked with findings | Native controls/labels, headings, skip link, focus styles, form errors, dialog keyboard path, Curator tabs, target spacing and axe scan. Actual input focus ring inspected. Screen reader and forced-color interaction unperformed; invalid description reference and link distinction remain. |
+| Layout | Checked | Source frame/grid/breakpoints and rendered 320/390/780/1440 reflow; 1280 desktop screenshot. No page overflow; Curator/code tables scroll locally. Native 200% zoom, RTL and localization stress tests unperformed. |
+| Writing | Checked | Main action verbs, invalid-address correction, historical/current distinction, unavailable states, costs and credential/card distinction reviewed. Empty consumer submit has no corrective feedback. No new product copy was written. |
+| Typography | Checked with preservation exceptions | Actual tokens, weights, wrapping, 16px mobile inputs, numeric stability and 390/desktop screenshots. Landing probe observes six sizes and two weights. Monospace prose and uppercase sections retained. Physical iOS input zoom not tested. |
+| Colors | Checked with findings | Canonical source tokens and rendered solid text pairs measured by the probe; primary text/background 14.73:1, muted/background 6.48:1. Inline link/adjacent text difference fails axe. Some conditional/gradient/image pairs and axe incomplete items remain unverified. App has no light theme; handbook print styling was source-reviewed only. |
+| UI | Checked | Button/field rest, focus, active/hover declarations, loading/error/empty/disconnected states, native dialog and Curator exports reviewed. Reduced-motion probe passed. No signed transaction, native wallet deep link, passkey creation or animation-panel replay at 10% speed performed. |
 
-Measured contrast against `#0a0a0a`: body `#d9e0da` 14.73:1; muted `#8c968e` 6.48:1; accent `#00ff41` 14.50:1; direct `#00cc33` 9.13:1; faint `#5f6861` 3.43:1; error `#ff7777` 7.69:1. The faint 24px step numbers meet the large-text threshold. The 12px source line numbers are an explicit remaining limitation, not an AA pass.
+### Findings retained in the pinned release
 
-At 390 × 844, both engines measured the landing action’s bottom at 675.97px and the claim mint action’s bottom at 837.33px. The product and primary action are visible on the first screen. Final screenshots were inspected for the desktop intro/card/stats/three columns, mobile action/focus, live Explorer summary and verified-source presentation.
+These are upstream findings. Applying the proposed UI changes would violate the explicit immutable-export requirement, so none was inserted into `web/` or `dist/`.
 
-## Findings, corrections and rechecks
+1. **Accessibility · high · inline links rely on color.** Source: `web/src/styles.css:57–63`, `a { color: var(--accent); text-decoration: none; }`. At 390px, axe reports `link-in-text-block` on five routes (13 nodes in total): Home 5, Catalog 4, Mint Card 1, Mint Rule 2, Curator 1. Link/adjacent-text contrast is 1.01:1 against normal body text and 2.23:1 against muted text; underlining exists only on hover. A future editable release should underline inline prose links at rest while retaining their existing focus/hover treatments. The source/export are retained unchanged; this is not an accessibility pass.
+2. **Accessibility · medium · missing error-description target.** Source: `web/src/components.tsx:105`, `aria-describedby="address-error"`, while the `Status` at line 111 has no matching id. Submit an invalid address on Home/Explorer: focus and visible status work, but the explicit description reference does not resolve. Axe also marks the attribute for review. A future release should bind the error/status to an actual unique element id. No screen-reader announcement is claimed.
+3. **Writing · low · empty Curator consumer submission has no feedback.** Source: `web/src/controllers/useCurator.ts:59`, `if(!address)return;`. In Consume facts, submitting the empty wallet field leaves no field correction; a malformed nonempty address does produce the expected error. A future release should validate the empty field and show the same format guidance. Preserved as supplied.
+4. **House-bar exception · two all-caps headings.** Source: `web/src/pages.tsx:210` and `:213`, `WHY SWORN` / `BUILT BY THE SWARM`. The probe flags casing; both are visible in the full-page evidence. A future stylistic revision could use sentence case, but exact upstream preservation wins here.
+5. **House-bar exception · monospace prose.** Source: `web/src/styles.css:30`, system monospace inherited by prose. The probe flags 14 prose boxes. This is the established instrument-panel identity and is retained with the pinned release; no font change was authorized.
 
-| Finding | Source location | Change and evidence |
-| --- | --- | --- |
-| Renderer image encoding was initially assumed to be Base64 | `site/scripts/render-assets.mjs:19`, `site/src/format.ts:17` | Decode the actual percent-encoded SVG image and accept the Renderer’s data URI. Final SVGs are valid, rendered in both engines and recorded by hash. |
-| Oracle action literal had the wrong byte length | `site/src/config.ts:36` | Construct bytes32 with `stringToHex(..., {size:32})`. Live price reads returned 0.5 IMD and the real preview completed. |
-| Rare-mark accessible labels lacked semantic roles | `site/src/pages.tsx:48` | Add `role="img"` beside the existing name. The Catalog axe finding is resolved in both engines. |
-| Scrolling integration code was not keyboard focusable | `site/src/pages.tsx:131` | Give each pre a labelled region and tab stop. The scrollable-region axe finding is resolved in both engines. |
-| A few source line numbers visually crowded the code | `site/src/styles.css:149` | Use flex rows with a fixed non-shrinking 48px gutter. Check every line’s bounds at every route-matrix width, then inspect the updated source screenshot. |
-| Source anchor could scroll before the async table loaded | `site/src/pages.tsx:143` | Scroll after both bundled references load. The Catalog warning link reaches the source in both engines. |
-| Persisted intent or stale sessions could otherwise advance a flow | `site/src/flow.ts:25`, `site/src/flow.ts:137`, `site/src/wallet.ts:39` | Validate exact fees against calldata, re-read previous receipts and invalidate the session with AbortSignal. Reload, unknown-swap, replacement, rejection and stale-estimate tests pass. |
-| Funding could begin before discovering an existing card or request | `site/src/flow.ts:38` | Read mint, verified and pending eligibility before buying or approving IMD. Both new no-wallet-transaction tests and the final real-contract fork run pass. |
-| Repeated code/getter checks amplified public RPC load | `site/src/chain.ts:26` | Cache only positive read-only integrity checks for 60 seconds; force a fresh check for every transaction. The complete snapshot still uses one stated block and discards any failed result. |
-| Required source-line color is below small-text AA contrast | `site/src/styles.css:150` | Retained `#5f6861` as explicitly requested. Each engine records the color-contrast exception; it is not hidden or called an AA pass. |
+Axe's `incomplete` results are retained rather than called passes: color contrast on four of seven scans, address ARIA references on Home/Catalog, catalogue row ARIA roles and a loading-state Curator table-header relation. No claim of full WCAG conformance is made. The serious violations are the link-distinction root cause listed above.
 
-The pinned taste probe’s five retained differences are casing, tracking, eyebrows, type-faces and copy-budget. The brief explicitly approves “monospace for all text including prose,” “tracked uppercase labels,” the supplied sizes and the complete landing copy. The probe passed render, layout, targets, contrast on the landing, type-sizes, glyphs, slogans, repetition, chrome, motion and share metadata. The source excerpt’s author punctuation remains intact.
+### Probe result
 
-## Completion and remaining limits
+`artifacts/taste.json` is the actual pinned probe output: **14/16 passed**. Passed: render, layout, targets, contrast, tracking, eyebrows, type-sizes, glyphs, slogans, repetition, copy-budget, chrome, motion and share. Flagged: casing and type-faces. The first mobile screen contains 60 words of prose at the probe's limit, and the main action is plainly visible. Target spacing passed the 24px baseline; 24 controls were below the comfortable 44px size. Those are measurements of the landing, not an audit of every route.
 
-The source, static export, lockfile, complete required runtime assets, census, source excerpt, design document and rewritten README are delivered. Reversible local checks and repairs are complete for the recorded scope. The final byte/path audit is recorded in `submission-audit.json`.
+## Submission size and protected paths
 
-The site was not published or redeployed by this worker. Mainnet reads were checked; transactions were confined to a local fork. Oracle callback delivery and a completed Base burn were not exercised end to end. Live WebKit HTTPS on this machine failed with an internal transport error, while its local rendering, navigation, forms, offline states and accessibility checks ran. Required faint source numbers remain a documented contrast limitation. These limits are distinct from the successful production build, typecheck, unit tests, fork execution and static export checks.
+A temporary audit repository stages the final permitted paths over the supplied base without changing the original repository's Git metadata. Its submission bundle names the supplied base as a prerequisite, and a separate standalone content bundle contains the entire final tree without history. Both are measured against the 8,388,608-byte limit; exact measurements/metadata margin are in `artifacts/submission-audit.json`. A compressed archive of all regular submission files was also measured at about 3.8 MB. Required source and runtime files were not removed to achieve the budget.
+
+An initial attempt to bundle all ancestor history failed because the supplied checkout lacks older historical Git objects (`pack-objects` could not read one). That limitation is not repaired by altering `.git/`; the two successful checks cover the complete current content and submission changes. The original Git metadata, existing dependency submodule pointers and every protected build/configuration file remain unchanged. No new submodule is introduced.
+
+All artifact files are on the existing explicit allowlist and fit their existing per-path limits and 2 MiB total budget. No ignore-file change was necessary. Generated browser output outside `test/scratch/` was removed; dependency/browser installations and archives are outside the repository.
+
+## Completion and limitations
+
+**Complete for the stated immutable-import scope.** The generic rebuild/fix requirements are explicit exceptions, not invented passing results. Root README/DESIGN documentation, verification scripts, evidence and payload budgeting are part of the deliverable; the production export and source are pinned unchanged.
+
+Unperformed: production build (prohibited); WebKit (required shared libraries unavailable); real wallet connection, network switch, signing, transaction broadcast, paid oracle lifecycle, wallet-app deep links, physical devices, passkey creation, screen readers, native browser zoom, RTL/localization stress tests and full contrast/accessibility coverage. The app's external RPC/API/IPFS availability can change after this observation. No independent verifier, external audit or onchain deployment is claimed.
+
+The final integrity check runs after all documentation and evidence changes. Temporary tooling and preview output are removed from the submission; only actual source, runtime assets and bounded evidence remain.
