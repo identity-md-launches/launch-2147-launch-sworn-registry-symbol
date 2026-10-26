@@ -1,5 +1,5 @@
 {
-  "exportCommit": "f4e16276a954f0c9c7327733ba6adee298279fa6",
+  "exportCommit": "f6e80c156946020d5eb411a22fbf9ff962615438",
   "productionBuildRun": false,
   "servedUnderSubpath": "/preview/",
   "mainnetSource": "https://ethereum-rpc.publicnode.com",
@@ -13,8 +13,8 @@
       "name": "390px first screen contains product, address field and main action",
       "passed": true,
       "result": {
-        "actionTop": 455.390625,
-        "actionBottom": 499.390625,
+        "actionTop": 475.390625,
+        "actionBottom": 519.390625,
         "viewportHeight": 844
       }
     },
@@ -29,7 +29,7 @@
     {
       "name": "Ethereum deployment verification and current price read",
       "passed": true,
-      "result": "Ethereum mainnet \u00b7 block 26,267,585 \u00b7 current oracle quote"
+      "result": "Ethereum mainnet \u00b7 block 26,277,915 \u00b7 current oracle quote"
     },
     {
       "name": "Valid address loads real Registry/Curator facts and Renderer metadata",
@@ -54,6 +54,10 @@
     },
     {
       "name": "Route /request at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /fact-check at 320px: heading and no page overflow",
       "passed": true
     },
     {
@@ -93,6 +97,10 @@
       "passed": true
     },
     {
+      "name": "Route /fact-check at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
       "name": "Route /register at 390px: heading and no page overflow",
       "passed": true
     },
@@ -126,6 +134,10 @@
     },
     {
       "name": "Route /request at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /fact-check at 780px: heading and no page overflow",
       "passed": true
     },
     {
@@ -165,6 +177,10 @@
       "passed": true
     },
     {
+      "name": "Route /fact-check at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
       "name": "Route /register at 1440px: heading and no page overflow",
       "passed": true
     },
@@ -194,6 +210,38 @@
     },
     {
       "name": "Mint/request tasks offer connection before signing",
+      "passed": true
+    },
+    {
+      "name": "Fact Check disconnected action opens the native wallet sheet and restores focus",
+      "passed": true
+    },
+    {
+      "name": "Navigation More opens by keyboard, closes on Escape and preserves focus",
+      "passed": true
+    },
+    {
+      "name": "Fact Check legacy bookmarks reach the live page without demo controls",
+      "passed": true
+    },
+    {
+      "name": "Fact Check loads saved facts for a wallet discovered from Registry logs",
+      "passed": true,
+      "result": {
+        "wallet": "0xe5b1275fb926613d983da33fbfe1f331b7f64f2a",
+        "source": "Ethereum Registry logs and successful history transaction receipt",
+        "transaction": "0x8e0dd6f91ab2bdd8466c1174509bbaa40d80988b926ad1e0244c37f0a6fe9544",
+        "displayedFacts": 1,
+        "viewport": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "An invalid oracle request link explains recovery and returns to Mint Facts",
+      "passed": true
+    },
+    {
+      "name": "Mint Facts section jump focuses the choices and keeps the guide available",
       "passed": true
     },
     {
@@ -245,7 +293,13 @@
     },
     {
       "route": "/request",
-      "heading": "Mint Facts",
+      "heading": "Mint Wallet Facts",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
       "viewport": 320,
       "scrollWidth": 320
     },
@@ -257,7 +311,7 @@
     },
     {
       "route": "/wallet",
-      "heading": "Wallet",
+      "heading": "Mint Card",
       "viewport": 320,
       "scrollWidth": 320
     },
@@ -299,7 +353,13 @@
     },
     {
       "route": "/request",
-      "heading": "Mint Facts",
+      "heading": "Mint Wallet Facts",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
       "viewport": 390,
       "scrollWidth": 390
     },
@@ -311,7 +371,7 @@
     },
     {
       "route": "/wallet",
-      "heading": "Wallet",
+      "heading": "Mint Card",
       "viewport": 390,
       "scrollWidth": 390
     },
@@ -353,7 +413,13 @@
     },
     {
       "route": "/request",
-      "heading": "Mint Facts",
+      "heading": "Mint Wallet Facts",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
       "viewport": 780,
       "scrollWidth": 780
     },
@@ -365,7 +431,7 @@
     },
     {
       "route": "/wallet",
-      "heading": "Wallet",
+      "heading": "Mint Card",
       "viewport": 780,
       "scrollWidth": 780
     },
@@ -407,7 +473,13 @@
     },
     {
       "route": "/request",
-      "heading": "Mint Facts",
+      "heading": "Mint Wallet Facts",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
       "viewport": 1440,
       "scrollWidth": 1440
     },
@@ -419,7 +491,7 @@
     },
     {
       "route": "/wallet",
-      "heading": "Wallet",
+      "heading": "Mint Card",
       "viewport": 1440,
       "scrollWidth": 1440
     },
@@ -447,12 +519,14 @@
     "catalog-390.png",
     "mint-390.png",
     "request-390.png",
+    "fact-check-390.png",
     "register-390.png",
     "wallet-390.png",
     "curator-390.png",
     "integrate-390.png",
     "about-390.png",
-    "landing-1440.png"
+    "landing-1440.png",
+    "fact-history-390.png"
   ],
   "pageErrors": [],
   "consoleErrors": [],
@@ -462,20 +536,19 @@
     "No wallet account, signature, transaction broadcast, native-device, screen-reader or browser-native zoom test."
   ],
   "accessibility": {
-    "tool": "axe-core through @axe-core/playwright",
+    "engine": "axe-core 4.11.0",
     "viewport": {
       "width": 390,
       "height": 844
     },
-    "routes": [
+    "runs": [
       {
-        "route": "#/",
+        "route": "/",
         "violations": [
           {
             "id": "link-in-text-block",
             "impact": "serious",
-            "help": "Links must be distinguishable without relying on color",
-            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
             "nodes": [
               {
                 "target": [
@@ -493,7 +566,7 @@
               },
               {
                 "target": [
-                  "a[href$=\"#/request\"]"
+                  "p > a[href$=\"#/request\"]"
                 ],
                 "html": "<a href=\"#/request\">Mint Facts</a>",
                 "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
@@ -515,26 +588,25 @@
             ]
           }
         ],
-        "passes": 29,
         "incomplete": [
-          {
-            "id": "aria-valid-attr-value",
-            "nodes": 1
-          },
           {
             "id": "color-contrast",
             "nodes": 2
+          },
+          {
+            "id": "link-in-text-block",
+            "nodes": 4
           }
-        ]
+        ],
+        "passes": 30
       },
       {
-        "route": "#/catalog",
+        "route": "/catalog",
         "violations": [
           {
             "id": "link-in-text-block",
             "impact": "serious",
-            "help": "Links must be distinguishable without relying on color",
-            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
             "nodes": [
               {
                 "target": [
@@ -556,41 +628,29 @@
                 ],
                 "html": "<a href=\"#/request\">Mint Facts \u2197</a>",
                 "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 1.01:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #d9e0da)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
-              },
-              {
-                "target": [
-                  ".muted > a[href$=\"#/register\"]"
-                ],
-                "html": "<a href=\"#/register\">Mint the first rule</a>",
-                "failureSummary": "Fix any of the following:\n  The link has insufficient color contrast of 2.23:1 with the surrounding text. (Minimum contrast is 3:1, link text: #00ff41, surrounding text: #8c968e)\n  The link has no styling (such as underline) to distinguish it from the surrounding text"
               }
             ]
           }
         ],
-        "passes": 29,
         "incomplete": [
           {
             "id": "aria-prohibited-attr",
             "nodes": 9
           },
           {
-            "id": "aria-valid-attr-value",
-            "nodes": 1
-          },
-          {
             "id": "color-contrast",
             "nodes": 9
           }
-        ]
+        ],
+        "passes": 30
       },
       {
-        "route": "#/mint",
+        "route": "/mint",
         "violations": [
           {
             "id": "link-in-text-block",
             "impact": "serious",
-            "help": "Links must be distinguishable without relying on color",
-            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
             "nodes": [
               {
                 "target": [
@@ -602,23 +662,28 @@
             ]
           }
         ],
-        "passes": 26,
-        "incomplete": []
+        "incomplete": [],
+        "passes": 25
       },
       {
-        "route": "#/request",
+        "route": "/request",
         "violations": [],
-        "passes": 26,
-        "incomplete": []
+        "incomplete": [],
+        "passes": 25
       },
       {
-        "route": "#/register",
+        "route": "/fact-check",
+        "violations": [],
+        "incomplete": [],
+        "passes": 25
+      },
+      {
+        "route": "/register",
         "violations": [
           {
             "id": "link-in-text-block",
             "impact": "serious",
-            "help": "Links must be distinguishable without relying on color",
-            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
             "nodes": [
               {
                 "target": [
@@ -637,17 +702,16 @@
             ]
           }
         ],
-        "passes": 29,
-        "incomplete": []
+        "incomplete": [],
+        "passes": 30
       },
       {
-        "route": "#/curator",
+        "route": "/curator",
         "violations": [
           {
             "id": "link-in-text-block",
             "impact": "serious",
-            "help": "Links must be distinguishable without relying on color",
-            "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=playwright",
+            "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
             "nodes": [
               {
                 "target": [
@@ -659,7 +723,6 @@
             ]
           }
         ],
-        "passes": 32,
         "incomplete": [
           {
             "id": "color-contrast",
@@ -669,38 +732,55 @@
             "id": "th-has-data-cells",
             "nodes": 1
           }
-        ]
+        ],
+        "passes": 32
       },
       {
-        "route": "docs/index.html",
+        "route": "/about",
         "violations": [],
-        "passes": 30,
         "incomplete": [
           {
-            "id": "color-contrast",
-            "nodes": 3
+            "id": "aria-prohibited-attr",
+            "nodes": 1
+          },
+          {
+            "id": "link-in-text-block",
+            "nodes": 1
+          },
+          {
+            "id": "target-size",
+            "nodes": 66
           }
-        ]
+        ],
+        "passes": 25
+      },
+      {
+        "scenario": "Empty Curator consumer submit",
+        "alerts": [],
+        "invalidFields": 0,
+        "result": []
       }
     ]
   },
   "additionalVisualInspection": {
-    "desktop": {
-      "viewport": [
-        1280,
-        844
-      ],
-      "screenshot": "artifacts/screenshots/landing-1280.png"
+    "browserTool": "Chromium browser connector; desktop homepage and Fact Check wallet dialog visually inspected",
+    "screenshotsInspected": [
+      "landing-390.png",
+      "fact-check-390.png",
+      "fact-history-390.png",
+      "landing-1280.png"
+    ],
+    "savedFactEvidence": {
+      "source": "Ethereum Registry logs and api.imd.fun response",
+      "fact": 601,
+      "reportedMembers": 8,
+      "trueAnswers": 7,
+      "falseAnswers": 1,
+      "newRequestCreated": false
     },
-    "keyboardFocus": {
-      "viewport": [
-        390,
-        844
-      ],
-      "element": "#explore-address",
-      "outline": "rgb(217, 224, 218) solid 2px",
-      "screenshot": "artifacts/screenshots/focus-390.png",
-      "visuallyInspected": true
+    "upstreamFixConfirmed": {
+      "source": "web/src/components.tsx:110",
+      "behavior": "aria-describedby points to the rendered address-error status"
     }
   }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the immutable Sworn v2 export and source without installing or building.
+"""Verify the immutable Sworn Fact Check export and source without building.
 
 Optionally compare directly to GitHub's downloaded archive of the pinned commit:
   python3 tools/verify-sworn-v2.py --archive /path/to/pinned-commit.tar.gz
@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-COMMIT = "f4e16276a954f0c9c7327733ba6adee298279fa6"
+COMMIT = "f6e80c156946020d5eb411a22fbf9ff962615438"
 
 
 def sha256(data):
@@ -37,7 +37,7 @@ def verify(archive=None):
     exported = files(ROOT / "dist")
     expected = {entry["path"]: entry for entry in manifest["dist"]["files"]}
     assert set(exported) == set(expected), "Export contains missing or extra files"
-    assert len(exported) == manifest["dist"]["fileCount"] == 85
+    assert len(exported) == manifest["dist"]["fileCount"] == 90
     for name, data in exported.items():
         entry = expected[name]
         assert len(data) == entry["bytes"], f"Size changed: dist/{name}"
@@ -45,13 +45,13 @@ def verify(archive=None):
         git_blob = b"blob " + str(len(data)).encode() + b"\0" + data
         assert hashlib.sha1(git_blob).hexdigest() == entry["gitBlob"], name
     total = sum(map(len, exported.values()))
-    assert total == manifest["dist"]["bytes"] == 2305898
+    assert total == manifest["dist"]["bytes"] == 2411318
 
     # Dependency installation is intentionally ignored here, including its caches.
     source = files(ROOT / "web", excluded={"node_modules", ".cache", ".vite"})
     digest = sha256("".join(f"{name}\0{sha256(data)}\n" for name, data in sorted(source.items())).encode())
     assert digest == manifest["web"]["treeSha256"], "Pinned web source changed"
-    assert len(source) == manifest["web"]["fileCount"] == 227
+    assert len(source) == manifest["web"]["fileCount"] == 319
     assert sum(map(len, source.values())) == manifest["web"]["bytes"]
 
     if archive:
@@ -63,13 +63,13 @@ def verify(archive=None):
                     continue
                 assert parts[0] == "sworn-" + COMMIT, "Unexpected archive root"
                 name = Path(*parts[2:]).as_posix()
-                if parts[1] == "web" and name == ".gitignore":
+                if parts[1] == "web" and "web/" + name in manifest["sourceOmissions"]:
                     continue
                 upstream_files[parts[1]][name] = upstream.extractfile(entry).read()
         assert exported == upstream_files["dist"], "Export differs from upstream archive"
         assert source == upstream_files["web"], "Source differs from upstream archive"
 
-    print(f"PASS: all 85 dist files ({total:,} bytes) and 227 source files match the pinned release.")
+    print(f"PASS: all 90 dist files ({total:,} bytes) and 319 source files match the pinned release.")
     if archive:
         print("PASS: independent archive comparison; no files missing, modified or added to dist/.")
 

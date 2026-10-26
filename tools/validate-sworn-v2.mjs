@@ -8,7 +8,7 @@ import { server, forwardRpc } from '../web/tests/harness.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const args = process.argv.slice(2);
-const out = path.resolve(root, args.includes('--out') ? args[args.indexOf('--out') + 1] : 'test/scratch/v2-browser');
+const out = path.resolve(root, args.includes('--out') ? args[args.indexOf('--out') + 1] : 'test/scratch/fact-check-browser');
 await fs.mkdir(out, { recursive: true });
 const moduleUrl = process.env.SWORN_PLAYWRIGHT_MODULE
   ? pathToFileURL(path.resolve(process.env.SWORN_PLAYWRIGHT_MODULE)).href
@@ -17,7 +17,7 @@ const { chromium, webkit } = await import(moduleUrl);
 const preview = await server();
 const origin = new URL(preview.url).origin;
 const report = {
-  exportCommit: 'f4e16276a954f0c9c7327733ba6adee298279fa6',
+  exportCommit: 'f6e80c156946020d5eb411a22fbf9ff962615438',
   productionBuildRun: false,
   servedUnderSubpath: '/preview/',
   mainnetSource: 'https://ethereum-rpc.publicnode.com',
@@ -115,7 +115,7 @@ try {
     assert.ok(Array.isArray(raw.attributes));
     return { walletSource: 'dist/data/eligibility/wallets-0.json', metadataName: raw.name, attributes: raw.attributes.length };
   });
-  const routes = ['/', '/catalog', '/mint', '/request', '/register', '/wallet', '/curator', '/integrate', '/about'];
+  const routes = ['/', '/catalog', '/mint', '/request', '/fact-check', '/register', '/wallet', '/curator', '/integrate', '/about'];
   for (const width of [320, 390, 780, 1440]) {
     await page.setViewportSize({ width, height: 844 });
     for (const route of routes) await check(`Route ${route} at ${width}px: heading and no page overflow`, async () => {
@@ -146,8 +146,96 @@ try {
     await page.goto(`${preview.url}#/mint`);
     assert.ok(await page.getByRole('button', { name: /Connect/ }).count());
     await page.goto(`${preview.url}#/request`);
-    await page.getByRole('heading', { level: 1, name: 'Mint Facts', exact: true }).waitFor();
+    await page.getByRole('heading', { level: 1, name: 'Mint Wallet Facts', exact: true }).waitFor();
     assert.equal(await page.locator('dialog[open]').count(), 0);
+  });
+  await check('Fact Check disconnected action opens the native wallet sheet and restores focus', async () => {
+    await page.goto(`${preview.url}#/fact-check`);
+    await page.getByRole('heading', { level: 1, name: 'Fact Check', exact: true }).waitFor();
+    const connect = page.locator('main').getByRole('button', { name: 'Connect wallet', exact: true });
+    const box = await connect.boundingBox();
+    assert.ok(box && box.y >= 0 && box.y + box.height <= 844);
+    await connect.click();
+    const dialog = page.getByRole('dialog', { name: 'Connect a wallet' });
+    await dialog.waitFor();
+    assert.ok(await dialog.evaluate(el => el.matches(':modal')));
+    await page.keyboard.press('Escape');
+    assert.equal(await dialog.isVisible(), false);
+    assert.ok(await connect.evaluate(el => el === document.activeElement));
+  });
+  await check('Navigation More opens by keyboard, closes on Escape and preserves focus', async () => {
+    const nav = page.getByRole('navigation', { name: 'Main navigation', exact: true });
+    const more = nav.locator('summary');
+    await more.focus();
+    await page.keyboard.press('Enter');
+    await nav.getByRole('link', { name: 'Curator', exact: true }).waitFor({ state: 'visible' });
+    await page.keyboard.press('Escape');
+    assert.equal(await nav.getByRole('link', { name: 'Curator', exact: true }).isVisible(), false);
+    assert.ok(await more.evaluate(el => el === document.activeElement));
+  });
+  await check('Fact Check legacy bookmarks reach the live page without demo controls', async () => {
+    for (const route of ['/fact-check-demo', '/oracle']) {
+      await page.goto(`${preview.url}#${route}`);
+      await page.getByRole('heading', { name: 'Fact Check', level: 1, exact: true }).waitFor();
+      assert.equal(await page.getByText('Choose a static snapshot', { exact: true }).count(), 0);
+      assert.ok(await page.locator('main').getByRole('button', { name: 'Connect wallet', exact: true }).isVisible());
+    }
+  });
+  await check('Fact Check loads saved facts for a wallet discovered from Registry logs', async () => {
+    const handoff = JSON.parse(await fs.readFile(path.join(root, 'web/deployment-handoff.json'), 'utf8'));
+    const registry = handoff.contracts.find(contract => contract.name === 'Registry');
+    // keccak256("CardMinted(address,uint256)"), from the pinned Registry ABI.
+    const topic = '0x91f9f8eee707de5d1301c45b783fb95d1e7fd7535bf3f7dda2f950a9b488ccb2';
+    const response = JSON.parse(await forwardRpc(process.env.SWORN_TEST_RPC || report.mainnetSource, {
+      jsonrpc: '2.0', id: 1, method: 'eth_getLogs', params: [{
+        address: registry.address,
+        fromBlock: `0x${registry.blockNumber.toString(16)}`,
+        toBlock: `0x${(registry.blockNumber + 7199).toString(16)}`,
+        topics: [topic],
+      }],
+    }));
+    assert.ok(!response.error, JSON.stringify(response.error));
+    const mint = response.result?.[0];
+    assert.ok(mint, 'No early CardMinted event available from the provider');
+    const wallet = `0x${mint.topics[1].slice(-40)}`;
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${preview.url}#/fact-check?wallet=${wallet}`);
+    await page.getByRole('heading', { level: 1, name: 'Fact Check', exact: true }).waitFor();
+    await page.getByText('All fact history loaded.', { exact: true }).waitFor({ timeout: 60000 });
+    const row = page.locator('.fc-history-item').first();
+    await row.waitFor();
+    assert.ok((await row.locator('.fc-history-question').allTextContents()).join(' ').length > 20);
+    const transaction = (await row.getByRole('link', { name: /^View transaction for/ }).getAttribute('href')).split('/').at(-1);
+    assert.match(transaction, /^0x[0-9a-f]{64}$/i);
+    const receipt = JSON.parse(await forwardRpc(process.env.SWORN_TEST_RPC || report.mainnetSource, {
+      jsonrpc: '2.0', id: 2, method: 'eth_getTransactionReceipt', params: [transaction],
+    })).result;
+    assert.equal(receipt.status, '0x1');
+    assert.ok(receipt.logs.some(log => log.address.toLowerCase() === registry.address.toLowerCase()
+      && log.topics.some(topic => topic.toLowerCase() === `0x${wallet.slice(2).padStart(64, '0')}`)));
+    assert.ok(await page.getByRole('button', { name: 'Refresh history', exact: true }).isEnabled());
+    const layout = await page.evaluate(() => ({ viewport: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+    assert.ok(layout.scrollWidth <= layout.viewport);
+    await shot(page, 'fact-history-390.png');
+    return { wallet, source: 'Ethereum Registry logs and successful history transaction receipt', transaction, displayedFacts: await page.locator('.fc-history-item').count(), ...layout };
+  });
+  await check('An invalid oracle request link explains recovery and returns to Mint Facts', async () => {
+    await page.goto(`${preview.url}#/fact-check?request=invalid`);
+    await page.getByRole('alert').filter({ hasText: 'This oracle request link is incomplete or invalid.' }).waitFor();
+    await page.locator('main').getByRole('link', { name: 'Mint Facts ↗', exact: true }).first().click();
+    await page.getByRole('heading', { name: 'Mint Wallet Facts', level: 1, exact: true }).waitFor();
+  });
+  await check('Mint Facts section jump focuses the choices and keeps the guide available', async () => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${preview.url}#/request`);
+    const nav = page.getByRole('navigation', { name: 'Mint Facts sections' });
+    await nav.getByRole('link', { name: 'Choose facts to mint' }).click();
+    await page.waitForFunction(() => document.getElementById('step-02')?.contains(document.activeElement));
+    const box = await page.locator('.trait-picker .picker-row').first().boundingBox();
+    assert.ok(box && box.y >= 0 && box.y + box.height < 844);
+    const guide = page.locator('.fact-evidence-guide');
+    await guide.locator('summary').click();
+    assert.ok(await guide.getByText(/request fee is not refunded/).isVisible());
   });
   await check('Curator fact filtering exports a real historical JSON selection', async () => {
     await page.goto(`${preview.url}#/curator`);

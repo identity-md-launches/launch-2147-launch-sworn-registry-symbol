@@ -1,15 +1,17 @@
 {
-  "version": 2,
   "repository": "https://github.com/banse/sworn",
-  "commit": "f4e16276a954f0c9c7327733ba6adee298279fa6",
-  "branchAtRequest": "swornv2",
-  "upstreamDistTree": "b2f501bff553cf0768503d9230efa736b6438de2",
-  "upstreamWebTree": "36c439a5e221824186be8c96cdcfd204f0a6c6e3",
-  "sourceVerification": "All dist/ and included web/ Git blob hashes checked against the independent GitHub recursive tree API at the pinned commit.",
+  "commit": "f6e80c156946020d5eb411a22fbf9ff962615438",
+  "upstreamBranch": "sworn-fact-check-site",
+  "previousCommit": "f4e16276a954f0c9c7327733ba6adee298279fa6",
   "productionBuildRun": false,
+  "sourceOmissions": [
+    "web/.gitignore",
+    "web/simulation/.gitignore"
+  ],
   "dist": {
-    "fileCount": 85,
-    "bytes": 2305898,
+    "fileCount": 90,
+    "bytes": 2411318,
+    "treeSha256": "92ad15f440b5fc11a9cf6b3aeb9dda95d9b5d31abbd67ba1974473a2f7e121d1",
     "files": [
       {
         "path": "abi/Composer.json",
@@ -42,16 +44,16 @@
         "gitBlob": "9adecf0144b61363b681afab28dde126760f37d2"
       },
       {
-        "path": "agents/sworn/SKILL.md",
-        "bytes": 19483,
-        "sha256": "826a6b2548b91cb95ef96c692a6c59845e22b8a532e5e364ad4a4cfbcc0b73d8",
-        "gitBlob": "85e9218811d7b8a94582d38f22d29130a730eb80"
-      },
-      {
         "path": "agents/sworn.md",
         "bytes": 19465,
         "sha256": "0724f06f4dfbb69815120853d65726c2e5aaaf08a93e80e1d26b94f5523a7fa5",
         "gitBlob": "067193312e1c1a198305611bf5bb03bbf2344fb0"
+      },
+      {
+        "path": "agents/sworn/SKILL.md",
+        "bytes": 19483,
+        "sha256": "826a6b2548b91cb95ef96c692a6c59845e22b8a532e5e364ad4a4cfbcc0b73d8",
+        "gitBlob": "85e9218811d7b8a94582d38f22d29130a730eb80"
       },
       {
         "path": "art/full-house.svg",
@@ -216,28 +218,58 @@
         "gitBlob": "c9fc7900e822882f95d2892c4c290b879bf18ac6"
       },
       {
-        "path": "assets/ccip-C91LDiEP.js",
+        "path": "assets/FactCheckLive-BCIE2MnG.js",
+        "bytes": 46396,
+        "sha256": "107a5862cc76ac3de879a82d398d14d6496f4401d0e0bcd544294f2c624aacc3",
+        "gitBlob": "c160985eb0ad6b76f9a592556238064687910509"
+      },
+      {
+        "path": "assets/ccip-D-VHMavK.js",
         "bytes": 2881,
-        "sha256": "aee9e28aa9f4fd3a473d5702aab8c235d4e17c4ef9414830f97138614325c320",
-        "gitBlob": "5cff02d1ac9c87e5141aa386bc694ee5499449d9"
+        "sha256": "1fe58a65c4723f9c731a4ffea3097bae04f819f69b3970283b052cdf90177b61",
+        "gitBlob": "6c1bf19580c1d4313070d398bf339359714456fd"
       },
       {
-        "path": "assets/dist-BH3DalWE.js",
-        "bytes": 98065,
-        "sha256": "3a48ca80f3ea13caa964ab2cab81928d31f84a6707d11e85ef23675949130f68",
-        "gitBlob": "3247a7a33130f1dd8f13d133f18decd44b6692e4"
+        "path": "assets/dist-rG0n5I1c.js",
+        "bytes": 98183,
+        "sha256": "5727418387a5ba29884f7dd6623a3f25e7fd38590ece47f0f78db441aef62113",
+        "gitBlob": "1707b2397cc6ed9f2cd8dc225e7c4072537f193a"
       },
       {
-        "path": "assets/index-BRxtCaDJ.js",
-        "bytes": 868757,
-        "sha256": "a2033c112911d708177305ff9d2bbccf80139208675b109aac5bfad078a131c1",
-        "gitBlob": "4b2ea5c5e534d56a94121d9a94cd245b9d352f57"
+        "path": "assets/eventemitter3-BY3Qykst.js",
+        "bytes": 2877,
+        "sha256": "a6c5ae9e042fe25b9cc352155436d3ca3ba572ecc69c8da034e11fb27cd76e2a",
+        "gitBlob": "68d225431b839b9d0709e3126931d9166a9b9727"
       },
       {
-        "path": "assets/index-CrNsP4Fi.css",
-        "bytes": 35762,
-        "sha256": "9dfaec7e728b129c288741804c76cf437ac87fecc8088cea5a640b2b2767a1cd",
-        "gitBlob": "e3779e54f8e6c08d1c15df63c04727ab29db21f0"
+        "path": "assets/index-CK9qS_xu.js",
+        "bytes": 887907,
+        "sha256": "240548272b511d1c9b410957c165f5fc6435c152986e092c52c667239b47fceb",
+        "gitBlob": "6f3d37d87ab0e062aa17b6c340983a3dcb0cabb4"
+      },
+      {
+        "path": "assets/index-jlO75_Ep.css",
+        "bytes": 64788,
+        "sha256": "697c7995250de677bc18c630b9a7b2669c7754a23e09d70d1e2840cb756b9e71",
+        "gitBlob": "9490ddbe01c604cb360973d1df944d4674d88cb4"
+      },
+      {
+        "path": "assets/rolldown-runtime-DRC-lBeK.js",
+        "bytes": 721,
+        "sha256": "598956b69992a1a74537e0fdb0a99b590f57fd18c3505db0810ddc74653d96d6",
+        "gitBlob": "0990aec1791403332314a2cb937b645996a74fde"
+      },
+      {
+        "path": "assets/sha2-CWReFamK.js",
+        "bytes": 3604,
+        "sha256": "b62795a22abde7d3f0ab38b9ae6fc0bc23d304f10e23c938d740e0309baed485",
+        "gitBlob": "96b45510cfaba269a011b7d0fe9a2724520d445d"
+      },
+      {
+        "path": "assets/utils-s57-ay49.js",
+        "bytes": 2486,
+        "sha256": "9a230809a52e2000f1a04d68fc62f668b7fc20fc738c4d41bbe7dfeade935e9b",
+        "gitBlob": "ee19e05c03abcb0ea69514001f3c995f74bbaeb9"
       },
       {
         "path": "data/art-provenance.json",
@@ -499,15 +531,15 @@
       },
       {
         "path": "imd-deployment.json",
-        "bytes": 13861,
-        "sha256": "2ce91fd65797b5abd37754a658c7f8071bc9ea1ba56e3f7720801f28786144fe",
-        "gitBlob": "f148dd1b560d25ccafb6b947f1739028732cf8d8"
+        "bytes": 14577,
+        "sha256": "c0349b26daf09c2052d2d8a44d93bfccaab73c767d1568eac1c410bb467a8352",
+        "gitBlob": "24a832fb6114be5334c0a44319379f7c1122381b"
       },
       {
         "path": "index.html",
-        "bytes": 1007,
-        "sha256": "ca948277c8d61a898e84ba15c4b0b805198474b4e4f619c6a88fc414f9e65092",
-        "gitBlob": "d260a0523db6c8f32eb38d6e8514d7f4d596cf85"
+        "bytes": 1333,
+        "sha256": "c261057b51a915f2d656543c35949b777cf4617ec46e31f425b411daad13e28f",
+        "gitBlob": "7ce7ea69dde6dde5af190c42ce1ec2226cf6ac4e"
       },
       {
         "path": "llms.txt",
@@ -524,13 +556,17 @@
     ]
   },
   "web": {
-    "fileCount": 227,
-    "bytes": 2835406,
-    "treeSha256": "fe675c6c79f9c774a0edb5b2f2031364526897f4e141effc7c2ad3b60d09ae62",
-    "treeSha256Algorithm": "SHA-256 of UTF-8 concatenation of sorted relative path, NUL, lowercase SHA-256 of file bytes, newline.",
-    "omittedUpstreamPaths": [
-      ".gitignore"
-    ],
-    "reason": "No new ignore rules; all frontend source, tests, scripts, public assets, manifest and lockfile are preserved unchanged."
+    "fileCount": 319,
+    "bytes": 3504368,
+    "treeSha256": "8eba5570e60fdb4fc21b95d1a56a7457fb4e6ef80348d30fdaf22420ddf283ce"
+  },
+  "verification": {
+    "archiveSha256": "68e6372562218c61da160344e06bc9eec3403e6a5bc8c40ae9f8f5c576938a41",
+    "gitHubTreeSha": "f6e80c156946020d5eb411a22fbf9ff962615438",
+    "gitHubTreeTruncated": false,
+    "gitHubBlobMatches": {
+      "dist": 90,
+      "web": 319
+    }
   }
 }

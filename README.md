@@ -1,37 +1,35 @@
-# Sworn · version 2
+# Sworn · Fact Check release
 
-The static site under the existing name **sworn** now serves the version 2 app from [banse/sworn](https://github.com/banse/sworn/tree/f4e16276a954f0c9c7327733ba6adee298279fa6), commit `f4e16276a954f0c9c7327733ba6adee298279fa6`. The previous redirect to `swornbyswarm.sites.imd.fun` is replaced by the app itself.
+The next static release under **sworn** (`sworn.site.identitymd.eth`) is the production export from [banse/sworn, sworn-fact-check-site](https://github.com/banse/sworn/tree/f6e80c156946020d5eb411a22fbf9ff962615438), commit `f6e80c156946020d5eb411a22fbf9ff962615438`. It replaces the entire previous export at `f4e16276a954f0c9c7327733ba6adee298279fa6` and retains the existing hosting name.
 
-**Release policy:** `dist/` is the upstream production export, copied unchanged: **85 files, 2,305,898 bytes**. No production build was run for this delivery. Serve this directory directly. Its title, branding, ABIs, deployment metadata, documentation, agent files, snapshots, images and JavaScript are the pinned upstream bytes.
+**Release policy:** serve the committed `dist/` directly. It contains exactly **90 files, 2,411,318 bytes**, matching upstream byte for byte. No file was added, changed or omitted within the upstream export, and **no production build was run here**, as requested. GitHub's independent recursive tree API confirms all 90 Git blob hashes. The publisher consumes this export after submission; this task does not invoke a publishing or contract-deployment command.
 
-## Preview the delivered site
+## Preview without rebuilding
 
-From the repository root, without installing dependencies or rebuilding:
+From the repository root:
 
 ```sh
 python3 -m http.server 4173 --directory dist
 ```
 
-Open `http://localhost:4173/`. The entry assets use `./` URLs, and the app uses hash routes. The export also passed checks served under `/preview/`, as required for gateway subpaths. A static host needs no application route rewrite or backend.
-
-The publication system consumes `dist/` under the existing `sworn.site.identitymd.eth` name after submission. This delivery does not invoke a hosting or blockchain deployment command.
+Open `http://localhost:4173/`. The entry assets use relative URLs, and navigation uses hash routes. The delivered export was also checked under `/preview/`, so gateway subpaths need no server route rewrite. The title, favicon, description, Open Graph title and local share image are included unchanged.
 
 ## Source and installation
 
-| Path | Contents |
+| Path | Purpose |
 | --- | --- |
-| `dist/` | Exactly the 85-file pinned export; this is the hosting payload |
-| `web/` | Pinned React/TypeScript source, public assets, scripts, tests, package manifest and lockfile |
-| `site/` | Preserved earlier frontend and redirect source; not the source of the current export |
-| `src/`, `script/`, `test/` | Preserved Solidity project for the earlier launch |
-| `tools/verify-sworn-v2.py` | Dependency-free export/source integrity verification |
-| `tools/validate-sworn-v2.mjs` | Read-only Chromium interaction and responsive checks |
-| `artifacts/validation.md` | This delivery's results, design review and limitations |
-| `DESIGN.md` | Tokens, components and responsive behavior of version 2 |
+| `dist/` | Exact 90-file hosting payload from the pinned commit |
+| `web/` | Matching React/TypeScript source, assets, tests, package manifest and lockfile |
+| `site/` | Preserved earlier frontend/redirect source; not the current export's source |
+| `src/`, `script/`, `test/` | Preserved earlier Solidity project |
+| `tools/verify-sworn-v2.py` | Dependency-free release/source integrity checker |
+| `tools/validate-sworn-v2.mjs` | Browser checks of the committed export; does not build |
+| `artifacts/validation.md` | Current results, six-domain design review and limitations |
+| `DESIGN.md` | Implemented tokens, typography, components and responsive behavior |
 
-All 227 included `web/` files match the pinned commit. Only upstream `web/.gitignore` is omitted; existing ignore rules already exclude `node_modules/` at every level. No existing build configuration, dependency manifest or lockfile was changed. The added `web/package.json` and `web/package-lock.json` are the original upstream frontend files.
+All **319 included `web/` files** match upstream. Only `web/.gitignore` and `web/simulation/.gitignore` are omitted; the project's existing dependency exclusions remain effective. Existing package manifests, lockfiles, Vite/TypeScript configuration, Foundry configuration and dependency submodule pointers are unchanged. The pinned simulation fixtures and their Solidity vendor source are retained as source, not installed dependencies.
 
-For source work, use Node.js 24 and npm:
+Use Node.js 24 and npm for future development:
 
 ```sh
 cd web
@@ -40,11 +38,11 @@ npm run typecheck
 npm run dev
 ```
 
-The lockfile pins React 19.3.1, Vite 8.3.5, TypeScript 7.0.2, viem 2.57.7 and wagmi 3.7.9, alongside Coinbase Wallet and React Query. Dependencies are installed normally; no dependency archives, caches or installed modules are part of this delivery.
+The existing lockfile pins React 19.3.1, Vite 8.3.5, TypeScript 7.0.2, viem 2.57.7, wagmi 3.7.9 and Coinbase Wallet SDK 4.3.7. Installed dependencies, caches, browser binaries and downloaded archives are not part of the submission.
 
-## Rebuilding for future source changes
+## Rebuild a future development release
 
-This is the upstream rebuild recipe for a future development release. **It was not run for this immutable import.** A rebuild replaces `dist/` and should not be used to recreate this pinned release for publication.
+The upstream recipe below is documentation for future source work. **Do not run it to publish this immutable release**: it replaces `dist/`.
 
 ```sh
 cd web
@@ -54,44 +52,45 @@ npm run build
 npm run preview
 ```
 
-The build verifies pinned source inputs and ABI hashes, runs Vite with `base: './'`, writes `../dist/`, creates its deployment manifest and checks the static release. Rebuilding is documented, not certified here as byte-reproducible across runtimes. For this release, restore the upstream `dist/` from the exact commit instead of regenerating it.
+The build verifies pinned source/ABI inputs, runs Vite with `base: './'`, writes `../dist/`, generates the deployment asset manifest and checks the static release. This task did not test the production build or establish byte-reproducible rebuilding. Restore this exact release from the pinned archive instead of regenerating it.
 
-## What the app does
+## Main interactions
 
-Sworn is an ownerless Ethereum mainnet registry of wallet facts. A fact belongs to its original wallet; the optional ERC-721 card displays that record and can be transferred separately. The homepage's main action is **Explore wallet**, which works without connecting a wallet.
+The homepage's **Explore wallet** form reads public facts without connecting a wallet. Navigation now exposes **Fact Check**, which follows verification requests and lists minted facts from Registry history. Its disconnected state opens the shared wallet picker; public `#/fact-check?wallet=…` links work without a wallet connection. Request links validate their parameters and offer recovery when invalid.
 
-| Route | Main interaction |
+| Route | Interaction |
 | --- | --- |
 | `#/` | Enter an Ethereum address and explore its record |
-| `#/catalog` | Read the 25 facts, evidence classes and embedded Explorer |
-| `#/explorer?address=…` | Inspect a wallet, card, fact families and exact Renderer metadata |
-| `#/mint` | Mint an optional card through the visitor's wallet |
-| `#/request` | Request or apply facts; follow verification progress |
+| `#/catalog` | Browse facts and inspect wallets in the embedded Explorer |
+| `#/mint` | Mint an optional card and inspect the connected wallet's card |
+| `#/request` | Choose wallet facts to mint; follow request progress |
+| `#/fact-check` | Follow live requests and read saved fact history |
 | `#/register` | Define an immutable community rule |
-| `#/wallet` | Read a connected wallet's facts and request history |
-| `#/curator` | Filter historical candidates, export lists and check current eligibility |
-| `#/integrate`, `#/about` | Contract integration, evidence and background |
+| `#/curator` | Filter historical candidates, export lists and check eligibility |
+| `#/integrate`, `#/about` | Contract integration and evidence documentation |
 | `docs/index.html` | Bundled handbook with local search |
 
-Legacy hash bookmarks are handled inside the app. Unknown routes offer a return link.
+The More disclosure contains secondary destinations. Legacy bookmarks resolve inside the app, including `#/explorer`, `#/wallet`, `#/claim`, `#/oracle` and `#/fact-check-demo`. The latter routes resolve to the live Fact Check page; demo/simulation code is absent from the production scripts.
 
-The browser reads mainnet through the supplied public RPC pool, `api.imd.fun`, and IPFS gateways. Required static assets are bundled locally. These external services, wallet providers and network access are still needed for their respective live interactions. No backend, API key or relay project ID is required by this export.
+The browser reads Ethereum mainnet through public RPCs, `api.imd.fun` and IPFS gateways. These external services and a visitor's wallet are required for their respective live operations. No backend, private credential or relay project ID is part of this static app. The app preserves upstream **launch #2404**, as recorded in `web/deployment-handoff.json` and `dist/imd-deployment.json`. The project's older launch #2147 records remain history; this import does not retarget the app or deploy any contract.
 
-The app preserves the **launch #2404** deployment recorded in [web/deployment-handoff.json](web/deployment-handoff.json) and [dist/imd-deployment.json](dist/imd-deployment.json). The older launch #2147 Solidity source and its evidence remain in the repository as history. This import neither retargets the upstream app to that older registry nor changes any contract. The read-only browser check validated the version 2 deployment against mainnet before loading a real wallet's card and facts.
+Wallet discovery uses EIP-6963 and Coinbase Wallet. Phones offer links into supported wallets' own browsers. This worker did not connect an account, sign or broadcast a transaction.
 
-Wallet discovery uses EIP-6963 and Coinbase Wallet. On phones, the picker offers links to supported wallets' own browsers. Signing actions depend on the visitor's wallet and a valid mainnet deployment check. This worker did not connect an account, sign or broadcast a transaction.
+## Verify the release
 
-## Verification
-
-Verify the committed payload without dependencies:
+No dependencies are needed for integrity checking:
 
 ```sh
 python3 tools/verify-sworn-v2.py
 ```
 
-For an independent byte comparison, download the [pinned archive](https://codeload.github.com/banse/sworn/tar.gz/f4e16276a954f0c9c7327733ba6adee298279fa6) outside this repository and pass its path with `--archive`. During this delivery, all export and included source Git blob hashes were also compared with GitHub's recursive tree API for that commit.
+For independent comparison, download the [pinned archive](https://codeload.github.com/banse/sworn/tar.gz/f6e80c156946020d5eb411a22fbf9ff962615438) outside the repository, then run:
 
-Run the delivered interaction checker after installing source dependencies and Chromium:
+```sh
+python3 tools/verify-sworn-v2.py --archive /path/to/sworn-f6e80c156946020d5eb411a22fbf9ff962615438.tar.gz
+```
+
+To check interactions after installing source dependencies and Chromium:
 
 ```sh
 cd web
@@ -100,33 +99,25 @@ cd ..
 node tools/validate-sworn-v2.mjs
 ```
 
-Its output goes into `test/scratch/v2-browser/`. It serves the committed export itself, including a gateway-style subpath, and does not build. `SWORN_TEST_RPC` optionally selects a read-only verification transport while the exported public RPC configuration stays unchanged. `SWORN_PLAYWRIGHT_MODULE` optionally selects an externally installed Playwright module.
+Results and screenshots go to `test/scratch/fact-check-browser/`. The checker serves `dist/` under a subpath without rebuilding. `SWORN_PLAYWRIGHT_MODULE` optionally selects an external Playwright installation; `SWORN_TEST_RPC` optionally selects a read-only test transport without changing the exported public RPC configuration.
 
-Actual results for this delivery:
+Current results:
 
 | Check | Result |
 | --- | --- |
-| Upstream export and source hashes | All 85 export files and 227 included source files match |
-| Clean locked installation in a temporary copy | Passed, using `npm ci --ignore-scripts --no-audit --no-fund` |
-| `npm run typecheck` | Passed, exit 0 |
-| 28 upstream unit-test files | 189 tests passed, 0 failed |
-| Source pin / canonical ABI verification | Passed for Renderer, Composer and Registry |
-| `node scripts/manifest.mjs --check` | Passed; all 84 manifest-listed assets match |
-| `node scripts/static-release.mjs` | Passed; relative assets and no fixture transport |
-| Delivered interaction checker | 49 checks passed, 0 failed |
-| Responsive layout | Nine routes checked at 320, 390, 780 and 1440px; no page overflow |
-| First screen at 390 × 844 | Product, field and primary button visible; button ends at 499.39px |
-| Pinned `taste@1` probe | 14/16 checks passed; retained upstream casing and monospace exceptions |
-| axe accessibility scan | Seven routes checked; inline-link distinction findings remain |
-| Production build | Not run, as explicitly requested |
-| WebKit | Launch attempted; unavailable because required shared libraries are missing |
+| Exact export / included source | 90 / 319 files match the pinned commit |
+| Git bundle size | Complete current content under 8 MiB, including a 64 KiB reserve; see submission audit |
+| Typecheck | Passed |
+| Selected upstream unit suite | 272 passed, 0 failed |
+| Source pin, ABI and static-release checks | Passed |
+| Chromium interaction checks | 59 passed, 0 failed, including live Fact Check history |
+| Responsive initial routes | 40 layouts checked; no page overflow |
+| Pinned design probe | 14/16; capitals and monospace exceptions retained |
+| Production build | Not run, per explicit instruction |
+| WebKit | Launch unavailable: required shared libraries missing |
 
-The unit-test run selected `tests/*.test.mjs` except `skill.test.mjs`. That excluded file compiles Solidity documentation examples and expects additional upstream root files; it was not run. Four selected tests use Vite's SSR module loader in the temporary copy. No production build, Solidity build, fork, or export regeneration was performed.
-
-The design review covers all six pinned Better Interface domains. Unchanged upstream accessibility findings, scope conflicts, source locations and unperformed checks are documented in [artifacts/validation.md](artifacts/validation.md). A passing interaction or contrast probe is not a full accessibility or security certification. Upstream `web/VALIDATION.md`, `web/TEST-NOTES.md` and other retained historical evidence describe earlier work; this delivery claims only the checks recorded above.
+Inline-link accessibility findings remain in the unchanged upstream export. Detailed results, the six-domain review, remaining limitations and the submission-size audit are recorded in [artifacts/validation.md](artifacts/validation.md). The specific instruction to preserve `dist/` unchanged and run no build takes precedence over the generic build/fix acceptance language. Upstream `web/VALIDATION.md` and other historical reports describe earlier work and are not claims about this delivery.
 
 ## Project history and licensing
 
-The repository's original contract documentation remains in [CONCEPT.md](CONCEPT.md), [CATALOG.md](CATALOG.md), [TEMPLATES.md](TEMPLATES.md), [INTEGRATION.md](INTEGRATION.md), [DISCLOSURE.md](DISCLOSURE.md) and [reference/PROVENANCE.md](reference/PROVENANCE.md). Those documents concern their recorded launches, not a new deployment by this task.
-
-See [LICENSE](LICENSE) and [web/LICENSES/](web/LICENSES/) for the retained project and third-party notices. Better Interface guidance is credited in `DESIGN.md`.
+Earlier contract documentation remains in `CONCEPT.md`, `CATALOG.md`, `TEMPLATES.md`, `INTEGRATION.md`, `DISCLOSURE.md` and `reference/PROVENANCE.md`. See `LICENSE` and `web/LICENSES/` for retained project and third-party notices. The implemented design and guide attribution are in `DESIGN.md`.
