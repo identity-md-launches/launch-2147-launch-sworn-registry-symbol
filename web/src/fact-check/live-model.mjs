@@ -21,7 +21,7 @@ const terminalNames = new Set([
   "Abandoned",
 ]);
 
-/** All history comes from Registry logs. Browser journals are not evidence. */
+/** Registry events, read from the indexer or chain. Browser journals are not evidence. */
 export function discoverRequests(events, wallet, registry) {
   const byId = new Map();
   for (const event of events) {
@@ -43,7 +43,7 @@ export function discoverRequests(events, wallet, registry) {
   }
   return [...byId.values()].sort((a, b) =>
     a.blockNumber === b.blockNumber
-      ? Number(b.origin.logIndex) - Number(a.origin.logIndex)
+      ? Number(b.origin.logIndex ?? 0) - Number(a.origin.logIndex ?? 0) || a.requestId.localeCompare(b.requestId)
       : a.blockNumber > b.blockNumber
         ? -1
         : 1,

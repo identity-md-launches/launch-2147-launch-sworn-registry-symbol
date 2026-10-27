@@ -2,7 +2,7 @@
 
 ## Overview
 
-The final source is `web/` from `banse/sworn` commit `f6e80c156946020d5eb411a22fbf9ff962615438`; `dist/` is that commit's unchanged production export. This document describes the implementation, not a redesign. The earlier `site/` frontend is retained history.
+The final source is `web/` from `banse/sworn` commit `f6e80c156946020d5eb411a22fbf9ff962615438` with the four requested indexer integrations; `dist/` is rebuilt from that source. The established design, stylesheets, assets and routes are preserved. The earlier `site/` frontend is retained history.
 
 Sworn is a public instrument for inspecting wallet facts on Ethereum, minting an optional card, requesting facts and curating wallet lists. Its visual system uses system monospace, near-black surfaces, green actions, square controls, thin structural rules and a thirteen-family hive. The landing puts the address form before its explanatory prose. The hive is supporting artwork, with synthetic illustrations explicitly labeled.
 
@@ -24,7 +24,7 @@ The app's canonical tokens are at `web/src/styles.css:1`.
 | `--panel` | `#8ff0a4` | Panel evidence |
 | `--danger` | `#ff7777` | Error text and invalid field border |
 
-The rendered landing's solid text/background pairs passed the pinned contrast probe. Inline links have a separate distinction issue: the current axe scan flags links distinguished only by color; see validation. No full accessibility pass is claimed.
+The rendered landing's solid text/background pairs passed the current pinned contrast probe. The prior release reported an inline-link distinction issue; that axe scan was not rerun for this integration. No full accessibility pass is claimed. The new rule meaning, source labels and registrant reuse existing text/muted tokens and wrapping styles.
 
 Verification progress adds local colors in `web/src/progress-experience.css`: the overview uses `#0b130d` with a `#285c35` border; summary states use `#69ed8b`, `#ff9d9d` and `#bdc8bf`. These are implemented exceptions to the global tokens, not additional global ramps.
 
@@ -109,7 +109,7 @@ Buttons have a minimum 44px height. Primary actions are green with dark text; se
 
 `AddressForm` rejects malformed addresses, focuses the input and updates a status region linked by `aria-describedby="address-error"`. The missing description target noted in the previous release is fixed in the imported upstream source. `Card` uses local SVG artwork or the deployed Renderer image; interactive hive cells are named buttons that filter families. The wallet sheet uses `showModal()`, keyboard navigation, Escape and backdrop dismissal, and restores its opener. On phones it includes safe-area bottom padding.
 
-The saved Fact Check view was also inspected at 390px using a real Registry event and API-returned agent results; it showed a recorded fact and eight reported panel members. No paid request was created.
+The saved Fact Check view was inspected at 390px using live read-only mainnet data and the indexer. The reference wallet's four verified facts, frozen card facts and saved-request details rendered. No paid request was created.
 
 Current chain data comes through `web/src/chain.ts` and `web/src/rpc.mjs`, with deployment/ABI/runtime checks and explicit unavailable states. Historical candidate data is labeled separately from accepted Registry facts. The transaction journal does not make a transaction successful until confirmed evidence supports it. These behaviors were inspected up to the wallet-signing boundary; no real wallet flow was executed.
 
@@ -117,20 +117,24 @@ Current chain data comes through `web/src/chain.ts` and `web/src/rpc.mjs`, with 
 
 The current header uses `SiteNavigation`, with Catalog, Mint Card, Mint Facts, Fact Check, Mint Rule, About and Docs visible outside More. `web/src/site-navigation.css` overrides the older general header rules: the desktop frame is a three-column brand/navigation/wallet grid; at 1200px it becomes two rows; at 600px navigation becomes four columns. The More menu is a native `details` element with a bordered, positioned list. Escape, outside pointer/focus and route selection dismiss it, with keyboard focus restored to its summary when appropriate.
 
-Fact Check's history is a flat list with rules, a checkmark, fact name, question, block number and transaction link. At 600px its three-column rows become two columns, with the transaction link under the fact text. Wallet addresses wrap in full. The disconnected state explains that a card is optional and offers Connect wallet, Mint Facts and Mint Card. Errors expose retry/recovery controls. History refresh reads bounded 7,200-block pages, progressively adding older facts; partial coverage is labeled.
+Fact Check's history is a flat list with rules, a checkmark, fact name, question, block number and transaction link. At 600px its three-column rows become two columns, with the transaction link under the fact text. Wallet addresses wrap in full. The disconnected state explains that a card is optional and offers Connect wallet, Mint Facts and Mint Card. Errors expose retry/recovery controls. History refresh first reads the wallet index; when unavailable it retains the bounded 7,200-block scan and progressive older-page coverage.
+
+Community rule wording lives in `web/src/community-rule.mjs`. It derives the count/sum/ranking/view/nonce condition from the rule fields, decodes address-valued fixed filters from the ABI and formats block numbers with separators. `pages.tsx` and `claim.tsx` put that wording and a separate registrant line beside the rule name. Full addresses wrap; no new type size, color, icon asset or stylesheet was added. `CommunityCard` from `components.tsx` supplies the existing 56px mini hive and its first green ring for every community id. The Mint picker keeps its existing text/56px preview/action columns, which stack on phones. Catalog keeps its existing fact-row grid.
+
+Eligibility advice remains a status region and appends either `Source: indexer, block N` or `Source: chain scan`. Loading, unknown, met and not-met remain textual states rather than color-only cues. The original ineligible-row disclosure and panel/payment warnings are preserved. The data adapter in `web/src/indexer.mjs` has no visual component; it keeps real request identifiers and transactions, without inventing missing log indices.
 
 The scoped `--fc-*` palette repeats the app background/text/muted/accent/panel/danger values and uses `--fc-rule: #222`. A progress strip uses `#0d140d` and a `#344333` separator. The verification surface shows stages, an agent/quorum meter and a hive canvas. Recorded outcomes require Registry evidence; API agreement alone is not presented as a saved fact. Reduced-motion CSS removes the orbit/pulse/reveal animations and transitions. Conditional live agent animation was source-reviewed and covered by upstream model/render tests; a new paid oracle request was not created for visual testing.
 
-The connected wallet summary uses a 1.1fr/0.9fr text/art grid, a 40px gap and a fixed-layout facts table. Selected cells use background `#122413`, accent outline and text `#b6f1b2`. At 800px the grid stacks; artwork caps at 420px. These conditional connected states were source-reviewed, not exercised with a connected real account.
+The connected wallet summary uses a 1.1fr/0.9fr text/art grid, a 40px gap and a fixed-layout facts table. Selected cells use background `#122413`, accent outline and text `#b6f1b2`. At 800px the grid stacks; artwork caps at 420px. Connected rule/history flows were checked with a read-only injected provider for the public reference wallets; no account signed a transaction.
 
 ## Do's and Don'ts
 
-- For this pinned release, preserve every source/export byte; keep reports and release tooling outside `dist/` and `web/`.
+- Preserve the pinned visual system, data files, ABIs, dependencies and hash routes; build `dist/` from the delivered source rather than editing generated assets.
 - For a future page, reuse the shared frame and route system, one page title, `Section`, `Status`, existing field/button styles and evidence marks.
 - Select a color by its implemented role and reuse the spacing tokens before adding literals.
 - Keep wallet credentials separate from card ownership and historical candidates separate from current Registry evidence.
 - Preserve complete addresses, amounts and metadata; use wrapping or an explicit local scroll container.
 - Check the first phone screen, dialog keyboard path and static gateway subpath after future changes.
-- Record accessibility findings; the frozen export is not permission to claim an audit pass.
+- Record accessibility findings and unperformed checks; the design probe is not an accessibility audit.
 
 Review used all six domains of the pinned Better Interface guide. Guidance: [Jakub Krehel, Better Interface](https://github.com/jakubkrehel/skills/tree/267330e1adfc66a718fb65fa6918c1f06d0a689e/skills/better-interface), MIT. Documentation method: [Paul Bakaus, Impeccable](https://github.com/pbakaus/impeccable/blob/9d715cc4f5564a990ca8345abfdd5df6dc9b41c8/skill/reference/document.md), Apache-2.0. License notices are retained in `web/LICENSES/Better-Interface.txt`. Coverage, source findings and unperformed checks are in `artifacts/validation.md`.

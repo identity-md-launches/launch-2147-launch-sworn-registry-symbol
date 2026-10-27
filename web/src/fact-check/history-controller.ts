@@ -4,6 +4,7 @@ import { contract, read, scopedClient } from "../chain";
 import { TRAITS } from "../data";
 import { launchBlock, latestBlock } from "../settlement";
 import { decodeMetadata } from "../pure.mjs";
+import { indexedWallet } from "../indexer.mjs";
 import { oracleProgressReader, oracleUuid } from "../oracle-progress.mjs";
 import { bindProgress, liveSnapshot } from "./live-model.mjs";
 import { boundedRange, HISTORY_BLOCKS } from "./live-polling.mjs";
@@ -22,11 +23,12 @@ export type FactHistoryRow = {
   factId: number;
   factName: string;
   blockNumber: bigint;
-  logIndex: number;
+  logIndex?: number;
   transactionHash: string;
   requestId?: string;
   oracleRequestId?: string;
   terminal: any;
+  origin?: any;
   tokenId?: bigint;
   directFacts?: { id: number; name: string }[];
 };
@@ -100,9 +102,34 @@ export function useFactHistory(wallet: string) {
       let rows = previous.rows;
       let coverage = previous.coverage;
       try {
+        const registry = contract(r, "Registry").address;
+        const indexed = await indexedWallet(wallet, registry, signal);
+        if (!current()) return;
+        if (indexed && r.deployment.chainId === 1) {
+          const frozen: Record<string, bigint> = {};
+          if (indexed.card)
+            frozen[String(indexed.card.tokenId)] = await read(
+              c, r, "Registry", "frozenDirect", [BigInt(indexed.card.tokenId)],
+            );
+          const found = factHistoryRows(indexed.events, {
+            wallet, registry, traits: TRAITS, frozen,
+          }) as FactHistoryRow[];
+          const first = await launchBlock();
+          if (current()) {
+            publish({
+              rows: found,
+              coverage: {
+                first, from: first, to: BigInt(indexed.lastIndexedBlock), complete: true,
+              },
+              loading: false,
+              backgroundLoading: false,
+            });
+            resume.current = null;
+          }
+          return;
+        }
         if (r.deployment.chainId !== 1 || (await c.getChainId()) !== 1)
           throw Error("Fact history requires Ethereum mainnet.");
-        const registry = contract(r, "Registry").address;
         const [first, head, code] = await Promise.all([
           launchBlock(),
           older && previous.coverage.to !== undefined
@@ -379,7 +406,7 @@ export function useHistoryFact(
             historyRow.blockNumber - HISTORY_BLOCKS + 1n > first
               ? historyRow.blockNumber - HISTORY_BLOCKS + 1n
               : first;
-          const requests = await ec.getLogs({
+          const requests = historyRow.origin ? [historyRow.origin] : await ec.getLogs({
             address: registry,
             event: r.abis.Registry.find(
               (item: any) =>

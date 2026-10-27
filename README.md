@@ -1,123 +1,89 @@
-# Sworn · Fact Check release
+# Sworn · Indexer integration
 
-The next static release under **sworn** (`sworn.site.identitymd.eth`) is the production export from [banse/sworn, sworn-fact-check-site](https://github.com/banse/sworn/tree/f6e80c156946020d5eb411a22fbf9ff962615438), commit `f6e80c156946020d5eb411a22fbf9ff962615438`. It replaces the entire previous export at `f4e16276a954f0c9c7327733ba6adee298279fa6` and retains the existing hosting name.
+This release keeps the Sworn site from [banse/sworn commit `f6e80c156946020d5eb411a22fbf9ff962615438`](https://github.com/banse/sworn/tree/f6e80c156946020d5eb411a22fbf9ff962615438/web) and adds the four requested indexer integrations. `web/` contains the source and unchanged dependency lockfile; repository-root `dist/` contains the production build for the existing **sworn** hosting name (`sworn.site.identitymd.eth`). The publisher serves that export after submission.
 
-**Release policy:** serve the committed `dist/` directly. It contains exactly **90 files, 2,411,318 bytes**, matching upstream byte for byte. No file was added, changed or omitted within the upstream export, and **no production build was run here**, as requested. GitHub's independent recursive tree API confirms all 90 Git blob hashes. The publisher consumes this export after submission; this task does not invoke a publishing or contract-deployment command.
+## Install, build and preview
 
-## Preview without rebuilding
+Use Node **22.12 or newer** and npm 10 or newer:
 
-From the repository root:
+```sh
+cd web
+npm ci
+node scripts/agents.mjs
+npm run typecheck
+npm run build
+npm run verify:export
+npm run preview
+```
+
+Open the preview URL printed by Vite. `npm run dev` runs the source development server. The build verifies the pinned ABI/source inputs, writes `../dist/`, generates its asset manifest and checks the static release. The canonical `agents/sworn/SKILL.md` and `llms.txt` are included at the root because `scripts/agents.mjs` copies them into the export. Build configuration, dependencies, ABIs and data files are unchanged.
+
+For a dependency-free preview of the delivered export, run this from the root:
 
 ```sh
 python3 -m http.server 4173 --directory dist
 ```
 
-Open `http://localhost:4173/`. The entry assets use relative URLs, and navigation uses hash routes. The delivered export was also checked under `/preview/`, so gateway subpaths need no server route rewrite. The title, favicon, description, Open Graph title and local share image are included unchanged.
+Open `http://localhost:4173/`. Relative entry assets (`base: './'`) and hash routes also work below a gateway subpath. No server rewrite or runtime script from another origin is required. Title, favicon, description, Open Graph title and local share image are included.
 
-## Source and installation
+## Indexer reads and fallbacks
 
-| Path | Purpose |
+The only indexer base URL in application source is `INDEXER_BASE_URL` in [`web/src/indexer.mjs`](web/src/indexer.mjs), defaulting to `https://sworn.vibingco.de/api`. Change that constant and rebuild to use another indexer. Its [public API README](https://github.com/identity-md-launches/launch-2602-sworn-indexer-ponder-indexer) documents the response fields. Requests are read-only, omit credentials and abort after 1.5 seconds or when their caller is cancelled.
+
+- Community eligibility (ids **10001 and above**) first reads `/rules/:id/eligibility?wallet=…`. A supported, fully indexed answer carries its count, threshold, comparison, verdict, coverage block and transfers into the existing advice. The text says `Source: indexer, block N`. Unavailable, unsupported, incomplete or malformed answers retain the original bounded browser scan and say `Source: chain scan`, including when the scan cannot finish. Catalog eligibility checks, including snapshots and the live checks for 601 and 1301, never call this endpoint.
+- `/rules` supplies community metadata. Catalog and Mint Facts describe the event/function, wallet field, fixed filter, threshold and window in words, show complete addresses and the registrant, and reuse the existing `CommunityCard` hive. If the indexer is unavailable, `specOf` supplies the rule and `SpecRegistered` supplies attribution. A failed attribution read is explicitly shown as unavailable.
+- `/wallets/:address` supplies request history and outcomes (`pending`, `verified`, `missed`, `noverdict`, `abandoned`) and the card. Fact Check and wallet request-history reads use it before scanning logs. Existing Registry reads still confirm held facts, frozen direct facts and card artwork. The original scan and its coverage/retry states remain available during an outage.
+
+The existing **Show ineligible facts** disclosure still controls rows found not met; use it to inspect their counts. Eligibility remains advice, and the panel/Registry decide whether to store a fact. No transaction preparation or signing behavior was changed.
+
+## Routes and source binding
+
+| Route | Main interaction |
 | --- | --- |
-| `dist/` | Exact 90-file hosting payload from the pinned commit |
-| `web/` | Matching React/TypeScript source, assets, tests, package manifest and lockfile |
-| `site/` | Preserved earlier frontend/redirect source; not the current export's source |
-| `src/`, `script/`, `test/` | Preserved earlier Solidity project |
-| `tools/verify-sworn-v2.py` | Dependency-free release/source integrity checker |
-| `tools/validate-sworn-v2.mjs` | Browser checks of the committed export; does not build |
-| `artifacts/validation.md` | Current results, six-domain design review and limitations |
-| `DESIGN.md` | Implemented tokens, typography, components and responsive behavior |
-
-All **319 included `web/` files** match upstream. Only `web/.gitignore` and `web/simulation/.gitignore` are omitted; the project's existing dependency exclusions remain effective. Existing package manifests, lockfiles, Vite/TypeScript configuration, Foundry configuration and dependency submodule pointers are unchanged. The pinned simulation fixtures and their Solidity vendor source are retained as source, not installed dependencies.
-
-Use Node.js 24 and npm for future development:
-
-```sh
-cd web
-npm ci
-npm run typecheck
-npm run dev
-```
-
-The existing lockfile pins React 19.3.1, Vite 8.3.5, TypeScript 7.0.2, viem 2.57.7, wagmi 3.7.9 and Coinbase Wallet SDK 4.3.7. Installed dependencies, caches, browser binaries and downloaded archives are not part of the submission.
-
-## Rebuild a future development release
-
-The upstream recipe below is documentation for future source work. **Do not run it to publish this immutable release**: it replaces `dist/`.
-
-```sh
-cd web
-npm ci
-npm run typecheck
-npm run build
-npm run preview
-```
-
-The build verifies pinned source/ABI inputs, runs Vite with `base: './'`, writes `../dist/`, generates the deployment asset manifest and checks the static release. This task did not test the production build or establish byte-reproducible rebuilding. Restore this exact release from the pinned archive instead of regenerating it.
-
-## Main interactions
-
-The homepage's **Explore wallet** form reads public facts without connecting a wallet. Navigation now exposes **Fact Check**, which follows verification requests and lists minted facts from Registry history. Its disconnected state opens the shared wallet picker; public `#/fact-check?wallet=…` links work without a wallet connection. Request links validate their parameters and offer recovery when invalid.
-
-| Route | Interaction |
-| --- | --- |
-| `#/` | Enter an Ethereum address and explore its record |
-| `#/catalog` | Browse facts and inspect wallets in the embedded Explorer |
-| `#/mint` | Mint an optional card and inspect the connected wallet's card |
-| `#/request` | Choose wallet facts to mint; follow request progress |
-| `#/fact-check` | Follow live requests and read saved fact history |
+| `#/` | Explore a public wallet without connecting |
+| `#/catalog` | Inspect catalog/community facts and the embedded Explorer |
+| `#/mint` | Mint an optional card |
+| `#/request` | Review held facts and request a new fact |
+| `#/fact-check` | Follow requests and inspect saved fact history |
 | `#/register` | Define an immutable community rule |
-| `#/curator` | Filter historical candidates, export lists and check eligibility |
-| `#/integrate`, `#/about` | Contract integration and evidence documentation |
-| `docs/index.html` | Bundled handbook with local search |
+| `#/curator` | Filter candidates, export lists and check eligibility |
+| `#/integrate`, `#/about` | Read contract and evidence documentation |
+| `docs/index.html` | Bundled handbook and local search |
 
-The More disclosure contains secondary destinations. Legacy bookmarks resolve inside the app, including `#/explorer`, `#/wallet`, `#/claim`, `#/oracle` and `#/fact-check-demo`. The latter routes resolve to the live Fact Check page; demo/simulation code is absent from the production scripts.
+All existing aliases remain, including `#/explorer`, `#/wallet`, `#/wallet-facts`, `#/claim`, `#/oracle`, `#/fact-check-demo`, `#/fact-vs-artifact` and `#/whitelistcurator`. The imported app retains its **launch #2404** binding in `web/deployment-handoff.json`; this project's earlier launch #2147 contracts and records remain untouched. Nothing is deployed or retargeted on chain.
 
-The browser reads Ethereum mainnet through public RPCs, `api.imd.fun` and IPFS gateways. These external services and a visitor's wallet are required for their respective live operations. No backend, private credential or relay project ID is part of this static app. The app preserves upstream **launch #2404**, as recorded in `web/deployment-handoff.json` and `dist/imd-deployment.json`. The project's older launch #2147 records remain history; this import does not retarget the app or deploy any contract.
+Wallet connections retain the pinned EIP-6963 browser discovery, wallet-browser mobile links and Coinbase connector. The production app contacts public Ethereum RPCs, `api.imd.fun`, IPFS gateways when needed, and the Sworn indexer. No private credential, relay account or added npm dependency is needed.
 
-Wallet discovery uses EIP-6963 and Coinbase Wallet. Phones offer links into supported wallets' own browsers. This worker did not connect an account, sign or broadcast a transaction.
-
-## Verify the release
-
-No dependencies are needed for integrity checking:
-
-```sh
-python3 tools/verify-sworn-v2.py
-```
-
-For independent comparison, download the [pinned archive](https://codeload.github.com/banse/sworn/tar.gz/f6e80c156946020d5eb411a22fbf9ff962615438) outside the repository, then run:
-
-```sh
-python3 tools/verify-sworn-v2.py --archive /path/to/sworn-f6e80c156946020d5eb411a22fbf9ff962615438.tar.gz
-```
-
-To check interactions after installing source dependencies and Chromium:
+## Validation
 
 ```sh
 cd web
 npx playwright install chromium
-cd ..
-node tools/validate-sworn-v2.mjs
+npm test
+node tests/indexer-browser.mjs
+# Optional: a read-only mainnet transport, never a private key.
+SWORN_TEST_RPC=https://ethereum-rpc.publicnode.com node tests/indexer-live-browser.mjs
 ```
 
-Results and screenshots go to `test/scratch/fact-check-browser/`. The checker serves `dist/` under a subpath without rebuilding. `SWORN_PLAYWRIGHT_MODULE` optionally selects an external Playwright installation; `SWORN_TEST_RPC` optionally selects a read-only test transport without changing the exported public RPC configuration.
+Browser downloads and npm caches can be placed outside the repository with `PLAYWRIGHT_BROWSERS_PATH` and npm's `--cache` option. The browser tests serve the actual export below `/preview/`, use a read-only injected test wallet and reject signing/broadcast methods. Captured API replies under `web/tests/fixtures/indexer/` are test fixtures; the production app contains no fixture responses. `pinned-Catalog.sol` is the upstream catalog fixture used by the documentation test; the older root contract sources are preserved.
 
-Current results:
+Worker results on 2026-10-27:
 
-| Check | Result |
+| Check | Actual result |
 | --- | --- |
-| Exact export / included source | 90 / 319 files match the pinned commit |
-| Git bundle size | Complete current content under 8 MiB, including a 64 KiB reserve; see submission audit |
-| Typecheck | Passed |
-| Selected upstream unit suite | 272 passed, 0 failed |
-| Source pin, ABI and static-release checks | Passed |
-| Chromium interaction checks | 59 passed, 0 failed, including live Fact Check history |
-| Responsive initial routes | 40 layouts checked; no page overflow |
-| Pinned design probe | 14/16; capitals and monospace exceptions retained |
-| Production build | Not run, per explicit instruction |
-| WebKit | Launch unavailable: required shared libraries missing |
+| Install, agent generation, typecheck, production build, export verification | Passed |
+| Full unit suite | 284 passed, 0 failed |
+| Production interaction suite | 6 scenario groups passed; all 17 routes/aliases at 1280 and 390px; no unexpected console/page errors or overflow |
+| Live API + mainnet reads | Counts 5, 47 and 0 returned in about one second; card 2 wallet's four verified requests and saved details rendered |
+| Pinned design probe | 14/16 passed; inherited monospace prose and uppercase headings retained under “no design change” |
+| WebKit | Launch attempted; host libraries missing, so rendered WebKit checks were not performed |
 
-Inline-link accessibility findings remain in the unchanged upstream export. Detailed results, the six-domain review, remaining limitations and the submission-size audit are recorded in [artifacts/validation.md](artifacts/validation.md). The specific instruction to preserve `dist/` unchanged and run no build takes precedence over the generic build/fix acceptance language. Upstream `web/VALIDATION.md` and other historical reports describe earlier work and are not claims about this delivery.
+The build emits inherited dependency `use client`, browser-externalized worker-module and bundler-timing warnings. Chromium showed no related runtime error. Deliberately aborted indexer requests produce expected browser network errors in the outage test; the fallback succeeds. No real account was signed with, no paid oracle request was created, and no mainnet transaction was sent.
 
-## Project history and licensing
+[DESIGN.md](DESIGN.md) documents the final implementation. [artifacts/validation.md](artifacts/validation.md) records commands, findings, six-domain coverage and limitations. Current reports replace the earlier immutable-export reports. The old `tools/verify-sworn-v2.py` and `tools/validate-sworn-v2.mjs` are historical release tools; they do not define this patched release's checks.
 
-Earlier contract documentation remains in `CONCEPT.md`, `CATALOG.md`, `TEMPLATES.md`, `INTEGRATION.md`, `DISCLOSURE.md` and `reference/PROVENANCE.md`. See `LICENSE` and `web/LICENSES/` for retained project and third-party notices. The implemented design and guide attribution are in `DESIGN.md`.
+## Project history and licenses
+
+`site/` is the earlier frontend/redirect source; `src/`, `script/` and the Solidity tests are the older contract project. Existing dependency pointers and protected build files are preserved. Historical documentation remains in `CONCEPT.md`, `CATALOG.md`, `TEMPLATES.md`, `INTEGRATION.md`, `DISCLOSURE.md` and `reference/PROVENANCE.md`.
+
+Project and third-party notices remain in `LICENSE` and `web/LICENSES/`. Better Interface and documentation-guide attribution are retained in `DESIGN.md` and `web/LICENSES/Better-Interface.txt`.

@@ -1,21 +1,56 @@
 {
-  "results": [
+  "source": "https://ethereum-rpc.publicnode.com",
+  "indexer": "https://sworn.vibingco.de/api",
+  "checks": [
+    "Live rule 10001: 5, met=true",
+    "Live card 2 wallet: four verified requests and saved request details",
+    "Live rule 10001: 47, met=true",
+    "Live rule 10001: 0, met=false"
+  ],
+  "errors": [],
+  "timings": [
     {
-      "name": "live browser public contributor, 25 hasTrait calls, 13-family summary, pure Renderer preview, live price",
-      "passed": true,
-      "status": "Read at block 26,217,888 from https://ethereum-rpc.publicnode.com."
+      "wallet": "0x887b86b6b6957f7bbea88b8cefd392f39236a88c",
+      "count": 5,
+      "met": true,
+      "elapsedMs": 999
     },
     {
-      "name": "unproven oracle rows say not claimed, never false",
-      "passed": true
+      "wallet": "0xe5b1275fb926613d983da33fbfe1f331b7f64f2a",
+      "count": 47,
+      "met": true,
+      "elapsedMs": 447
     },
     {
-      "name": "all RPCs unavailable discards data and shows no false or fabricated card",
-      "passed": true
-    },
-    {
-      "name": "getter mismatch red banner and wrong-chain wallet block signing",
-      "passed": true
+      "wallet": "0x84f4b7424e1b0464f9c749725c1f34bed9aa8ada",
+      "count": 0,
+      "met": false,
+      "elapsedMs": 494
     }
+  ],
+  "requests": [
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/rules/10001/eligibility?wallet=0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+    "https://sworn.vibingco.de/api/rules/10001/eligibility?wallet=0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+    "https://sworn.vibingco.de/api/rules",
+    "https://sworn.vibingco.de/api/wallets/0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA",
+    "https://sworn.vibingco.de/api/rules/10001/eligibility?wallet=0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA"
   ]
 }

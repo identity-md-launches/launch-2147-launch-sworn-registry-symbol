@@ -13,6 +13,7 @@ import { useAccount } from "wagmi";
 import { useSite } from "./context";
 import { contract, read, scopedClient } from "./chain";
 import { registryEvents, FEED_WINDOW, HISTORY_WINDOW } from "./settlement";
+import { indexedWallet } from "./indexer.mjs";
 import {
   oracleProgressReader,
   progressStatus,
@@ -193,8 +194,14 @@ function useSwarmSnapshot(fact: WatchedFact, onAttested: () => void, wallet?: st
             throw Error("This request requires Ethereum mainnet.");
           networkChecked = true;
         }
-        let events = terminal
+        const indexed = terminal ? null : await indexedWallet(
+          address, contract(r, "Registry").address, controller.signal,
+        );
+        const indexedRequest = indexed?.requests.find((item: any) =>
+          item.requestId.toLowerCase() === fact.requestId.toLowerCase());
+        let events: any[] = terminal
           ? []
+          : indexedRequest ? indexed.events
           : await registryEvents(
               client,
               r,

@@ -72,11 +72,12 @@ export function factHistoryRows(
     )
       continue;
     const base = {
-      key: `${event.transactionHash}:${event.logIndex}`.toLowerCase(),
+      key: (event.sourceKey || `${event.transactionHash}:${event.logIndex}`).toLowerCase(),
       blockNumber: event.blockNumber,
-      logIndex: Number(event.logIndex),
+      logIndex: event.logIndex == null ? undefined : Number(event.logIndex),
       transactionHash: event.transactionHash,
       terminal: event,
+      origin: event.requestOrigin,
     };
     if (event.eventName === "Verified") {
       const factId = Number(event.args.traitId);
@@ -109,10 +110,21 @@ export function factHistoryRows(
 }
 export function mergeFactHistory(previous, next) {
   const rows = new Map(previous.map((row) => [row.key, row]));
-  for (const row of next) rows.set(row.key, row);
+  // The API omits log indices. Match the same confirmed write by its real
+  // request/card identity, block and transaction when switching data sources.
+  const evidenceKey = row => `${row.kind}:${row.requestId || row.tokenId}:${row.blockNumber}:${row.transactionHash}`.toLowerCase();
+  const evidence = new Map(previous.map(row => [evidenceKey(row), row]));
+  for (const row of next) {
+    const key = evidenceKey(row), duplicate = evidence.get(key);
+    if (duplicate && duplicate.key !== row.key &&
+      (duplicate.terminal?.source === "indexer" || row.terminal?.source === "indexer"))
+      rows.delete(duplicate.key);
+    rows.set(row.key, row);
+    evidence.set(key, row);
+  }
   return [...rows.values()].sort((a, b) =>
     a.blockNumber === b.blockNumber
-      ? b.logIndex - a.logIndex
+      ? (b.logIndex ?? 0) - (a.logIndex ?? 0) || a.key.localeCompare(b.key)
       : a.blockNumber > b.blockNumber
         ? -1
         : 1,

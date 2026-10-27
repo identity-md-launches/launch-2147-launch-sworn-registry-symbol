@@ -37,6 +37,8 @@ import { YourSwornCard, ClaimedFacts, RecentVerificationRequests } from "./walle
 import { requestHistory as buildRequestHistory, feeKey, savedRequestFees, savedRequests } from "./request-history.mjs";
 import { TASKS } from "./task-navigation.mjs";
 import { eligibilityText } from "./eligibility.mjs";
+import { communityFact } from "./community-rule.mjs";
+import { indexedWallet } from "./indexer.mjs";
 import { lastPersonalRequests, lastRequestText } from "./request-outcomes.mjs";
 import {
   sharedState,
@@ -435,7 +437,7 @@ function SharedFactRow({
               {t.id} / {t.name}
             </strong>
             <span className="rule">
-              {t.rule} · {t.window} · <Mark kind="shared" />
+              {t.rule}{t.window && ` · ${t.window}`} · <Mark kind="shared" />
               {proven && (
                 <>
                   {" · "}
@@ -443,6 +445,7 @@ function SharedFactRow({
                 </>
               )}
             </span>
+            {t.id >= 10001 && <span className="rule">Registrant: {t.registrant || "unavailable"}</span>}
           </span>
         </div>
         {t.id === 1201 ? (
@@ -946,7 +949,8 @@ export function Claim({ task = "/mint" }: { task?: string }) {
     const client = scopedClient(site.client, controller.signal);
     if (wallet && site.health) {
       void (async () => {
-        let events: any[] = await registryEvents(
+        const indexed = await indexedWallet(wallet, contract(site.r, "Registry").address, controller.signal);
+        let events: any[] = indexed ? indexed.events : await registryEvents(
           client,
           site.r,
           ["TraitRequested", "Verified", "SharedFactStored", "Missed", "NoVerdict", "Abandoned"],
@@ -1097,17 +1101,7 @@ export function Claim({ task = "/mint" }: { task?: string }) {
     }
   }, [wanted, site.specs]);
   const reason = disableReason(site, account, journal.busy);
-  const customTraits = site.specs.map((s) => ({
-    id: s.id,
-    name: s.name,
-    class: s.kind === 3 ? "shared" : s.kind === 5 ? "panel" : "chain",
-    rule:
-      s.kind === 3
-        ? `T3 · shared list · top ${s.threshold} by ${s.sumArg}`
-        : `T${s.kind} · threshold ${s.threshold}`,
-    window: `${num(s.fromBlock)} → ${num(s.toBlock)}`,
-    kind: s.kind,
-  }));
+  const customTraits = site.specs.map(communityFact);
   const paid = [
     ...TRAITS.filter((t) => t.class !== "direct").map((t) => ({
       ...t,
@@ -1461,7 +1455,7 @@ export function Claim({ task = "/mint" }: { task?: string }) {
                           {t.id} / {t.name}
                         </strong>
                         <span className="rule">
-                          {t.rule} · {t.window} · <Mark kind={t.class} />
+                          {t.rule}{t.window && ` · ${t.window}`} · <Mark kind={t.class} />
                           {proven && !cant && (
                             <>
                               {" · "}
@@ -1469,6 +1463,7 @@ export function Claim({ task = "/mint" }: { task?: string }) {
                             </>
                           )}
                         </span>
+                        {t.id >= 10001 && <span className="rule">Registrant: {("registrant" in t && t.registrant) || "unavailable"}</span>}
                         {!proven &&
                           requestHistory.wallet === account.address &&
                           requestHistory.lines[t.id] && (
@@ -1501,7 +1496,7 @@ export function Claim({ task = "/mint" }: { task?: string }) {
                         {rowStatus && <p className="row-request-status" role="status">{rowStatus}</p>}
                       </div>
                     </div>
-                    {t.id < 10001 && <Card miniId={t.id} />}
+                    {t.id < 10001 ? <Card miniId={t.id} /> : <CommunityCard fact={t} />}
                     {proven && currentFacts ? (
                       <div className="row-actions">
                         <MintedFact
