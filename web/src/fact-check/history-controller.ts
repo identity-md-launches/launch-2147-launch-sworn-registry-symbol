@@ -13,6 +13,7 @@ import {
   factHistoryRows,
   mergeFactHistory,
   mergeHistoryCoverage,
+  shortFactRule,
   updateHistory,
 } from "./history-model.mjs";
 import type { FactCheckSnapshot } from "./types";
@@ -245,7 +246,10 @@ export function useHistoryFact(
   ensName: string | undefined,
   row: FactHistoryRow | undefined,
 ) {
-  const { r, client, readRetry } = useSite();
+  const { r, client, readRetry, specs } = useSite();
+  // Rule texts only; a later specs refresh must not restart the chain reads below.
+  const specsRef = useRef(specs);
+  specsRef.current = specs;
   const key = `${wallet}:${row?.key || ""}`.toLowerCase();
   const [state, setState] = useState<{
     key: string;
@@ -333,7 +337,6 @@ export function useHistoryFact(
           } catch (error) {
             cardError = reason(error);
           }
-        const trait = TRAITS.find((item) => item.id === historyRow.factId);
         const direct = historyRow.kind === "direct";
         const question = direct
           ? "Direct facts recorded when this card was minted."
@@ -343,7 +346,11 @@ export function useHistoryFact(
             ? "Did this wallet complete at least 3 accepted IMD swarm jobs while holding an IDMD seat?"
             : direct
               ? question
-              : trait?.rule || historyRow.factName;
+              : shortFactRule(
+                  historyRow.factId,
+                  TRAITS,
+                  specsRef.current.find((spec) => Number(spec.id) === historyRow.factId),
+                ) || historyRow.factName;
         snapshot = {
           key: `history:${key}`,
           mode: "live",

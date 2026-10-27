@@ -38,6 +38,7 @@ import { requestHistory as buildRequestHistory, feeKey, savedRequestFees, savedR
 import { TASKS } from "./task-navigation.mjs";
 import { eligibilityText } from "./eligibility.mjs";
 import { communityFact } from "./community-rule.mjs";
+import { FACT_GROUPS, factGroup } from "./claimed-facts.mjs";
 import { indexedWallet } from "./indexer.mjs";
 import { lastPersonalRequests, lastRequestText } from "./request-outcomes.mjs";
 import {
@@ -1396,135 +1397,146 @@ export function Claim({ task = "/mint" }: { task?: string }) {
               shown={showIneligible}
               onChange={() => setShowIneligible((v) => !v)}
             />
-            <div
-              className="trait-picker single-fact-picker"
-              role="group"
-              aria-label="Wallet facts available to mint"
-            >
-              {paid.map((t) => {
-                const hidden = !showIneligible && paidIneligible(t.id);
-                const cant = currentFacts && impossible(currentFacts.joined, t.id);
-                const proven = currentFacts?.traits.includes(t.id) || currentFacts?.verifiedSpecs.includes(t.id);
-                const pending = currentFacts?.pending[t.id] && !/^0x0+$/.test(currentFacts.pending[t.id]);
-                const action = factMintState({ wallet: account.address, facts: currentFacts,
-                  id: t.id, kind: t.kind, check: checks[t.id] });
-                const rowStatus = status[`fact-${t.id}`];
-                if (t.kind === 3)
-                  return (
-                    <SharedFactRow
-                      key={`${account.address || "disconnected"}:${t.id}`}
-                      trait={t}
-                      hidden={hidden}
-                      reader={mintedReader}
-                      onEligibility={(id, ineligible) =>
-                        setSharedEligibility((old) => ({
-                          wallet: account.address,
-                          ids: {
-                            ...(old.wallet === account.address ? old.ids : {}),
-                            [id]: ineligible,
-                          },
-                        }))
-                      }
-                      payment={payment}
-                      journal={journal}
-                      facts={currentFacts}
-                      request={shared => prepareFact(t.id, shared)}
-                      cache={backfills}
-                      wanted={wanted}
-                      onPending={(id, rid) =>
-                        setSharedPendings((old) => {
-                          if ((old[id] || null) === rid) return old;
-                          const next = { ...old };
-                          if (rid) next[id] = rid;
-                          else delete next[id];
-                          return next;
-                        })
-                      }
-                    />
-                  );
-                if (hidden) return null;
-                return (
+            {FACT_GROUPS.map(([group, title]) => {
+              const list = paid.filter((t) => factGroup(t.id, TRAITS) === group);
+              if (!list.length) return null;
+              // Hidden, not removed: shared rows keep reporting their eligibility while hidden.
+              const visible = list.some((t) => showIneligible || !paidIneligible(t.id));
+              return (
+                <div className="fact-group" key={group} hidden={!visible}>
+                  <h3 className="fact-group-title">{title}</h3>
                   <div
-                    key={t.id}
-                    id={`pick-${t.id}`}
-                    className={`picker-row${proven ? " is-minted" : ""} ${wanted === t.id ? "highlight" : ""}`}
+                    className="trait-picker single-fact-picker"
+                    role="group"
+                    aria-label={title}
                   >
-                    <div className="picker-text">
-                      <div className="fact-description">
-                        <strong>
-                          {t.id} / {t.name}
-                        </strong>
-                        <span className="rule">
-                          {t.rule}{t.window && ` · ${t.window}`} · <Mark kind={t.class} />
-                          {proven && !cant && (
-                            <>
-                              {" · "}
-                              <span className="accent">Already proven</span>
-                            </>
-                          )}
-                        </span>
-                        {t.id >= 10001 && <span className="rule">Registrant: {("registrant" in t && t.registrant) || "unavailable"}</span>}
-                        {!proven &&
-                          requestHistory.wallet === account.address &&
-                          requestHistory.lines[t.id] && (
-                            <span className="muted">
-                              {requestHistory.lines[t.id]}
-                            </span>
-                          )}
-                        {!proven && !pending && !cant && currentFacts && (
-                          <span
-                            className={
-                              checks[t.id]?.state === "not-met"
-                                ? "danger eligibility-advice"
-                                : "muted eligibility-advice"
+                    {list.map((t) => {
+                      const hidden = !showIneligible && paidIneligible(t.id);
+                      const cant = currentFacts && impossible(currentFacts.joined, t.id);
+                      const proven = currentFacts?.traits.includes(t.id) || currentFacts?.verifiedSpecs.includes(t.id);
+                      const pending = currentFacts?.pending[t.id] && !/^0x0+$/.test(currentFacts.pending[t.id]);
+                      const action = factMintState({ wallet: account.address, facts: currentFacts,
+                        id: t.id, kind: t.kind, check: checks[t.id] });
+                      const rowStatus = status[`fact-${t.id}`];
+                      if (t.kind === 3)
+                        return (
+                          <SharedFactRow
+                            key={`${account.address || "disconnected"}:${t.id}`}
+                            trait={t}
+                            hidden={hidden}
+                            reader={mintedReader}
+                            onEligibility={(id, ineligible) =>
+                              setSharedEligibility((old) => ({
+                                wallet: account.address,
+                                ids: {
+                                  ...(old.wallet === account.address ? old.ids : {}),
+                                  [id]: ineligible,
+                                },
+                              }))
                             }
-                            role="status"
-                          >
-                            {eligibilityText(
-                              checks[t.id],
-                              site.health?.price,
-                            )}
-                          </span>
-                        )}
-                        {cant ? (
-                          <span className="muted">
-                            cannot be true: not in WhitelistCurator.sol
-                          </span>
-                        ) : proven ? null : pending ? (
-                          <span className="muted">Request pending</span>
-                        ) : null}
-                        {rowStatus && <p className="row-request-status" role="status">{rowStatus}</p>}
-                      </div>
-                    </div>
-                    {t.id < 10001 ? <Card miniId={t.id} /> : <CommunityCard fact={t} />}
-                    {proven && currentFacts ? (
-                      <div className="row-actions">
-                        <MintedFact
-                          facts={currentFacts}
-                          id={t.id}
-                          reader={mintedReader}
-                        />
-                      </div>
-                    ) : (
-                      (action === "request" || action === "unavailable") && (
-                        <div className="row-actions">
-                          {action === "request" && site.health && <span className="muted fact-request-price">{imd(site.health.price)} IMD + gas</span>}
-                          {action === "unavailable" ? <button type="button" className="secondary"
-                            disabled={!!reason || !!busy} onClick={() => journal.checkPersonal([t.id])}>
-                            Retry eligibility
-                          </button> : <TaskAction connectLabel="Connect to Mint Fact">
-                            <button type="button" className="secondary" disabled={!!reason || !!busy}
-                              aria-label={`Mint Fact: ${t.id} / ${t.name}`} onClick={() => prepareFact(t.id)}>
-                              {busy === `fact-${t.id}` ? "Checking…" : "Mint Fact"}
-                            </button>
-                          </TaskAction>}
+                            payment={payment}
+                            journal={journal}
+                            facts={currentFacts}
+                            request={shared => prepareFact(t.id, shared)}
+                            cache={backfills}
+                            wanted={wanted}
+                            onPending={(id, rid) =>
+                              setSharedPendings((old) => {
+                                if ((old[id] || null) === rid) return old;
+                                const next = { ...old };
+                                if (rid) next[id] = rid;
+                                else delete next[id];
+                                return next;
+                              })
+                            }
+                          />
+                        );
+                      if (hidden) return null;
+                      return (
+                        <div
+                          key={t.id}
+                          id={`pick-${t.id}`}
+                          className={`picker-row${proven ? " is-minted" : ""} ${wanted === t.id ? "highlight" : ""}`}
+                        >
+                          <div className="picker-text">
+                            <div className="fact-description">
+                              <strong>
+                                {t.id} / {t.name}
+                              </strong>
+                              <span className="rule">
+                                {t.rule}{t.window && ` · ${t.window}`} · <Mark kind={t.class} />
+                                {proven && !cant && (
+                                  <>
+                                    {" · "}
+                                    <span className="accent">Already proven</span>
+                                  </>
+                                )}
+                              </span>
+                              {t.id >= 10001 && <span className="rule">Registrant: {("registrant" in t && t.registrant) || "unavailable"}</span>}
+                              {!proven &&
+                                requestHistory.wallet === account.address &&
+                                requestHistory.lines[t.id] && (
+                                  <span className="muted">
+                                    {requestHistory.lines[t.id]}
+                                  </span>
+                                )}
+                              {!proven && !pending && !cant && currentFacts && (
+                                <span
+                                  className={
+                                    checks[t.id]?.state === "not-met"
+                                      ? "danger eligibility-advice"
+                                      : "muted eligibility-advice"
+                                  }
+                                  role="status"
+                                >
+                                  {eligibilityText(
+                                    checks[t.id],
+                                    site.health?.price,
+                                  )}
+                                </span>
+                              )}
+                              {cant ? (
+                                <span className="muted">
+                                  cannot be true: not in WhitelistCurator.sol
+                                </span>
+                              ) : proven ? null : pending ? (
+                                <span className="muted">Request pending</span>
+                              ) : null}
+                              {rowStatus && <p className="row-request-status" role="status">{rowStatus}</p>}
+                            </div>
+                          </div>
+                          {t.id < 10001 ? <Card miniId={t.id} /> : <CommunityCard fact={t} />}
+                          {proven && currentFacts ? (
+                            <div className="row-actions">
+                              <MintedFact
+                                facts={currentFacts}
+                                id={t.id}
+                                reader={mintedReader}
+                              />
+                            </div>
+                          ) : (
+                            (action === "request" || action === "unavailable") && (
+                              <div className="row-actions">
+                                {action === "request" && site.health && <span className="muted fact-request-price">{imd(site.health.price)} IMD + gas</span>}
+                                {action === "unavailable" ? <button type="button" className="secondary"
+                                  disabled={!!reason || !!busy} onClick={() => journal.checkPersonal([t.id])}>
+                                  Retry eligibility
+                                </button> : <TaskAction connectLabel="Connect to Mint Fact">
+                                  <button type="button" className="secondary" disabled={!!reason || !!busy}
+                                    aria-label={`Mint Fact: ${t.id} / ${t.name}`} onClick={() => prepareFact(t.id)}>
+                                    {busy === `fact-${t.id}` ? "Checking…" : "Mint Fact"}
+                                  </button>
+                                </TaskAction>}
+                              </div>
+                            )
+                          )}
                         </div>
-                      )
-                    )}
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
             {site.loading ? (
               <Status>Reading community specs…</Status>
             ) : site.error || site.specError ? (

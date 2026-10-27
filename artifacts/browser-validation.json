@@ -1,269 +1,627 @@
 {
-  "engine": "chromium",
+  "exportCommit": "5e0dce32d16e034d02dc018323c8615f37188383",
+  "productionBuildRun": false,
+  "servedUnderSubpath": "/preview/",
+  "mainnetSource": "https://ethereum-rpc.publicnode.com",
+  "rpcTransport": "Public browser RPCs",
+  "engines": {
+    "chromium": "156.0.8078.4",
+    "webkit": "Unavailable"
+  },
   "checks": [
-    "community catalog meaning, registrant and one-ring card at both widths",
-    "Mint Facts met: count 5, source indexer within five seconds",
-    "Mint Facts not-met: count 0, source indexer within five seconds",
-    "fact-check and history use wallet index before registry logs",
-    "indexer outage keeps community rows, attribution and labelled chain fallback",
-    "all routes at 1280 and 390, local scripts, allowed requests and homepage primary action"
+    {
+      "name": "390px first screen contains product, address field and main action",
+      "passed": true,
+      "result": {
+        "actionTop": 475.390625,
+        "actionBottom": 519.390625,
+        "viewportHeight": 844
+      }
+    },
+    {
+      "name": "Invalid address shows a correction, sets aria-invalid and focuses input",
+      "passed": true
+    },
+    {
+      "name": "Wallet dialog keyboard containment, Escape, backdrop and focus return",
+      "passed": true
+    },
+    {
+      "name": "Ethereum deployment verification and current price read",
+      "passed": true,
+      "result": "Ethereum mainnet \u00b7 block 26,285,332 \u00b7 current oracle quote"
+    },
+    {
+      "name": "Valid address loads real Registry/Curator facts and Renderer metadata",
+      "passed": true,
+      "result": {
+        "walletSource": "dist/data/eligibility/wallets-0.json",
+        "metadataName": "Sworn #1",
+        "attributes": 15
+      }
+    },
+    {
+      "name": "Route / at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /fact-check at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 320px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route / at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /fact-check at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 390px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route / at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /fact-check at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 780px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route / at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /catalog at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /mint at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /request at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /fact-check at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /register at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /wallet at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /curator at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /integrate at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Route /about at 1440px: heading and no page overflow",
+      "passed": true
+    },
+    {
+      "name": "Unknown hash route has a usable return link",
+      "passed": true
+    },
+    {
+      "name": "Legacy claim bookmark resolves to the Mint Card task",
+      "passed": true
+    },
+    {
+      "name": "Mint/request tasks offer connection before signing",
+      "passed": true
+    },
+    {
+      "name": "Fact Check disconnected action opens the native wallet sheet and restores focus",
+      "passed": true
+    },
+    {
+      "name": "Navigation More opens by keyboard, closes on Escape and preserves focus",
+      "passed": true
+    },
+    {
+      "name": "Fact Check legacy bookmarks reach the live page without demo controls",
+      "passed": true
+    },
+    {
+      "name": "Fact Check loads saved facts for a wallet discovered from Registry logs",
+      "passed": false,
+      "error": "{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"}"
+    },
+    {
+      "name": "An invalid oracle request link explains recovery and returns to Mint Facts",
+      "passed": true
+    },
+    {
+      "name": "Mint Facts section jump focuses the choices and keeps the guide available",
+      "passed": true
+    },
+    {
+      "name": "Curator fact filtering exports a real historical JSON selection",
+      "passed": true,
+      "result": {
+        "exportedWallets": 4931,
+        "selectionSource": "historical-candidates"
+      }
+    },
+    {
+      "name": "Curator tab keyboard navigation and malformed consumer validation",
+      "passed": true
+    },
+    {
+      "name": "Documentation search returns local results and Escape clears them",
+      "passed": true,
+      "result": {
+        "displayedResults": 12
+      }
+    },
+    {
+      "name": "Explicit RPC failure displays an honest unavailable state",
+      "passed": true
+    },
+    {
+      "name": "No uncaught page errors or failed local resources",
+      "passed": false,
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED'\n+ ]\n- []\n"
+    }
   ],
-  "errors": [],
-  "expectedOutageErrors": [
+  "layouts": [
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Wallet Facts",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/wallet",
+      "heading": "Mint Card",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Wallet Facts",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/wallet",
+      "heading": "Mint Card",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Wallet Facts",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/wallet",
+      "heading": "Mint Card",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 780,
+      "scrollWidth": 780
+    },
+    {
+      "route": "/",
+      "heading": "Facts about wallets, onchain and sworn by the swarm.",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/catalog",
+      "heading": "Catalog",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/mint",
+      "heading": "Mint Card",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/request",
+      "heading": "Mint Wallet Facts",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/fact-check",
+      "heading": "Fact Check",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/register",
+      "heading": "Mint Rule",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/wallet",
+      "heading": "Mint Card",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/curator",
+      "heading": "Curate and consume facts",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/integrate",
+      "heading": "Integrate",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "route": "/about",
+      "heading": "About Sworn",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "screenshots": [
+    "landing-390.png",
+    "catalog-390.png",
+    "mint-390.png",
+    "request-390.png",
+    "fact-check-390.png",
+    "register-390.png",
+    "wallet-390.png",
+    "curator-390.png",
+    "integrate-390.png",
+    "about-390.png",
+    "landing-1440.png"
+  ],
+  "pageErrors": [],
+  "consoleErrors": [
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
     "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
     "Failed to load resource: net::ERR_FAILED"
   ],
-  "viewports": [
-    {
-      "name": "catalog-community",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "catalog-community",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "request-met",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "request-met",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "request-not-met",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "request-not-met",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "fact-history",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "fact-history",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "request-outage",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-home",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-catalog",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-mint",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-request",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-fact-check",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-register",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-curator",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-integrate",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-about",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-explorer",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-wallet",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-wallet-facts",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-claim",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-oracle",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-fact-check-demo",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-fact-vs-artifact",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-whitelistcurator",
-      "width": 1280,
-      "overflow": false
-    },
-    {
-      "name": "route-home",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-catalog",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-mint",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-request",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-fact-check",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-register",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-curator",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-integrate",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-about",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-explorer",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-wallet",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-wallet-facts",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-claim",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-oracle",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-fact-check-demo",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-fact-vs-artifact",
-      "width": 390,
-      "overflow": false
-    },
-    {
-      "name": "route-whitelistcurator",
-      "width": 390,
-      "overflow": false
-    }
+  "localHttpErrors": [],
+  "limitations": [
+    "WebKit did not run: host system is missing required shared libraries.",
+    "No wallet account, signature, transaction broadcast, native-device, screen-reader or browser-native zoom test."
   ],
-  "requests": [
-    "https://ethereum-rpc.publicnode.com/",
-    "https://sworn.vibingco.de/api/rules",
-    "https://gateway.tenderly.co/public/mainnet"
-  ],
-  "timings": [
-    {
-      "state": "met",
-      "count": 5,
-      "elapsedMs": 599
-    },
-    {
-      "state": "not-met",
-      "count": 0,
-      "elapsedMs": 1492
-    }
-  ],
-  "firstScreenAction": {
-    "x": 16,
-    "y": 475.390625,
-    "width": 358,
-    "height": 44
+  "supplemental": {
+    "commit": "5e0dce32d16e034d02dc018323c8615f37188383",
+    "fixtureReads": true,
+    "checks": [
+      {
+        "name": "Indexer eligibility 5; current compact rule and paid-action review",
+        "passed": true,
+        "result": {
+          "count": 5,
+          "met": true
+        }
+      },
+      {
+        "name": "Indexer eligibility 0; current compact rule and paid-action review",
+        "passed": true,
+        "result": {
+          "count": 0,
+          "met": false
+        }
+      },
+      {
+        "name": "Indexed history opens saved results and remains unique after scan fallback",
+        "passed": true
+      },
+      {
+        "name": "Keyboard focus is visible and the first mobile action remains above the fold",
+        "passed": true,
+        "result": {
+          "focused": true,
+          "width": "2px",
+          "color": "rgb(217, 224, 218)",
+          "style": "solid"
+        }
+      },
+      {
+        "name": "No uncaught application errors in supplemental scenarios",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "requests": [
+      "/api/rules",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules/10001/eligibility?wallet=0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules/10001/eligibility?wallet=0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules",
+      "/api/wallets/0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA",
+      "/api/rules/10001/eligibility?wallet=0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA",
+      "/api/rules",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/rules",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
+      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C"
+    ],
+    "screenshots": [
+      "eligibility-5-390.png",
+      "eligibility-0-390.png",
+      "fact-history-390.png",
+      "focus-390.png"
+    ]
+  },
+  "upstreamIndexerBrowser": {
+    "passedGroups": 1,
+    "exitCode": 1,
+    "failure": "Mint picker assertion expects older full rule text; compact current rule covered by supplemental checks."
+  },
+  "upstreamIndexerHistoryOnly": {
+    "passedGroups": 1,
+    "exitCode": 0
+  },
+  "upstreamLiveIndexer": {
+    "exitCode": 1,
+    "failure": "Eligibility source label did not appear within 5 seconds; cause unestablished."
   }
 }

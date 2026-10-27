@@ -306,7 +306,7 @@ export function Catalog() {
                   <strong>{s.id} / {s.name}</strong>
                   <CommunityCard fact={s} />
                 </div>
-                <p className="break">{s.rule}<br />Registrant: {s.registrant || "unavailable"}</p>
+                <p className="break">{s.detail}<br />Registrant: {s.registrant || "unavailable"}</p>
                 <Mark
                   kind={
                     s.kind === 3 ? "shared" : s.kind >= 5 ? "panel" : "chain"

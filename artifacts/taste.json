@@ -4,7 +4,7 @@
    "name": "render",
    "passed": true,
    "exitCode": 0,
-   "durationMs": 13786,
+   "durationMs": 10199,
    "output": "renders, no script errors or missing local files\nexternal hosts: ethereum-rpc.publicnode.com, sworn.vibingco.de"
   },
   {
@@ -18,7 +18,7 @@
    "name": "targets",
    "passed": true,
    "exitCode": 0,
-   "durationMs": 1,
+   "durationMs": 0,
    "output": "all 26 controls at least 24px or spaced at 390\n14 under the 44px comfortable size"
   },
   {
@@ -54,7 +54,7 @@
    "passed": true,
    "exitCode": 0,
    "durationMs": 0,
-   "output": "390: 4 sizes in use, 6 with one-offs (11px\u00d71, 12px\u00d724, 13px\u00d738, 15px\u00d719, 24px\u00d74, 34px\u00d71)\n1440: 4 sizes in use, 6 with one-offs (11px\u00d71, 12px\u00d724, 13px\u00d738, 15px\u00d719, 24px\u00d74, 34px\u00d71)\nbar: 6 sizes used more than once, 8 counting one-offs, per width"
+   "output": "390: 4 sizes in use, 6 with one-offs (11px×1, 12px×24, 13px×38, 15px×19, 24px×4, 34px×1)\n1440: 4 sizes in use, 6 with one-offs (11px×1, 12px×24, 13px×38, 15px×19, 24px×4, 34px×1)\nbar: 6 sizes used more than once, 8 counting one-offs, per width"
   },
   {
    "name": "type-faces",
@@ -67,7 +67,7 @@
    "name": "glyphs",
    "passed": true,
    "exitCode": 0,
-   "durationMs": 1,
+   "durationMs": 0,
    "output": "no em dashes or emoji in text"
   },
   {
@@ -75,13 +75,13 @@
    "passed": true,
    "exitCode": 0,
    "durationMs": 0,
-   "output": "2 two-beat lines; a stack is four or more, so keep the best and cut the rest:\n\"Public facts. No wallet connection needed.\" (#address-error)\n\"13 families. One wallet\u2019s record.\" (#main > section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > p.art-note)"
+   "output": "2 two-beat lines; a stack is four or more, so keep the best and cut the rest:\n\"Public facts. No wallet connection needed.\" (#address-error)\n\"13 families. One wallet’s record.\" (#main > section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > p.art-note)"
   },
   {
    "name": "repetition",
    "passed": true,
    "exitCode": 0,
-   "durationMs": 3,
+   "durationMs": 2,
    "output": "no repeated lines"
   },
   {
@@ -114,7 +114,7 @@
   }
  ],
  "target": "dist",
- "at": "2026-10-27T02:53:48.657Z",
+ "at": "2026-10-27T16:46:16.794Z",
  "bar": {
   "sizes": 6,
   "strays": 8,
@@ -238,7 +238,7 @@
      "h": 44,
      "cx": 195,
      "cy": 497.390625,
-     "label": "Explore wallet \u2197"
+     "label": "Explore wallet ↗"
     },
     {
      "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(1)",
@@ -246,7 +246,7 @@
      "h": 24,
      "cx": 59.046875,
      "cy": 821.328125,
-     "label": "Mint Card \u2197"
+     "label": "Mint Card ↗"
     },
     {
      "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(2)",
@@ -254,7 +254,7 @@
      "h": 24,
      "cx": 200.453125,
      "cy": 821.328125,
-     "label": "Read the 25 facts \u2197"
+     "label": "Read the 25 facts ↗"
     },
     {
      "sel": "#main > section.section:nth-of-type(4) > a.source",
@@ -262,7 +262,7 @@
      "h": 24,
      "cx": 138.5234375,
      "cy": 4189.078125,
-     "label": "WhitelistCurator.sol \u00b7 for bui"
+     "label": "WhitelistCurator.sol · for bui"
     },
     {
      "sel": "#main > section.section:nth-of-type(5) > div.inline-links > a:nth-of-type(1)",
@@ -278,7 +278,7 @@
      "h": 24,
      "cx": 82.53125,
      "cy": 4555.328125,
-     "label": "Live deployment \u2197"
+     "label": "Live deployment ↗"
     },
     {
      "sel": "#root > footer.site-footer > div.footer-top:nth-of-type(1) > a.brand:nth-of-type(1)",
@@ -294,7 +294,7 @@
      "h": 21,
      "cx": 121.6640625,
      "cy": 4801.0234375,
-     "label": "A fact is not an artifact \u2197",
+     "label": "A fact is not an artifact ↗",
      "crowded": false
     },
     {
@@ -327,7 +327,7 @@
      "h": 19,
      "cx": 195,
      "cy": 5161.96875,
-     "label": "Source repository \u2197",
+     "label": "Source repository ↗",
      "crowded": false
     },
     {
@@ -336,7 +336,7 @@
      "h": 19,
      "cx": 195,
      "cy": 5197.15625,
-     "label": "Identity.md \u2197",
+     "label": "Identity.md ↗",
      "crowded": false
     },
     {
@@ -345,7 +345,7 @@
      "h": 19,
      "cx": 195,
      "cy": 5232.34375,
-     "label": "IMD agents \u2197",
+     "label": "IMD agents ↗",
      "crowded": false
     },
     {
@@ -354,7 +354,7 @@
      "h": 19,
      "cx": 195,
      "cy": 5267.53125,
-     "label": "Sworn on X \u2197",
+     "label": "Sworn on X ↗",
      "crowded": false
     }
    ],
@@ -371,7 +371,7 @@
     },
     {
      "sel": "#main > section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > p.art-note",
-     "text": "13 families. One wallet\u2019s record."
+     "text": "13 families. One wallet’s record."
     }
    ],
    "head": {
@@ -489,7 +489,7 @@
      "h": 44,
      "cx": 643.8046875,
      "cy": 386.734375,
-     "label": "Explore wallet \u2197"
+     "label": "Explore wallet ↗"
     },
     {
      "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(1)",
@@ -497,7 +497,7 @@
      "h": 24,
      "cx": 163.046875,
      "cy": 640.421875,
-     "label": "Mint Card \u2197"
+     "label": "Mint Card ↗"
     },
     {
      "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(2)",
@@ -505,7 +505,7 @@
      "h": 24,
      "cx": 304.453125,
      "cy": 640.421875,
-     "label": "Read the 25 facts \u2197"
+     "label": "Read the 25 facts ↗"
     },
     {
      "sel": "#main > section.section:nth-of-type(4) > a.source",
@@ -513,7 +513,7 @@
      "h": 24,
      "cx": 242.5234375,
      "cy": 2003.609375,
-     "label": "WhitelistCurator.sol \u00b7 for bui"
+     "label": "WhitelistCurator.sol · for bui"
     },
     {
      "sel": "#main > section.section:nth-of-type(5) > div.inline-links > a:nth-of-type(1)",
@@ -529,7 +529,7 @@
      "h": 24,
      "cx": 460.984375,
      "cy": 2222.109375,
-     "label": "Live deployment \u2197"
+     "label": "Live deployment ↗"
     },
     {
      "sel": "#root > footer.site-footer > div.footer-top:nth-of-type(1) > a.brand:nth-of-type(1)",
@@ -545,7 +545,7 @@
      "h": 21,
      "cx": 609.9296875,
      "cy": 2391.8515625,
-     "label": "A fact is not an artifact \u2197",
+     "label": "A fact is not an artifact ↗",
      "crowded": false
     },
     {
@@ -578,7 +578,7 @@
      "h": 19,
      "cx": 552.203125,
      "cy": 2609.640625,
-     "label": "Source repository \u2197",
+     "label": "Source repository ↗",
      "crowded": false
     },
     {
@@ -587,7 +587,7 @@
      "h": 19,
      "cx": 691.8046875,
      "cy": 2609.640625,
-     "label": "Identity.md \u2197",
+     "label": "Identity.md ↗",
      "crowded": false
     },
     {
@@ -596,7 +596,7 @@
      "h": 19,
      "cx": 806.1171875,
      "cy": 2609.640625,
-     "label": "IMD agents \u2197",
+     "label": "IMD agents ↗",
      "crowded": false
     },
     {
@@ -605,7 +605,7 @@
      "h": 19,
      "cx": 916.8203125,
      "cy": 2609.640625,
-     "label": "Sworn on X \u2197",
+     "label": "Sworn on X ↗",
      "crowded": false
     }
    ],
@@ -622,7 +622,7 @@
     },
     {
      "sel": "#main > section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > p.art-note",
-     "text": "13 families. One wallet\u2019s record."
+     "text": "13 families. One wallet’s record."
     }
    ],
    "head": {
@@ -1053,7 +1053,7 @@
   },
   {
    "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(1)",
-   "text": "Mint Card \u2197",
+   "text": "Mint Card ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -1079,7 +1079,7 @@
   },
   {
    "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(2)",
-   "text": "Read the 25 facts \u2197",
+   "text": "Read the 25 facts ↗",
    "words": 4,
    "tag": "a",
    "size": 13,
@@ -1105,7 +1105,7 @@
   },
   {
    "sel": "section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > figure.card-figure > figcaption",
-   "text": "Synthetic illustration \u00b7 no wallet credential",
+   "text": "Synthetic illustration · no wallet credential",
    "words": 5,
    "tag": "figcaption",
    "size": 12,
@@ -1131,7 +1131,7 @@
   },
   {
    "sel": "#main > section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > p.art-note",
-   "text": "13 families. One wallet\u2019s record.",
+   "text": "13 families. One wallet’s record.",
    "words": 5,
    "tag": "p",
    "size": 12,
@@ -1469,7 +1469,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(1) > a",
-   "text": "Read direct reads \u2197",
+   "text": "Read direct reads ↗",
    "words": 3,
    "tag": "a",
    "size": 13,
@@ -1547,7 +1547,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(2) > a",
-   "text": "Read chain-proven \u2197",
+   "text": "Read chain-proven ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -1625,7 +1625,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(3) > a",
-   "text": "Read shared facts \u2197",
+   "text": "Read shared facts ↗",
    "words": 3,
    "tag": "a",
    "size": 13,
@@ -1703,7 +1703,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(4) > a",
-   "text": "Read panel-sworn \u2197",
+   "text": "Read panel-sworn ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -2327,7 +2327,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(4) > blockquote",
-   "text": "\u201cBecause the list lives onchain, a gating contract can read it directly at mint time: ther",
+   "text": "“Because the list lives onchain, a gating contract can read it directly at mint time: ther",
    "words": 27,
    "tag": "blockquote",
    "size": 13,
@@ -2353,7 +2353,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(4) > a.source",
-   "text": "WhitelistCurator.sol \u00b7 for builders \u2197",
+   "text": "WhitelistCurator.sol · for builders ↗",
    "words": 3,
    "tag": "a",
    "size": 11,
@@ -2431,7 +2431,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(5) > div.inline-links > a:nth-of-type(1)",
-   "text": "Public build and audit records \u2197",
+   "text": "Public build and audit records ↗",
    "words": 5,
    "tag": "a",
    "size": 13,
@@ -2457,7 +2457,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(5) > div.inline-links > a:nth-of-type(2)",
-   "text": "Live deployment \u2197",
+   "text": "Live deployment ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -2561,7 +2561,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-top:nth-of-type(1) > a:nth-of-type(2)",
-   "text": "A fact is not an artifact \u2197",
+   "text": "A fact is not an artifact ↗",
    "words": 6,
    "tag": "a",
    "size": 13,
@@ -2743,7 +2743,7 @@
   },
   {
    "sel": "#root > footer.site-footer > p.status.muted",
-   "text": "Ethereum mainnet \u00b7 block 26,281,176 \u00b7 current oracle quote",
+   "text": "Ethereum mainnet · block 26,285,332 · current oracle quote",
    "words": 9,
    "tag": "p",
    "size": 12,
@@ -2795,7 +2795,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(1)",
-   "text": "Source repository \u2197",
+   "text": "Source repository ↗",
    "words": 2,
    "tag": "a",
    "size": 12,
@@ -2821,7 +2821,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(2)",
-   "text": "Identity.md \u2197",
+   "text": "Identity.md ↗",
    "words": 1,
    "tag": "a",
    "size": 12,
@@ -2847,7 +2847,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(3)",
-   "text": "IMD agents \u2197",
+   "text": "IMD agents ↗",
    "words": 2,
    "tag": "a",
    "size": 12,
@@ -2873,7 +2873,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(4)",
-   "text": "Sworn on X \u2197",
+   "text": "Sworn on X ↗",
    "words": 3,
    "tag": "a",
    "size": 12,
@@ -3317,7 +3317,7 @@
   },
   {
    "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(1)",
-   "text": "Mint Card \u2197",
+   "text": "Mint Card ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -3343,7 +3343,7 @@
   },
   {
    "sel": "section.landing:nth-of-type(1) > div.landing-copy:nth-of-type(1) > div.inline-links > a:nth-of-type(2)",
-   "text": "Read the 25 facts \u2197",
+   "text": "Read the 25 facts ↗",
    "words": 4,
    "tag": "a",
    "size": 13,
@@ -3369,7 +3369,7 @@
   },
   {
    "sel": "section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > figure.card-figure > figcaption",
-   "text": "Synthetic illustration \u00b7 no wallet credential",
+   "text": "Synthetic illustration · no wallet credential",
    "words": 5,
    "tag": "figcaption",
    "size": 12,
@@ -3395,7 +3395,7 @@
   },
   {
    "sel": "#main > section.landing:nth-of-type(1) > div.landing-art:nth-of-type(2) > p.art-note",
-   "text": "13 families. One wallet\u2019s record.",
+   "text": "13 families. One wallet’s record.",
    "words": 5,
    "tag": "p",
    "size": 12,
@@ -3733,7 +3733,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(1) > a",
-   "text": "Read direct reads \u2197",
+   "text": "Read direct reads ↗",
    "words": 3,
    "tag": "a",
    "size": 13,
@@ -3811,7 +3811,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(2) > a",
-   "text": "Read chain-proven \u2197",
+   "text": "Read chain-proven ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -3889,7 +3889,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(3) > a",
-   "text": "Read shared facts \u2197",
+   "text": "Read shared facts ↗",
    "words": 3,
    "tag": "a",
    "size": 13,
@@ -3967,7 +3967,7 @@
   },
   {
    "sel": "#evidence > div.class-grid > article.class-description:nth-of-type(4) > a",
-   "text": "Read panel-sworn \u2197",
+   "text": "Read panel-sworn ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -4591,7 +4591,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(4) > blockquote",
-   "text": "\u201cBecause the list lives onchain, a gating contract can read it directly at mint time: ther",
+   "text": "“Because the list lives onchain, a gating contract can read it directly at mint time: ther",
    "words": 27,
    "tag": "blockquote",
    "size": 13,
@@ -4617,7 +4617,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(4) > a.source",
-   "text": "WhitelistCurator.sol \u00b7 for builders \u2197",
+   "text": "WhitelistCurator.sol · for builders ↗",
    "words": 3,
    "tag": "a",
    "size": 11,
@@ -4695,7 +4695,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(5) > div.inline-links > a:nth-of-type(1)",
-   "text": "Public build and audit records \u2197",
+   "text": "Public build and audit records ↗",
    "words": 5,
    "tag": "a",
    "size": 13,
@@ -4721,7 +4721,7 @@
   },
   {
    "sel": "#main > section.section:nth-of-type(5) > div.inline-links > a:nth-of-type(2)",
-   "text": "Live deployment \u2197",
+   "text": "Live deployment ↗",
    "words": 2,
    "tag": "a",
    "size": 13,
@@ -4825,7 +4825,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-top:nth-of-type(1) > a:nth-of-type(2)",
-   "text": "A fact is not an artifact \u2197",
+   "text": "A fact is not an artifact ↗",
    "words": 6,
    "tag": "a",
    "size": 13,
@@ -5007,7 +5007,7 @@
   },
   {
    "sel": "#root > footer.site-footer > p.status.muted",
-   "text": "Ethereum mainnet \u00b7 block 26,281,177 \u00b7 current oracle quote",
+   "text": "Ethereum mainnet · block 26,285,332 · current oracle quote",
    "words": 9,
    "tag": "p",
    "size": 12,
@@ -5059,7 +5059,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(1)",
-   "text": "Source repository \u2197",
+   "text": "Source repository ↗",
    "words": 2,
    "tag": "a",
    "size": 12,
@@ -5085,7 +5085,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(2)",
-   "text": "Identity.md \u2197",
+   "text": "Identity.md ↗",
    "words": 1,
    "tag": "a",
    "size": 12,
@@ -5111,7 +5111,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(3)",
-   "text": "IMD agents \u2197",
+   "text": "IMD agents ↗",
    "words": 2,
    "tag": "a",
    "size": 12,
@@ -5137,7 +5137,7 @@
   },
   {
    "sel": "#root > footer.site-footer > div.footer-bottom:nth-of-type(2) > a:nth-of-type(4)",
-   "text": "Sworn on X \u2197",
+   "text": "Sworn on X ↗",
    "words": 3,
    "tag": "a",
    "size": 12,

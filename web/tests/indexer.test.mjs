@@ -7,10 +7,13 @@ import {
   communityFact,
   describeCommunityRule,
   fixedRuleValue,
+  summarizeCommunityRule,
 } from "../src/community-rule.mjs";
 import {
   factHistoryRows,
   mergeFactHistory,
+  shortFactQuestion,
+  shortFactRule,
 } from "../src/fact-check/history-model.mjs";
 import {
   discoverRequests,
@@ -337,4 +340,26 @@ test("all request states map to the existing status models and cross-wallet repl
     reply({ ...wallet, wallet: rule.registrant }),
   );
   assert.equal(await indexedWallet(wallet.wallet, registry), null);
+});
+test("a community rule gets a short line, window and question like the builtin facts", async (t) => {
+  t.mock.method(globalThis, "fetch", async () => reply({ rules: [rule] }));
+  const [spec] = await indexedRules();
+  const fact = communityFact(spec);
+  assert.equal(fact.rule, "At least 5 paid requests to the swarm since the start");
+  assert.equal(fact.window, "Until block 26,279,931");
+  assert.equal(fact.detail, describeCommunityRule(spec));
+  assert.equal(
+    shortFactQuestion(10001, [], [spec]),
+    "Did this wallet make at least 5 paid requests to the swarm since the start, until block 26,279,931?",
+  );
+  const later = summarizeCommunityRule({ ...spec, fromBlock: 26100000n });
+  assert.equal(later.rule, "At least 5 paid requests to the swarm");
+  assert.equal(later.window, "Blocks 26,100,000–26,279,931");
+  const other = summarizeCommunityRule({ ...spec, fixedVal: 0x1234567890123456789012345678901234567890n });
+  assert.equal(other.rule, "At least 5 IMD transfers sent to 0x1234…7890");
+  assert.equal(shortFactRule(10001, [], spec), fact.rule);
+  assert.equal(shortFactRule(1301, [{ id: 1301, rule: "Account nonce ≥ 20" }], spec), "Account nonce ≥ 20");
+  const network = JSON.parse(fs.readFileSync(new URL("../network.json", import.meta.url), "utf8"));
+  assert.equal(network.network.pairToken.symbol, "IMD");
+  assert.ok(summarizeCommunityRule({ ...spec, fixedVal: 1n, target: network.network.pairToken.address }).rule.includes(" IMD "));
 });

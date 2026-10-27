@@ -1,3 +1,5 @@
+import { summarizeCommunityRule } from "../community-rule.mjs";
+
 const same = (a, b) =>
   typeof a === "string" &&
   typeof b === "string" &&
@@ -21,26 +23,13 @@ export function shortFactQuestion(id, traits, specs = []) {
   const trait = traits.find((item) => item.id === id);
   if (trait) return builtinQuestions[id] || trait.rule || "";
   const spec = specs.find((item) => Number(item.id) === id);
-  if (!spec) return "";
-  const kind = Number(spec.kind);
-  const item = spec.item?.match(/^(?:event|function)\s+(\w+)/)?.[1];
-  const source = `on ${spec.target}, blocks ${spec.fromBlock}–${spec.toBlock}`;
-  const filter = `${spec.arg} = this wallet${spec.fixedArg ? ` and ${spec.fixedArg} = ${spec.fixedVal}` : ""}`;
-  if (kind === 1 && item)
-    return `Were there at least ${spec.threshold} ${item} events with ${filter} (${source})?`;
-  if (kind === 2 && item)
-    return `Was the sum of ${spec.sumArg} at least ${spec.threshold} in ${item} events with ${filter} (${source})?`;
-  if (kind === 3 && item)
-    return `Was this wallet among the top ${spec.threshold} wallets by summed ${spec.sumArg}, grouped by ${spec.arg} in ${item} events (${source})?`;
-  if (kind === 4 && item) {
-    const op = { 1: "≥", 2: ">", 3: "≤", 4: "<", 5: "=" }[Number(spec.op)];
-    return op
-      ? `Was ${item}(this wallet) ${op} ${spec.threshold} at block ${spec.toBlock} on ${spec.target}?`
-      : "";
-  }
-  if (kind === 5)
-    return `Was this wallet’s account nonce at least ${spec.threshold} at block ${spec.toBlock}?`;
-  return "";
+  return spec?.item ? summarizeCommunityRule(spec).question : "";
+}
+/** The one line a fact shows beside its canvas: a builtin rule or a community rule's summary. */
+export function shortFactRule(id, traits, spec) {
+  const trait = traits.find((item) => item.id === id);
+  if (trait) return trait.rule;
+  return spec?.item ? summarizeCommunityRule(spec).rule : "";
 }
 export function decodeDirectFacts(mask, traits) {
   const bits = BigInt(mask);

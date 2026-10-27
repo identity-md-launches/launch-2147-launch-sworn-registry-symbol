@@ -1,79 +1,115 @@
-# Sworn indexer integration · worker validation
+# Sworn 1.0.1 · exact-release delivery validation
 
-Checked on 2026-10-27 UTC. These are worker observations, not independent certification. The assignment's verifier checks paths and bytes. Delivery is the changed `web/` source, unchanged dependency lockfile, canonical agent build inputs and rebuilt root `dist/` for the existing sworn hosting name. Publication follows submission; no publishing or contract deployment command was run.
+Worker observations on 2026-10-27. These results are not independent certification.
 
-## Requirement coverage
+## Scope and authority
 
-| Requirement | Result and evidence |
+The task explicitly requires `web/` and `dist/` from `banse/sworn` commit `5e0dce32d16e034d02dc018323c8615f37188383`, unchanged, with no build here. That specific instruction controls the generic build/fix criteria: no production build, source correction, wallet change, asset regeneration or retargeting was performed. Better Interface informed the import review and documentation; the review's inherited design exceptions are recorded rather than silently patched. The existing hosting name remains **sworn** (`sworn.site.identitymd.eth`); publication follows submission through the existing publisher. No publish command or on-chain operation ran.
+
+| Requirement | Result |
 | --- | --- |
-| Pinned source plus four changes | `web/` started byte-identical to banse/sworn `f6e80c156946020d5eb411a22fbf9ff962615438` except its two omitted ignore files. Only integration source, tests and documentation change; the canonical root agent/llms inputs are copied from that same commit. Stylesheets, hash routes, data, ABIs, dependencies and build configuration are unchanged. |
-| Community eligibility first reads indexer | `src/eligibility.mjs` calls `indexedEligibility` only for ids ≥10001. Complete supported replies retain count, threshold, op, met, coverage and transfers. Advice names `indexer, block N`; unsupported, partial, failed and malformed replies retain the original scan and name `chain scan`. |
-| Catalog eligibility unchanged | Unit checks prove snapshot ids and live 601/1301 never read the indexer. The existing scan implementation and snapshot/data files are unchanged. All historical count/sum/filter, split-range, refusal, nonce, call, seat-history and deadline regressions pass. |
-| Community rule meaning and registrant | `src/community-rule.mjs` derives wording from the registered fields. Early Flock shows the full IMD and payee addresses, threshold 5 and blocks 26,038,414–26,279,931 in Catalog and Mint Facts. `/rules` supplies fields; `specOf` and `SpecRegistered` are the fallback. Address filters are decoded by ABI field type, so ordinary small uint filters remain numbers. |
-| Community card | Both surfaces reuse the existing `CommunityCard` at 56px; no new asset or stylesheet. Shared community rows retain the same component. |
-| Wallet history first reads indexer | Request, terminal-state and card data adapt to the existing history models. All five API states are covered in unit tests. Four reference requests (601, 701, 1105, 1301) display as saved facts; the card's frozen direct facts still come from Registry. Request detail reads use the index before log scanning and retain Registry `hasTrait`/artwork checks. |
-| Browser fallback | Deliberate network abortion retains the pages, rule attribution, chain eligibility advice and complete scanned history. A refresh switching an already loaded history from indexer to scan keeps rows visible and does not duplicate them. |
-| Static export | `base: './'`, existing 90-file layout including manifest, local runtime scripts, complete ABI/data/art/handbook assets and relative entry URLs. Manifest and static-release checks pass. |
-| Responsive primary action and metadata | At 390×844, Explore wallet is within the first screen at y=475.39–519.39. Title, favicon, description, og:title and local og:image exist. All 17 canonical routes/aliases load at 1280 and 390 with no page overflow. |
-| No new dependency or protected edit | Existing manifests, lockfiles, Foundry configuration, remappings, modules, lib pointers and all forbidden paths are unchanged. Generated dependencies, browsers, caches, archives and scratch evidence are excluded. See `submission-audit.json`. |
+| Exact upstream `web/` | 333/333 files, 3,582,497 bytes; no extras, omissions or modifications |
+| Exact upstream `dist/` | 90/90 files, 2,423,835 bytes; no extras, omissions or modifications |
+| Source and lockfile | Included unchanged; package version is 1.0.1 |
+| No local production build | Met; upstream export was copied directly |
+| Keep launch-2404 contract binding | Met: Registry `0x0da2679000ea5380d1361cc3cca7d4e8c881f766`, Ethereum chain 1 |
+| Preserve older launch-2147 project | Root contracts, build/dependency configuration and historical `site/` remain untouched |
+| Static relative asset URLs | `base: './'`; manifest and static-release checks pass; `/preview/` browser checks pass |
+| First screen at 390 | Heading, labeled input and Explore wallet action visible at 390×844; action y=475.39–519.39 |
+| Share metadata | Title, description, favicon, og:title and local og:image present; probe passes |
+| Design/source documentation | Root DESIGN.md and README refreshed; frozen upstream web documentation remains unchanged |
+| Typecheck and useful interactions | Passed as detailed below, with external-service/test-expectation limitations disclosed |
+| Hosting under existing name | After submission; the deliverable is the root dist, with no redirect or name change |
 
-## Commands and actual results
+## Provenance and integrity
 
-Commands are from `web/` unless stated otherwise. Node 22.23.2 and npm 10.9.8 were used. npm cache and downloaded browser binaries were placed outside the submission. Installed `web/node_modules/` is ignored at every nesting level by the existing ignore rule.
+Downloaded GitHub's codeload archive of the exact commit to temporary storage, extracted only the required folders into this repository, and compared every relative path and byte. A second GitHub Git-tree API check independently matched all 423 local file Git blob hashes to that commit. The upstream folder tree IDs are:
 
-| Command/check | Actual outcome |
+- `web`: `07353c790e56cb721231ad4da0bf3d41fb0fc97a`
+- `dist`: `d61ab5c5c23569960ced56f3474156f32dff04d8`
+
+`artifacts/export-manifest.json` contains the complete path/size/SHA-256 inventory, export Git blob hashes, archive hash and tree digests. `python3 tools/verify-sworn-release.py --archive <downloaded-archive>` passed. The same verifier without `--archive` checks local files against the recorded inventory. No source omission was made, including tests, simulation sources, license notices, public ABIs, handbook, census data and runtime assets. No packaging archive, node_modules, cache or npm mirror was added to the submission.
+
+## Actual commands and outcomes
+
+Dependencies and browser downloads were placed in temporary storage. A disposable exact copy of web/dist was used for npm-based checks; the root agent/llms fixtures needed by the imported unit tests also matched this repository. The production interaction scripts below serve the submitted repository's actual dist under `/preview/`.
+
+| Command | Result |
 | --- | --- |
-| `npm ci --cache /tmp/sworn-npm-cache --no-audit --no-fund` | Passed; unchanged lockfile, no new dependency |
-| `node scripts/agents.mjs` | Passed; exported copies equal the pinned canonical inputs |
-| `npm run typecheck` | Passed; `tsc --noEmit` |
-| `npm run build` | Passed; all three canonical ABI hashes/source-pin checks, Vite build, deployment manifest and static-release gate |
-| `npm run verify:export` | Passed; every exported asset enumerated and hashed; no fixture transport or absolute entry URL |
-| `npm test` | 284 passed; 0 failed, skipped or cancelled, including 9 new indexer tests |
-| `node tests/indexer-browser.mjs` | 6 scenario groups: community meaning/icon, eligible count 5, not-met count 0, indexed history/details, outage and refresh fallback, all routes/primary controls |
-| `SWORN_TEST_RPC=<read-only transport> node tests/indexer-live-browser.mjs` | Live API and Ethereum reads pass for counts 5/47/0, card 2's four verified requests and a saved detail view. The test transports public RPC requests through the contributor-provided endpoint; reports name the public source. No write method is forwarded. |
-| Root `node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste` | Passed 14/16 checks; screenshots inspected. Playwright was selected via `IMD_PLAYWRIGHT`; browser files via `PLAYWRIGHT_BROWSERS_PATH`. |
-| `git diff --check` and source/export path audits | Passed; no whitespace errors or prohibited edits |
-| WebKit installation and launch | Browser downloaded, but launch fails because the host lacks GTK4, Graphene, GStreamer and other required shared libraries. Rendered WebKit checks were not performed. |
+| `npm ci --ignore-scripts --no-audit --no-fund` with an external cache, in temporary web | Exit 0, 72 packages installed; no lifecycle build |
+| `npm run typecheck`, in temporary web | Exit 0 (`tsc --noEmit`) |
+| `npm test`, in temporary web | Exit 0, 291 tests passed, zero failed/skipped |
+| `node web/scripts/manifest.mjs --check` | Exit 0, 89 assets plus the deployment manifest, all hashes match |
+| `node web/scripts/static-release.mjs` | Exit 0, 9 script/style assets; relative entry URLs; no mock/demo transport in production |
+| `python3 tools/verify-sworn-release.py` and direct `--archive` variant | Exit 0; exact folders |
+| `node tools/validate-sworn-release.mjs` with external Playwright selected | Exit 1, 57/59 checks passed; two external-provider limitations below |
+| `node tools/validate-sworn-indexer.mjs` with external dependency web selected | Exit 0, 5/5 supplemental checks passed |
+| Imported `node tests/indexer-browser.mjs`, in temporary web | Exit 1 after catalog group passed; stale Mint Facts text expectation below |
+| Imported `node tests/indexer-browser.mjs --only=fact-check` | Exit 0; indexed history and scan-fallback uniqueness group passed |
+| Imported `node tests/indexer-live-browser.mjs` with public mainnet transport | Exit 1; 5-second eligibility-label wait timed out; not counted as a pass |
+| `node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste` with external Playwright selected | Exit 0 (measurement completed), 14/16 checks passed; two inherited design exceptions |
+| `git diff --check` | Passed |
+| `npm run build` | NOT RUN: expressly prohibited by the exact-release task |
 
-Inherited build warnings concern dependency `use client` directives, a browser-externalized `node:worker_threads` module and bundler timings. They do not fail the build; no related runtime exception occurred in the production interaction or live tests.
+To repeat the production browser runners with installed dependencies, use `node tools/validate-sworn-release.mjs` and `node tools/validate-sworn-indexer.mjs`. The first accepts `SWORN_PLAYWRIGHT_MODULE` pointing to an external `@playwright/test/index.mjs`; the second accepts `SWORN_VALIDATION_WEB` pointing to an exact temporary web copy containing dependencies. Set `PLAYWRIGHT_BROWSERS_PATH` to the browser download directory when needed. The pinned design probe was provided as a task input and is removed by the submission process; its current result is retained in artifacts/taste.json.
 
-`browser-validation.json`, `live-browser-validation.json`, `taste.json`, `export-manifest.json` and `submission-audit.json` contain the current measured results. Named screenshots are retained under `artifacts/screenshots/`; scratch screenshots and logs are removed before submission. Older reports elsewhere in the source describe earlier assignments and are not claims that those commands were rerun here. The test catalog Solidity fixture comes verbatim from the pinned commit; it lets its documentation test check that catalog without changing this project's older root contracts.
+The npm check's initial disposable fixture copy lacked the root agent file; after supplying that unchanged fixture, the complete final unit run passed 291 tests. No source correction or build was involved.
 
-## Interaction observations
+## Interaction evidence
 
-The production export was served under `/preview/`. A deterministic read-only wallet/RPC fixture used captured real API responses. Normal scenarios produced no console errors, page exceptions or missing local assets. The outage scenario deliberately aborts indexer connections and therefore records expected `net::ERR_FAILED` network messages separately; it still completes its scan paths. No external script was requested. External requests stayed within the existing public Ethereum RPC pool, `api.imd.fun` and the specified indexer; the preserved IPFS paths were not needed in these scenarios.
+Chromium served the committed export below `/preview/`. Ten routes were checked at each of **320, 390, 780 and 1440 CSS px**, height 844: Home, Catalog, Mint Card, Mint Facts, Fact Check, Mint Rule, Wallet, Curator, Integrate and About. All 40 combinations rendered an h1 and had document scrollWidth ≤ viewport width. This is representative reflow testing, not native 200% zoom.
 
-Live reads independently showed count 5/met true for `0x887b86b6b6957f7bbea88b8cefd392f39236a88c`, count 47/met true for `0xe5b1275fb926613d983da33fbfe1f331b7f64f2a`, and count 0/not met for `0x84f4b7424e1b0464f9c749725c1f34bed9aa8ada`. Each was visible within five seconds after connection; exact final timings are in the live report. The existing Show ineligible facts disclosure was opened to inspect the negative row. Registry/API queries use the actual public wallet addresses; fixtures are not included in the production module graph.
+The production runner passed these functional checks:
 
-History showed the same four verified request ids/traits and card 2 as the live wallet endpoint. The list also retains the original direct-facts snapshot entry. Saved request details still read Registry confirmation and optional oracle enrichment. Indexer events retain real block/transaction/request identifiers; the API omits log indices, so none is fabricated. Stable request/card keys handle same-block ordering, and mixed-source merging matches the same write using its identity, block and transaction.
+- Home input/action above the phone fold; invalid submission shows a corrective message, aria-invalid and input focus.
+- Native wallet dialog opens, contains keyboard focus, dismisses with Escape/backdrop and restores the trigger.
+- Live mainnet deployment/quote status; a wallet from the supplied census loads Registry/Curator facts and Renderer metadata (`Sworn #1`, 15 attributes), with a lossless metadata download.
+- Missing-route recovery, legacy Claim/Mint and oracle/Fact Check aliases, native More disclosure keyboard opening/Escape/focus return.
+- Mint/request disconnected entry states, Fact Check connect prompt, malformed-request recovery and Mint Facts section focus.
+- Curator fact filtering and JSON download: 4,931 historical candidates, matching count/address/fact provenance; tab-arrow navigation and malformed consumer-address validation.
+- Handbook search returns 12 local results for the checked query and Escape clears it.
+- Deliberate RPC outage displays an unavailable state while keeping the public address action reachable.
 
-Main actions exercised include hash navigation, valid read-only wallet connection, opening/dismissing the native wallet modal, address validation, the existing ineligible-row disclosure, entering Mint Fact preparation without signing, history refresh and View agents and results. No real account signed, no paid oracle request was created and no mainnet transaction was broadcast.
+The supplemental runner tests the current 1.0.1 UI with the imported public API captures and deterministic read-only RPC/wallet fixtures. All five checks passed: indexer eligibility 5/met, 0/not-met behind the counted disclosure, compact paid-swarm-request wording and registrant, opening the payment review without a signature, five history rows including frozen direct facts, saved result navigation, no duplicate history rows after indexer failure/scan fallback, a visible keyboard focus ring and no uncaught application errors. Fixtures exist only in the test harness; dist is unchanged. No real signature, broadcast or paid request occurred.
 
-## Better Interface · six-domain coverage
+## Six-domain Better Interface review
 
-The visual idea is the existing compact monospace Ethereum instrument: green actions and thin rules around wallet facts and the hive. The brief's “no design change” takes precedence over generic suggestions to change this established system. All six pinned domains were read and applied during implementation; `DESIGN.md` documents the final source tokens, type, spacing, components and breakpoints.
+One visual idea carries the site: a compact public registry instrument with green hive evidence on a near-black monospace surface. The pinned guide's workflow and core principles in all six domains were read before review.
 
-| Domain | Source review and rendered coverage | Limits |
+| Domain | Checked coverage | Limits |
 | --- | --- | --- |
-| Accessibility | New advice uses the existing `role=status`; names, amounts and addresses remain text. Existing named native buttons/links and wallet modal are reused. Keyboard Escape, invalid-field focus/aria-invalid and normal contrast/target checks passed. | No screen-reader session or complete WCAG audit. Existing color-only inline links were reported in the previous release; axe was not rerun here. |
-| Layout | Existing fact/picker grids and responsive rules reused; complete addresses wrap. Inspected community Catalog/Mint, positive/negative/outage rows and history at 1280/390. All 17 routes/aliases have no page overflow at those widths; entry probe also checks 320/1440. Main action remains on the first phone screen. | All-route 320/1440, RTL and 200% text-zoom checks not performed. |
-| Writing | Replaced T/threshold-only community labels with field-derived words, full filter addresses and a registrant line. Count, threshold, indexed block and fallback source are explicit; panel/payment warnings stay. Unknown remains advisory, never silently false. | Wording for other valid rule kinds is model-tested; live registered example is kind 1. |
-| Typography | Existing body/small type, line heights, monospace stack and tabular numbers retained. Long addresses and multi-line source text were inspected without clipping. Probe reports six sizes including one-offs on the entry page. | Installed system face varies by platform; no new font or global type change. Full conditional Fact Check type inventory not measured. |
-| Colors | Existing text/muted/danger/accent tokens reused; status also uses words. All measured entry-page text/background pairs pass the probe's 4.5:1/3:1 thresholds. | Probe measures its entry surface, not every possible progress/transaction state. |
-| UI | Existing CommunityCard, evidence marks, status, native disclosure and history rows reused. Loading, unknown, met, not-met, successful indexed history, outage and retry paths checked. Reduced-motion entry probe passes. | No new paid verification animation or transaction receipt was generated. WebKit launch unavailable. |
+| Accessibility | Source labels/native elements, skip/main/focus handling, textual statuses, reduced-motion guards; rendered input error/focus, wallet modal containment/dismissal/return, More and Curator keyboard paths | No screen-reader session, physical device, forced-colors rendering or separate automated accessibility audit; every conditional transaction state was not traversed |
+| Layout | Frame/grid/media queries, controls before explanatory prose, progressive disclosures; 40 route/width checks, phone first screen and desktop screenshots; local table scrolling | Native zoom, RTL/pseudo-localization and all possible intermediate widths unverified |
+| Writing | Action labels, address corrections, fee/consent copy, optional-card guidance, real vs historical/synthetic data, compact Mint community rule and raw Catalog meaning | Frozen upstream test/docs contain older copy/results; root docs explicitly distinguish them |
+| Typography | Actual tokens, weights, line heights, measures, wrapping and numeric stability; phone/desktop renders and type-size probe | Visitor's installed system face varies; all conditional Fact Check states were not measured |
+| Colors | Source tokens/roles and observed textual status cues; pinned rendered solid-background contrast check passed | Lowest measured landing text pair: muted `#8c968e` on `#0a0a0a`, **6.48:1** at 390 and 1440; this does not certify every state, control border, image/alpha background or inline-link distinction |
+| UI | Source hover/active/disabled/error/loading styles, square borders/native overlays, named wallet marks; actual disclosure/modal/error/payment-review states; reduced-motion probe | No 10%-speed animation replay, native wallet app/passkey flow or live paid-oracle progress session |
 
-## Findings, fixes and retained exceptions
+### Findings, dispositions and fixes
 
-1. **Writing/data: community rows hid their actual condition.** `web/src/pages.tsx:303` and `web/src/claim.tsx:1457`; previously `T1 · threshold 5`. Changed to the shared field-derived description and registrant, with full addresses and block separators. Why: requested rule meaning and truthful readable conditions. Reproduced in Catalog and Mint Facts at 1280/390; final screenshots and assertions show all fields.
-2. **UI: personal community Mint rows lacked their card.** `web/src/claim.tsx:1499`; previously the preview rendered only for ids below 10001. Changed to the existing CommunityCard branch; Catalog also uses it at `web/src/pages.tsx:307`. Why: requested icon parity without adding a visual system. Rechecked by image-source/row assertions and screenshots at both widths.
-3. **Bug found during integration: source-switch refresh could duplicate rows or restart an unfinished scan.** `web/src/fact-check/history-controller.ts:102` preserves the original visible rows/coverage while scanning; `web/src/fact-check/history-model.mjs:111` replaces the same indexed write when its RPC log arrives. Why: preserve the existing history behavior during an indexer outage. Unit assertions and a browser refresh from indexed history into aborted-indexer fallback now pass without duplicate entries or a loading loop.
-4. **Retained design exception, not a new defect: uppercase headings.** `web/src/pages.tsx:213` and `:216`, `WHY SWORN` and `BUILT BY THE SWARM`. The probe fails its casing preference. Keep: the assignment explicitly says “no design change.” They are inherited and below the first screen.
-5. **Retained design exception, not a new defect: monospace prose.** `web/src/styles.css:30`, the global `ui-monospace` stack. The probe fails its prose-family preference. Keep: the established instrument-panel design and explicit “no design change.” Font-family/weight counts themselves meet the probe's limits.
+1. **Retained design exception — uppercase content headings.** `web/src/pages.tsx:213` (`<Section title="WHY SWORN">`) and `:216` (`BUILT BY THE SWARM`) produce the probe's two uppercase text boxes. Confirmed in the desktop full-page capture. A future editable release could use “Why Sworn” and “Built by the swarm”; the current task says “used unchanged: no file added, changed or left out,” so neither source nor export was changed. Probe `casing` remains failed, explicitly accepted as a preservation exception.
+2. **Retained design exception — monospace prose.** `web/src/styles.css:31` establishes the system monospace stack; `:257` applies 15px prose. Probe observed one family, weights 400/600 and 14 long monospace text boxes. The established instrument-panel system and exact-copy requirement govern; a new font or prose override would alter the requested release. Probe `type-faces` remains failed. This is not represented as a clean 16/16 pass.
+3. **Validation mismatch — imported browser assertion predates 1.0.1 copy.** `web/tests/indexer-browser.mjs:242` expects full “at least 5 Transfer events” wording in the Mint picker. `web/src/community-rule.mjs:102` supplies compact paid-swarm-request language for Mint; Catalog keeps the full condition. The original suite's catalog group passes, then its Mint text assertion fails. No frozen file was edited. The supplemental runner asserts the actual compact wording, eligibility, registrant, icon and pre-signature review; final 5/5 supplemental checks pass.
+4. **External RPC limitations.** The broad native-network run received an archive log rejection from PublicNode (“Archive requests require a personal token”) while discovering early CardMinted logs, and two Tenderly CORS failures. Accordingly its saved-history discovery and strict console-cleanliness checks fail. There were **zero uncaught page errors and zero failed local resource responses**. No source/RPC configuration was changed. Deterministic indexed-history/fallback tests pass, but they do not establish live archive availability.
+5. **Live-indexer test limitation.** `web/tests/indexer-live-browser.mjs:90` timed out waiting for `Source: indexer, block`. It observed rules/wallet requests, no application/console errors and no eligibility-endpoint call in that scenario. The cause was not established. Separate read-only HTTP observations returned the rules list and a complete, CORS-open eligibility response (count 5/met for the public fixture wallet); this is service evidence, not a successful end-to-end live browser check.
 
-The probe's other fourteen checks pass: render, layout, targets, contrast, tracking, eyebrows, type-sizes, glyphs, slogans, repetition, copy-budget, chrome, motion and share. The inherited long landing headline and monospace character were preserved under the same brief constraint. No new design finding remains open on the changed surfaces.
+No applicable source fix is authorized in the immutable folders. Corrections made in the deliverable are documentation/provenance corrections: obsolete root release/build claims were replaced with the current pin, actual no-build status, exact inventory, measured coverage and explicit limits. Final archive/blob comparisons were rerun after validation and documentation.
 
-## Remaining limitations
+## Browser availability, screenshots and remaining limits
 
-WebKit could not launch with this machine's libraries. No real wallet signing, paid oracle request, complete live historical outage scan, screen-reader audit, RTL or zoom audit was performed. Live external service availability can change. The original fallback still has its original deadline and RPC limitations; a failure stays explicitly unknown and identifies the chain scan. A failed fallback attribution read says registrant unavailable. These limits do not replace the recorded passing build, unit, Chromium and live read checks.
+The supplied browser tool failed to launch Chromium with a crashpad database error. Local Playwright Chromium succeeded using temporary configuration/cache locations, and rendered screenshots were inspected directly. WebKit downloaded but could not launch because required system shared libraries are absent. Chromium evidence is not a Safari/iPhone compatibility claim.
 
-The protected older launch #2147 project stays intact. Runtime source/ABI checks continue to use the pinned imported launch #2404 deployment, as before this assignment. No address, ABI, chain, wallet connector, dependency or transaction construction was retargeted.
+Current screenshots retained at existing permitted evidence paths:
+
+- `artifacts/screenshots/landing-390.png`: production entry, 390×844.
+- `artifacts/screenshots/focus-390.png`: keyboard-focused home action, visible 2px solid `rgb(217, 224, 218)` outline.
+- `artifacts/screenshots/catalog-390.png`, `fact-check-390.png`, `about-390.png`, `integrate-390.png`: current route entries.
+- `artifacts/screenshots/fact-history-390.png`: current indexed history with deterministic fixture replies, scrolled to fact rows.
+
+The 1440 desktop entry and full-page probe screenshots were inspected in scratch; they are not delivered under a misleading 1280 filename. Other retained screenshots/reports not listed as current are historical project evidence, not checks rerun here. Current browser JSON and probe results are in artifacts/browser-validation.json and artifacts/taste.json. No fake screenshots or source-only rendered claims are used.
+
+Not performed: production rebuild (prohibited), real wallet connection/signature/transaction, Coinbase passkey enrollment, native mobile wallet-app handoff, physical touch-device session, screen reader, native 200% zoom, RTL, forced-colors, a separate automated accessibility audit, slow-motion animation replay or a new paid oracle request. IPFS gateways and public APIs may fail independently; fixture tests do not guarantee future availability. No claim of full accessibility or end-to-end financial operation is made.
+
+## Completion
+
+**Complete for the stated exact-copy delivery scope**, with the documented upstream design exceptions and external/browser validation limits. Both required folders are intact, root documentation is current, and the export is ready for the existing publisher under the same name. Submission size/protected-path checks are recorded in artifacts/submission-audit.json. No source/runtime deliverable was dropped to meet the budget.

@@ -17,6 +17,7 @@ import {
   HISTORY_BLOCKS,
   visiblePolling,
 } from "./live-polling.mjs";
+import { shortFactRule } from "./history-model.mjs";
 import type { FactCheckEvent, FactCheckSnapshot } from "./types";
 
 export type LiveRequest = {
@@ -274,7 +275,7 @@ export function useLiveRequest(
               shortQuestion:
                 request.traitId === 601
                   ? "Did this wallet complete at least 3 accepted IMD swarm jobs while holding an IDMD seat?"
-                  : trait?.rule ||
+                  : shortFactRule(request.traitId, TRAITS, spec) ||
                     spec.name ||
                     `Check fact ${request.traitId} for this wallet.`,
               spec,
