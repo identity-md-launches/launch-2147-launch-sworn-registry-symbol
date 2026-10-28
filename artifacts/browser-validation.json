@@ -1,5 +1,5 @@
 {
-  "exportCommit": "5e0dce32d16e034d02dc018323c8615f37188383",
+  "exportCommit": "a4ee0244262b4e5cf8f3d22129814f5b74c7dec4",
   "productionBuildRun": false,
   "servedUnderSubpath": "/preview/",
   "mainnetSource": "https://ethereum-rpc.publicnode.com",
@@ -13,8 +13,8 @@
       "name": "390px first screen contains product, address field and main action",
       "passed": true,
       "result": {
-        "actionTop": 475.390625,
-        "actionBottom": 519.390625,
+        "actionTop": 486.578125,
+        "actionBottom": 530.578125,
         "viewportHeight": 844
       }
     },
@@ -29,7 +29,15 @@
     {
       "name": "Ethereum deployment verification and current price read",
       "passed": true,
-      "result": "Ethereum mainnet \u00b7 block 26,285,332 \u00b7 current oracle quote"
+      "result": "Ethereum mainnet \u00b7 block 26,287,746 \u00b7 current oracle quote"
+    },
+    {
+      "name": "Explorer preview selects multiple hive cells and toggles them independently",
+      "passed": true,
+      "result": {
+        "cells": 13,
+        "factRows": 26
+      }
     },
     {
       "name": "Valid address loads real Registry/Curator facts and Renderer metadata",
@@ -39,6 +47,10 @@
         "metadataName": "Sworn #1",
         "attributes": 15
       }
+    },
+    {
+      "name": "Clear wallet restores the labeled preview and remains cleared after reload",
+      "passed": true
     },
     {
       "name": "Route / at 320px: heading and no page overflow",
@@ -205,7 +217,7 @@
       "passed": true
     },
     {
-      "name": "Legacy claim bookmark resolves to the Mint Card task",
+      "name": "Legacy claim bookmark resolves to the Sworn Card task",
       "passed": true
     },
     {
@@ -230,11 +242,11 @@
       "error": "{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"}"
     },
     {
-      "name": "An invalid oracle request link explains recovery and returns to Mint Facts",
+      "name": "An invalid oracle request link explains recovery and returns to Wallet Facts",
       "passed": true
     },
     {
-      "name": "Mint Facts section jump focuses the choices and keeps the guide available",
+      "name": "Wallet Facts section jump focuses the choices and keeps the guide available",
       "passed": true
     },
     {
@@ -262,8 +274,12 @@
     },
     {
       "name": "No uncaught page errors or failed local resources",
+      "passed": true
+    },
+    {
+      "name": "No browser console errors, including external public services",
       "passed": false,
-      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED'\n+ ]\n- []\n"
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Failed to load resource: the server responded with a status of 403 ()',\n+   'Failed to load resource: the server responded with a status of 403 ()',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control"
     }
   ],
   "layouts": [
@@ -275,19 +291,19 @@
     },
     {
       "route": "/catalog",
-      "heading": "Catalog",
+      "heading": "Explorer",
       "viewport": 320,
       "scrollWidth": 320
     },
     {
       "route": "/mint",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 320,
       "scrollWidth": 320
     },
     {
       "route": "/request",
-      "heading": "Mint Wallet Facts",
+      "heading": "Wallet Facts",
       "viewport": 320,
       "scrollWidth": 320
     },
@@ -299,19 +315,19 @@
     },
     {
       "route": "/register",
-      "heading": "Mint Rule",
+      "heading": "Community Facts",
       "viewport": 320,
       "scrollWidth": 320
     },
     {
       "route": "/wallet",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 320,
       "scrollWidth": 320
     },
     {
       "route": "/curator",
-      "heading": "Curate and consume facts",
+      "heading": "Curate and Consume Facts",
       "viewport": 320,
       "scrollWidth": 320
     },
@@ -335,19 +351,19 @@
     },
     {
       "route": "/catalog",
-      "heading": "Catalog",
+      "heading": "Explorer",
       "viewport": 390,
       "scrollWidth": 390
     },
     {
       "route": "/mint",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 390,
       "scrollWidth": 390
     },
     {
       "route": "/request",
-      "heading": "Mint Wallet Facts",
+      "heading": "Wallet Facts",
       "viewport": 390,
       "scrollWidth": 390
     },
@@ -359,19 +375,19 @@
     },
     {
       "route": "/register",
-      "heading": "Mint Rule",
+      "heading": "Community Facts",
       "viewport": 390,
       "scrollWidth": 390
     },
     {
       "route": "/wallet",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 390,
       "scrollWidth": 390
     },
     {
       "route": "/curator",
-      "heading": "Curate and consume facts",
+      "heading": "Curate and Consume Facts",
       "viewport": 390,
       "scrollWidth": 390
     },
@@ -395,19 +411,19 @@
     },
     {
       "route": "/catalog",
-      "heading": "Catalog",
+      "heading": "Explorer",
       "viewport": 780,
       "scrollWidth": 780
     },
     {
       "route": "/mint",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 780,
       "scrollWidth": 780
     },
     {
       "route": "/request",
-      "heading": "Mint Wallet Facts",
+      "heading": "Wallet Facts",
       "viewport": 780,
       "scrollWidth": 780
     },
@@ -419,19 +435,19 @@
     },
     {
       "route": "/register",
-      "heading": "Mint Rule",
+      "heading": "Community Facts",
       "viewport": 780,
       "scrollWidth": 780
     },
     {
       "route": "/wallet",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 780,
       "scrollWidth": 780
     },
     {
       "route": "/curator",
-      "heading": "Curate and consume facts",
+      "heading": "Curate and Consume Facts",
       "viewport": 780,
       "scrollWidth": 780
     },
@@ -455,19 +471,19 @@
     },
     {
       "route": "/catalog",
-      "heading": "Catalog",
+      "heading": "Explorer",
       "viewport": 1440,
       "scrollWidth": 1440
     },
     {
       "route": "/mint",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 1440,
       "scrollWidth": 1440
     },
     {
       "route": "/request",
-      "heading": "Mint Wallet Facts",
+      "heading": "Wallet Facts",
       "viewport": 1440,
       "scrollWidth": 1440
     },
@@ -479,19 +495,19 @@
     },
     {
       "route": "/register",
-      "heading": "Mint Rule",
+      "heading": "Community Facts",
       "viewport": 1440,
       "scrollWidth": 1440
     },
     {
       "route": "/wallet",
-      "heading": "Mint Card",
+      "heading": "Sworn Card",
       "viewport": 1440,
       "scrollWidth": 1440
     },
     {
       "route": "/curator",
-      "heading": "Curate and consume facts",
+      "heading": "Curate and Consume Facts",
       "viewport": 1440,
       "scrollWidth": 1440
     },
@@ -523,6 +539,18 @@
   ],
   "pageErrors": [],
   "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 403 ()",
+    "Failed to load resource: the server responded with a status of 403 ()",
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
     "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
     "Failed to load resource: net::ERR_FAILED",
     "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
@@ -533,95 +561,11 @@
     "WebKit did not run: host system is missing required shared libraries.",
     "No wallet account, signature, transaction broadcast, native-device, screen-reader or browser-native zoom test."
   ],
-  "supplemental": {
-    "commit": "5e0dce32d16e034d02dc018323c8615f37188383",
-    "fixtureReads": true,
-    "checks": [
-      {
-        "name": "Indexer eligibility 5; current compact rule and paid-action review",
-        "passed": true,
-        "result": {
-          "count": 5,
-          "met": true
-        }
-      },
-      {
-        "name": "Indexer eligibility 0; current compact rule and paid-action review",
-        "passed": true,
-        "result": {
-          "count": 0,
-          "met": false
-        }
-      },
-      {
-        "name": "Indexed history opens saved results and remains unique after scan fallback",
-        "passed": true
-      },
-      {
-        "name": "Keyboard focus is visible and the first mobile action remains above the fold",
-        "passed": true,
-        "result": {
-          "focused": true,
-          "width": "2px",
-          "color": "rgb(217, 224, 218)",
-          "style": "solid"
-        }
-      },
-      {
-        "name": "No uncaught application errors in supplemental scenarios",
-        "passed": true
-      }
-    ],
-    "errors": [],
-    "requests": [
-      "/api/rules",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules/10001/eligibility?wallet=0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules/10001/eligibility?wallet=0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules",
-      "/api/wallets/0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA",
-      "/api/rules/10001/eligibility?wallet=0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA",
-      "/api/rules",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/rules",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-      "/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C"
-    ],
-    "screenshots": [
-      "eligibility-5-390.png",
-      "eligibility-0-390.png",
-      "fact-history-390.png",
-      "focus-390.png"
-    ]
-  },
-  "upstreamIndexerBrowser": {
-    "passedGroups": 1,
-    "exitCode": 1,
-    "failure": "Mint picker assertion expects older full rule text; compact current rule covered by supplemental checks."
-  },
-  "upstreamIndexerHistoryOnly": {
-    "passedGroups": 1,
-    "exitCode": 0
-  },
-  "upstreamLiveIndexer": {
-    "exitCode": 1,
-    "failure": "Eligibility source label did not appear within 5 seconds; cause unestablished."
-  }
+  "screenshotCaptureDirectory": "test/scratch/sworn-1.0.2/browser (temporary)",
+  "retainedScreenshots": [
+    "artifacts/screenshots/landing-390.png",
+    "artifacts/screenshots/catalog-390.png",
+    "artifacts/screenshots/claim-390.png",
+    "artifacts/screenshots/fact-check-390.png"
+  ]
 }

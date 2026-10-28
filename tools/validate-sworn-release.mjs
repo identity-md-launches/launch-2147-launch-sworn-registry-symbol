@@ -1,4 +1,4 @@
-// Read-only checks of the exact Sworn 1.0.1 export. This script never invokes a build.
+// Read-only checks of the exact Sworn 1.0.2 export. This script never invokes a build.
 // npm ci in web/ supplies Playwright; an external module may also be selected.
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -17,7 +17,7 @@ const { chromium, webkit } = await import(moduleUrl);
 const preview = await server();
 const origin = new URL(preview.url).origin;
 const report = {
-  exportCommit: '5e0dce32d16e034d02dc018323c8615f37188383',
+  exportCommit: 'a4ee0244262b4e5cf8f3d22129814f5b74c7dec4',
   productionBuildRun: false,
   servedUnderSubpath: '/preview/',
   mainnetSource: 'https://ethereum-rpc.publicnode.com',
@@ -99,6 +99,27 @@ try {
     await page.locator('footer [role="status"]').filter({ hasText: 'Ethereum mainnet · block' }).waitFor({ timeout: 60000 });
     return (await page.locator('footer [role="status"]').allTextContents()).join(' ');
   });
+  await check('Explorer preview selects multiple hive cells and toggles them independently', async () => {
+    await page.goto(`${preview.url}#/catalog`);
+    await page.getByRole('heading', { name: 'Wallet Preview', exact: true }).waitFor();
+    const widget = page.locator('.wallet-preview');
+    const cells = widget.getByRole('button', { name: /^Inspect .* cell$/ });
+    await cells.first().waitFor();
+    assert.equal(await cells.count(), 13);
+    const rowsBefore = await widget.locator('tbody tr').count();
+    await cells.nth(0).click();
+    await cells.nth(1).click();
+    assert.equal(await cells.nth(0).getAttribute('aria-pressed'), 'true');
+    assert.equal(await cells.nth(1).getAttribute('aria-pressed'), 'true');
+    await widget.getByRole('status').filter({ hasText: '2 of 13 cells selected.' }).waitFor();
+    await widget.locator('.wallet-summary-symbol img').first().waitFor();
+    assert.equal(await widget.locator('tbody tr').count(), rowsBefore);
+    await cells.nth(0).click();
+    assert.equal(await cells.nth(0).getAttribute('aria-pressed'), 'false');
+    assert.equal(await cells.nth(1).getAttribute('aria-pressed'), 'true');
+    await widget.getByRole('status').filter({ hasText: '1 of 13 cells selected.' }).waitFor();
+    return { cells: 13, factRows: rowsBefore };
+  });
   await check('Valid address loads real Registry/Curator facts and Renderer metadata', async () => {
     const shard = JSON.parse(await fs.readFile(path.join(root, 'dist/data/eligibility/wallets-0.json'), 'utf8'));
     const wallet = Object.keys(shard).find(address => !address.startsWith('0x0000'));
@@ -114,6 +135,16 @@ try {
     assert.ok(raw.image.startsWith('data:image/svg+xml'));
     assert.ok(Array.isArray(raw.attributes));
     return { walletSource: 'dist/data/eligibility/wallets-0.json', metadataName: raw.name, attributes: raw.attributes.length };
+  });
+  await check('Clear wallet restores the labeled preview and remains cleared after reload', async () => {
+    await page.getByRole('button', { name: 'Clear wallet', exact: true }).click();
+    await page.getByRole('heading', { name: 'Wallet Preview', exact: true }).waitFor();
+    assert.equal(await page.getByLabel('Explore a wallet').inputValue(), '');
+    assert.ok(!page.url().includes('address='));
+    await page.reload();
+    await page.getByRole('heading', { name: 'Wallet Preview', exact: true }).waitFor();
+    assert.equal(await page.getByLabel('Explore a wallet').inputValue(), '');
+    assert.ok(await page.getByText(/Not a wallet: every fact that exists today/).isVisible());
   });
   const routes = ['/', '/catalog', '/mint', '/request', '/fact-check', '/register', '/wallet', '/curator', '/integrate', '/about'];
   for (const width of [320, 390, 780, 1440]) {
@@ -134,19 +165,19 @@ try {
   }
   await check('Unknown hash route has a usable return link', async () => {
     await page.goto(`${preview.url}#/missing-page`);
-    await page.getByRole('heading', { name: 'Page not found', exact: true }).waitFor();
+    await page.getByRole('heading', { name: 'Page Not Found', exact: true }).waitFor();
     await page.getByRole('link', { name: 'Return to Sworn', exact: true }).click();
     await page.getByRole('button', { name: 'Explore wallet', exact: true }).waitFor();
   });
-  await check('Legacy claim bookmark resolves to the Mint Card task', async () => {
+  await check('Legacy claim bookmark resolves to the Sworn Card task', async () => {
     await page.goto(`${preview.url}#/claim`);
-    await page.getByRole('heading', { level: 1, name: 'Mint Card', exact: true }).waitFor();
+    await page.getByRole('heading', { level: 1, name: 'Sworn Card', exact: true }).waitFor();
   });
   await check('Mint/request tasks offer connection before signing', async () => {
     await page.goto(`${preview.url}#/mint`);
     assert.ok(await page.getByRole('button', { name: /Connect/ }).count());
     await page.goto(`${preview.url}#/request`);
-    await page.getByRole('heading', { level: 1, name: 'Mint Wallet Facts', exact: true }).waitFor();
+    await page.getByRole('heading', { level: 1, name: 'Wallet Facts', exact: true }).waitFor();
     assert.equal(await page.locator('dialog[open]').count(), 0);
   });
   await check('Fact Check disconnected action opens the native wallet sheet and restores focus', async () => {
@@ -219,17 +250,17 @@ try {
     await shot(page, 'fact-history-390.png');
     return { wallet, source: 'Ethereum Registry logs and successful history transaction receipt', transaction, displayedFacts: await page.locator('.fc-history-item').count(), ...layout };
   });
-  await check('An invalid oracle request link explains recovery and returns to Mint Facts', async () => {
+  await check('An invalid oracle request link explains recovery and returns to Wallet Facts', async () => {
     await page.goto(`${preview.url}#/fact-check?request=invalid`);
     await page.getByRole('alert').filter({ hasText: 'This oracle request link is incomplete or invalid.' }).waitFor();
-    await page.locator('main').getByRole('link', { name: 'Mint Facts ↗', exact: true }).first().click();
-    await page.getByRole('heading', { name: 'Mint Wallet Facts', level: 1, exact: true }).waitFor();
+    await page.locator('main').getByRole('link', { name: 'Wallet Facts ↗', exact: true }).first().click();
+    await page.getByRole('heading', { name: 'Wallet Facts', level: 1, exact: true }).waitFor();
   });
-  await check('Mint Facts section jump focuses the choices and keeps the guide available', async () => {
+  await check('Wallet Facts section jump focuses the choices and keeps the guide available', async () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${preview.url}#/request`);
-    const nav = page.getByRole('navigation', { name: 'Mint Facts sections' });
-    await nav.getByRole('link', { name: 'Choose facts to mint' }).click();
+    const nav = page.getByRole('navigation', { name: 'Wallet Facts sections' });
+    await nav.getByRole('link', { name: 'Choose Facts to Mint' }).click();
     await page.waitForFunction(() => document.getElementById('step-02')?.contains(document.activeElement));
     const box = await page.locator('.trait-picker .picker-row').first().boundingBox();
     assert.ok(box && box.y >= 0 && box.y + box.height < 844);
@@ -292,8 +323,10 @@ try {
   });
   await check('No uncaught page errors or failed local resources', async () => {
     assert.deepEqual(report.pageErrors, []);
-    assert.deepEqual(report.consoleErrors, []);
     assert.deepEqual(report.localHttpErrors, []);
+  });
+  await check('No browser console errors, including external public services', async () => {
+    assert.deepEqual(report.consoleErrors, []);
   });
   await context.close();
   try {

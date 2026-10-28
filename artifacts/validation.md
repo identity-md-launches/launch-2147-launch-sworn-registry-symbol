@@ -1,115 +1,156 @@
-# Sworn 1.0.1 · exact-release delivery validation
+# Sworn 1.0.2 · worker validation
 
-Worker observations on 2026-10-27. These results are not independent certification.
+Date: 2026-10-28. This records worker checks, not an independent certification.
 
 ## Scope and authority
 
-The task explicitly requires `web/` and `dist/` from `banse/sworn` commit `5e0dce32d16e034d02dc018323c8615f37188383`, unchanged, with no build here. That specific instruction controls the generic build/fix criteria: no production build, source correction, wallet change, asset regeneration or retargeting was performed. Better Interface informed the import review and documentation; the review's inherited design exceptions are recorded rather than silently patched. The existing hosting name remains **sworn** (`sworn.site.identitymd.eth`); publication follows submission through the existing publisher. No publish command or on-chain operation ran.
+Deliver `web/` and `dist/` from `banse/sworn` commit `a4ee0244262b4e5cf8f3d22129814f5b74c7dec4`, branch `sworn-web-1.0.2`, unchanged. The explicit “no file added, changed or left out, and no build run here” requirement governs this release. The generic production-build and design-fix criteria cannot be applied by rewriting or rebuilding the pinned folders. Their exceptions are recorded, not treated as passes.
 
-| Requirement | Result |
+Both folders are exact copies. Source: 347 files / 3,925,581 bytes. Export: 90 files / 2,440,774 bytes. Total: 437 files / 6,366,355 bytes. The prior five hashed bundles were removed and the new five included. Upstream source screenshots and fixtures are required by the exact-copy requirement and remain present. The package manifest and lockfile differ from 1.0.1 only in release version labels; dependency graphs and build settings are unchanged.
+
+Registry remains `0x0da2679000ea5380d1361cc3cca7d4e8c881f766`, Ethereum mainnet, launch 2404. No address was substituted from hosting launch 2147. Existing contracts, root build settings, `site/`, ignore rules and unrelated records were preserved. The existing sworn site name is retained; the publishing plane receives repository-root `dist/` after submission. No separate hosting command, DNS/ENS change or transaction was performed here.
+
+## Requirements and checks
+
+| Requirement/check | Actual outcome |
 | --- | --- |
-| Exact upstream `web/` | 333/333 files, 3,582,497 bytes; no extras, omissions or modifications |
-| Exact upstream `dist/` | 90/90 files, 2,423,835 bytes; no extras, omissions or modifications |
-| Source and lockfile | Included unchanged; package version is 1.0.1 |
-| No local production build | Met; upstream export was copied directly |
-| Keep launch-2404 contract binding | Met: Registry `0x0da2679000ea5380d1361cc3cca7d4e8c881f766`, Ethereum chain 1 |
-| Preserve older launch-2147 project | Root contracts, build/dependency configuration and historical `site/` remain untouched |
-| Static relative asset URLs | `base: './'`; manifest and static-release checks pass; `/preview/` browser checks pass |
-| First screen at 390 | Heading, labeled input and Explore wallet action visible at 390×844; action y=475.39–519.39 |
-| Share metadata | Title, description, favicon, og:title and local og:image present; probe passes |
-| Design/source documentation | Root DESIGN.md and README refreshed; frozen upstream web documentation remains unchanged |
-| Typecheck and useful interactions | Passed as detailed below, with external-service/test-expectation limitations disclosed |
-| Hosting under existing name | After submission; the deliverable is the root dist, with no redirect or name change |
+| Exact source and export | PASS: direct archive comparison and independent GitHub tree API comparison, all 437 paths/blob hashes |
+| Complete static export | PASS: 90 files; root index, 89 assets plus manifest, relative entry URLs and hash routing |
+| Metadata | PASS: title, description, SVG favicon, `og:title` and `./share.png`; runtime title `Sworn \| Home` |
+| Main action at 390px | PASS: product, address field and 44px action visible; action y=486.58–530.58 at 390×844 |
+| Production build | NOT RUN: expressly prohibited for this exact-copy release |
+| Typecheck | PASS: `npm run typecheck`, exit 0 |
+| Unit tests | PASS: 301 passed / 0 failed in the final complete serial run |
+| Source pin / canonical ABI hashes | PASS: Renderer, Composer and Registry against the source's launch-2404 handoff |
+| Export manifest and static-release checks | PASS: 89 assets / 2,426,197 bytes excluding the manifest itself; 9 script/style assets |
+| Main Chromium interaction runner | 60 passed / 2 failed; external-service failures detailed below |
+| Supplemental live/keyboard review | 6 passed / 0 failed |
+| Layout | PASS: all 40 route/width combinations; no page overflow at 320, 390, 780 or 1440px |
+| Pinned taste probe | 14 passed / 2 failed, inherited design exceptions detailed below |
+| WebKit | NOT RUN: downloaded successfully; launch failed for missing host shared libraries |
+| Design/install/preview/rebuild documentation | Updated `DESIGN.md` and root `README.md` |
+| Publish under sworn | Handoff prepared in `dist/`; publication occurs after worker submission |
 
-## Provenance and integrity
+Git trees from the pinned GitHub API response:
 
-Downloaded GitHub's codeload archive of the exact commit to temporary storage, extracted only the required folders into this repository, and compared every relative path and byte. A second GitHub Git-tree API check independently matched all 423 local file Git blob hashes to that commit. The upstream folder tree IDs are:
+- `web/`: `615bbd4ecd7632837ed9e8009fd5a20e6a8f2271`
+- `dist/`: `cbc88057ddc97236a56689ac0b3cdf25206fc5f7`
 
-- `web`: `07353c790e56cb721231ad4da0bf3d41fb0fc97a`
-- `dist`: `d61ab5c5c23569960ced56f3474156f32dff04d8`
+`artifacts/export-manifest.json` records every path, SHA-256 and size, both tree digests, export Git blobs and the archive digest. No required runtime asset was dropped to meet the size limit.
 
-`artifacts/export-manifest.json` contains the complete path/size/SHA-256 inventory, export Git blob hashes, archive hash and tree digests. `python3 tools/verify-sworn-release.py --archive <downloaded-archive>` passed. The same verifier without `--archive` checks local files against the recorded inventory. No source omission was made, including tests, simulation sources, license notices, public ABIs, handbook, census data and runtime assets. No packaging archive, node_modules, cache or npm mirror was added to the submission.
+## Reproducible commands and setup
 
-## Actual commands and outcomes
+No dependency directory was created in delivered `web/`. An isolated temporary tree held exact copies of `web/`, `dist/`, `agents/sworn/SKILL.md` and `llms.txt`; the last two match the repository's files. Dependencies and browser downloads stayed outside the submission. From its `web/`:
 
-Dependencies and browser downloads were placed in temporary storage. A disposable exact copy of web/dist was used for npm-based checks; the root agent/llms fixtures needed by the imported unit tests also matched this repository. The production interaction scripts below serve the submitted repository's actual dist under `/preview/`.
+```sh
+npm ci --ignore-scripts --no-audit --no-fund
+npm run typecheck
+RAYON_NUM_THREADS=2 UV_THREADPOOL_SIZE=2 node --test --test-concurrency=1 tests/*.test.mjs
+node scripts/verify-abis.mjs
+```
 
-| Command | Result |
-| --- | --- |
-| `npm ci --ignore-scripts --no-audit --no-fund` with an external cache, in temporary web | Exit 0, 72 packages installed; no lifecycle build |
-| `npm run typecheck`, in temporary web | Exit 0 (`tsc --noEmit`) |
-| `npm test`, in temporary web | Exit 0, 291 tests passed, zero failed/skipped |
-| `node web/scripts/manifest.mjs --check` | Exit 0, 89 assets plus the deployment manifest, all hashes match |
-| `node web/scripts/static-release.mjs` | Exit 0, 9 script/style assets; relative entry URLs; no mock/demo transport in production |
-| `python3 tools/verify-sworn-release.py` and direct `--archive` variant | Exit 0; exact folders |
-| `node tools/validate-sworn-release.mjs` with external Playwright selected | Exit 1, 57/59 checks passed; two external-provider limitations below |
-| `node tools/validate-sworn-indexer.mjs` with external dependency web selected | Exit 0, 5/5 supplemental checks passed |
-| Imported `node tests/indexer-browser.mjs`, in temporary web | Exit 1 after catalog group passed; stale Mint Facts text expectation below |
-| Imported `node tests/indexer-browser.mjs --only=fact-check` | Exit 0; indexed history and scan-fallback uniqueness group passed |
-| Imported `node tests/indexer-live-browser.mjs` with public mainnet transport | Exit 1; 5-second eligibility-label wait timed out; not counted as a pass |
-| `node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste` with external Playwright selected | Exit 0 (measurement completed), 14/16 checks passed; two inherited design exceptions |
-| `git diff --check` | Passed |
-| `npm run build` | NOT RUN: expressly prohibited by the exact-release task |
+Results: install exit 0 (72 packages), typecheck exit 0, final unit run exit 0 (301 tests), ABI verification exit 0. The default parallel `npm test` run was interrupted after process/thread exhaustion. Its temporary setup also initially lacked parent-folder fixtures. A serial retry with the export present ran 298 tests successfully and failed only on the absent agent-document fixture; after adding both exact parent documents, all 301 tests passed. No imported test was edited. The test suite uses Vite's development/SSR transforms and a small Solidity example compiler test; it did not invoke the site production build or regenerate its export.
 
-To repeat the production browser runners with installed dependencies, use `node tools/validate-sworn-release.mjs` and `node tools/validate-sworn-indexer.mjs`. The first accepts `SWORN_PLAYWRIGHT_MODULE` pointing to an external `@playwright/test/index.mjs`; the second accepts `SWORN_VALIDATION_WEB` pointing to an exact temporary web copy containing dependencies. Set `PLAYWRIGHT_BROWSERS_PATH` to the browser download directory when needed. The pinned design probe was provided as a task input and is removed by the submission process; its current result is retained in artifacts/taste.json.
+From the repository root:
 
-The npm check's initial disposable fixture copy lacked the root agent file; after supplying that unchanged fixture, the complete final unit run passed 291 tests. No source correction or build was involved.
+```sh
+python3 tools/verify-sworn-release.py --archive /path/to/pinned-archive.tar.gz
+node web/scripts/manifest.mjs --check
+node web/scripts/static-release.mjs
+```
+
+All exited 0. The verifier also runs without `--archive` against the committed manifest.
+
+Browser tools used an ordinary HTTP preview serving the delivered `dist/` at `/preview/`. To rerun the independent browser script, point these variables at an external Playwright installation and its browsers:
+
+```sh
+PLAYWRIGHT_BROWSERS_PATH="$BROWSER_DIR" \
+SWORN_PLAYWRIGHT_MODULE="$CHECK_ROOT/web/node_modules/@playwright/test/index.mjs" \
+node tools/validate-sworn-release.mjs --out test/scratch/release-browser
+```
+
+Final runner exit: 1 because two external-service checks failed; results are in `artifacts/browser-validation.json`. The runner starts and stops its own local preview. Its source selectors were updated for the release's title-case labels; a test-variable shadowing error was corrected before the final run. Initial simultaneous browser/unit runs exhausted the process limit; browsers were rerun separately after the unit suite completed. These setup failures are not claimed as app failures or passes.
+
+The supplied pinned probe ran unmodified:
+
+```sh
+PLAYWRIGHT_BROWSERS_PATH="$BROWSER_DIR" \
+IMD_PLAYWRIGHT="$CHECK_ROOT/web/node_modules/playwright/index.mjs" \
+node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste
+```
+
+It exited 0 and returned 14/16 passing checks. Exit 0 means it measured successfully, not that every design check passed. Its JSON is retained at `artifacts/taste.json`; the probe input itself is assignment-provided and removed before submission.
 
 ## Interaction evidence
 
-Chromium served the committed export below `/preview/`. Ten routes were checked at each of **320, 390, 780 and 1440 CSS px**, height 844: Home, Catalog, Mint Card, Mint Facts, Fact Check, Mint Rule, Wallet, Curator, Integrate and About. All 40 combinations rendered an h1 and had document scrollWidth ≤ viewport width. This is representative reflow testing, not native 200% zoom.
+Chromium 156.0.8078.4 tested the production export, with no injected wallet, private RPC or fixture transport. The 40 layout checks cover `/`, `/catalog`, `/mint`, `/request`, `/fact-check`, `/register`, `/wallet`, `/curator`, `/integrate`, `/about` at four widths.
 
-The production runner passed these functional checks:
+Passing checks include:
 
-- Home input/action above the phone fold; invalid submission shows a corrective message, aria-invalid and input focus.
-- Native wallet dialog opens, contains keyboard focus, dismisses with Escape/backdrop and restores the trigger.
-- Live mainnet deployment/quote status; a wallet from the supplied census loads Registry/Curator facts and Renderer metadata (`Sworn #1`, 15 attributes), with a lossless metadata download.
-- Missing-route recovery, legacy Claim/Mint and oracle/Fact Check aliases, native More disclosure keyboard opening/Escape/focus return.
-- Mint/request disconnected entry states, Fact Check connect prompt, malformed-request recovery and Mint Facts section focus.
-- Curator fact filtering and JSON download: 4,931 historical candidates, matching count/address/fact provenance; tab-arrow navigation and malformed consumer-address validation.
-- Handbook search returns 12 local results for the checked query and Escape clears it.
-- Deliberate RPC outage displays an unavailable state while keeping the public address action reachable.
+- Empty address submission: actionable error, `aria-invalid`, associated message and input focus.
+- Connect dialog: native modal, named browser/Coinbase choices, keyboard containment, Escape/backdrop dismissal and focus return.
+- Explorer preview: all 13 cells, independent multi-selection, correct pressed states, symbols and retained 26 fact rows.
+- Real public-wallet lookup from the shipped census: `Sworn #1` metadata with 15 attributes and SVG image. Clear wallet restores the labeled preview and stays cleared after reload.
+- Main navigation, legacy aliases, unknown-route return link, More keyboard/Escape behavior and hash-section focus.
+- Disconnected card/fact entry, malformed Fact Check request recovery and fee/evidence disclosure.
+- Curator filtering and valid JSON export of 4,931 historical candidates, explicitly labeled as historical; keyboard tabs and invalid-address recovery.
+- Handbook search: 12 local results for `hasTrait`; Escape clears the search.
+- Deliberate RPC outage: honest unavailable/retrying message and the primary action remains visible.
+- No uncaught page errors or missing local resources. External resource errors are recorded separately.
 
-The supplemental runner tests the current 1.0.1 UI with the imported public API captures and deterministic read-only RPC/wallet fixtures. All five checks passed: indexer eligibility 5/met, 0/not-met behind the counted disclosure, compact paid-swarm-request wording and registrant, opening the payment review without a signature, five history rows including frozen direct facts, saved result navigation, no duplicate history rows after indexer failure/scan fallback, a visible keyboard focus ring and no uncaught application errors. Fixtures exist only in the test harness; dist is unchanged. No real signature, broadcast or paid request occurred.
+Two final runner failures remain:
 
-## Six-domain Better Interface review
+1. The old Registry-log discovery query received JSON-RPC `-32602`, “Archive requests require a personal token.” No key was requested or inserted. This prevents that specific test from discovering a wallet through archive logs; it does not establish that the app's indexer history fails.
+2. The no-console-errors check saw public-service HTTP 403 and Tenderly CORS failures. Existing fallback reads still returned mainnet health/current quote and wallet metadata. Public-service uptime remains outside this release's control.
 
-One visual idea carries the site: a compact public registry instrument with green hive evidence on a near-black monospace surface. The pinned guide's workflow and core principles in all six domains were read before review.
+Supplemental browser-tool review used the real registrant from the live indexer's `/rules` response, `0x84f4b7424e1b0464f9c749725c1f34bed9aa8ada`, without connecting a wallet:
 
-| Domain | Checked coverage | Limits |
+- `#/fact-check?wallet=…` displayed saved facts 601 and 1301 and “All fact history loaded.”
+- Refresh history returned the same two records and re-enabled its control.
+- Both linked receipts were successful and contained launch-2404 Registry events for that wallet; blocks 26,244,370 and 26,259,462.
+- The completed Fact Check downloaded `sworn-1301-0x84f4b742.png`, 456,152 bytes, 3200×2000. The image was visually inspected and contained its question, full wallet, agent hive and result; status read “Image saved.” The transient download was not added to the release.
+- Explorer's “Inspect Swarmed cell” responded to Space, exposed `aria-pressed=true` and showed a visible 2px accent focus outline.
+- Both supplemental states had scroll width 390 at a 390px viewport.
+
+`artifacts/live-browser-validation.json` records these six checks and receipt references. This successful path supplements, rather than overwrites, the archive-query failure.
+
+## Better Interface: all six domains
+
+The pinned workflow, six core-principle sections and documentation method were read. The exact-copy scope makes this a review of the supplied implementation; it does not authorize changing its visual direction. Idea: an instrument panel for Ethereum wallet facts, carried by a green evidence hive and dense monospace records.
+
+| Domain | Coverage | Remaining limits |
 | --- | --- | --- |
-| Accessibility | Source labels/native elements, skip/main/focus handling, textual statuses, reduced-motion guards; rendered input error/focus, wallet modal containment/dismissal/return, More and Curator keyboard paths | No screen-reader session, physical device, forced-colors rendering or separate automated accessibility audit; every conditional transaction state was not traversed |
-| Layout | Frame/grid/media queries, controls before explanatory prose, progressive disclosures; 40 route/width checks, phone first screen and desktop screenshots; local table scrolling | Native zoom, RTL/pseudo-localization and all possible intermediate widths unverified |
-| Writing | Action labels, address corrections, fee/consent copy, optional-card guidance, real vs historical/synthetic data, compact Mint community rule and raw Catalog meaning | Frozen upstream test/docs contain older copy/results; root docs explicitly distinguish them |
-| Typography | Actual tokens, weights, line heights, measures, wrapping and numeric stability; phone/desktop renders and type-size probe | Visitor's installed system face varies; all conditional Fact Check states were not measured |
-| Colors | Source tokens/roles and observed textual status cues; pinned rendered solid-background contrast check passed | Lowest measured landing text pair: muted `#8c968e` on `#0a0a0a`, **6.48:1** at 390 and 1440; this does not certify every state, control border, image/alpha background or inline-link distinction |
-| UI | Source hover/active/disabled/error/loading styles, square borders/native overlays, named wallet marks; actual disclosure/modal/error/payment-review states; reduced-motion probe | No 10%-speed animation replay, native wallet app/passkey flow or live paid-oracle progress session |
+| Accessibility | Source semantics/labels, native modal, validation, skip link, route focus, keyboard tabs, More, preview Space/pressed state; rendered roles and focused preview inspected | No screen-reader session, full accessibility audit, physical device, forced-colors sweep or native zoom |
+| Layout | Source grids/breakpoints; 40 route/width combinations; 390/1280/1440 screenshots; live history/preview wrapping; first-screen action | No RTL/pseudo-localization or browser-native 200% zoom; not every authenticated state |
+| Writing | Address/retry errors, task labels, fees/consent, historical-data labels, synthetic preview copy, saved/pending distinctions | Exact upstream copy retained; no new paid flow or all possible error variants |
+| Typography | Source tokens, line-heights, title case, mobile 16px inputs, address wrapping; rendered home type sizes and selected screens | System fonts vary; no full language/font fallback matrix; inherited monospace exception |
+| Colors | Source palette/roles and rendered home solid-background contrast; minimum recorded text ratio 6.48:1; text plus state marks | Conditional surfaces, artwork and every focus/background pair not exhaustively measured; no theme switch exists |
+| UI | Buttons/disclosures, loading/error/empty/saved states, modal controls, preview selection, clear/reload, history refresh and actual PNG download; reduced-motion probe | Native share/clipboard fallback, named-wallet ENS success, newly paid animation, ten-percent-speed motion replay and actual wallet signing not tested |
 
-### Findings, dispositions and fixes
+### Findings, disposition and verification
 
-1. **Retained design exception — uppercase content headings.** `web/src/pages.tsx:213` (`<Section title="WHY SWORN">`) and `:216` (`BUILT BY THE SWARM`) produce the probe's two uppercase text boxes. Confirmed in the desktop full-page capture. A future editable release could use “Why Sworn” and “Built by the swarm”; the current task says “used unchanged: no file added, changed or left out,” so neither source nor export was changed. Probe `casing` remains failed, explicitly accepted as a preservation exception.
-2. **Retained design exception — monospace prose.** `web/src/styles.css:31` establishes the system monospace stack; `:257` applies 15px prose. Probe observed one family, weights 400/600 and 14 long monospace text boxes. The established instrument-panel system and exact-copy requirement govern; a new font or prose override would alter the requested release. Probe `type-faces` remains failed. This is not represented as a clean 16/16 pass.
-3. **Validation mismatch — imported browser assertion predates 1.0.1 copy.** `web/tests/indexer-browser.mjs:242` expects full “at least 5 Transfer events” wording in the Mint picker. `web/src/community-rule.mjs:102` supplies compact paid-swarm-request language for Mint; Catalog keeps the full condition. The original suite's catalog group passes, then its Mint text assertion fails. No frozen file was edited. The supplemental runner asserts the actual compact wording, eligibility, registrant, icon and pre-signature review; final 5/5 supplemental checks pass.
-4. **External RPC limitations.** The broad native-network run received an archive log rejection from PublicNode (“Archive requests require a personal token”) while discovering early CardMinted logs, and two Tenderly CORS failures. Accordingly its saved-history discovery and strict console-cleanliness checks fail. There were **zero uncaught page errors and zero failed local resource responses**. No source/RPC configuration was changed. Deterministic indexed-history/fallback tests pass, but they do not establish live archive availability.
-5. **Live-indexer test limitation.** `web/tests/indexer-live-browser.mjs:90` timed out waiting for `Source: indexer, block`. It observed rules/wallet requests, no application/console errors and no eligibility-endpoint call in that scenario. The cause was not established. Separate read-only HTTP observations returned the rules list and a complete, CORS-open eligibility response (count 5/met for the public fixture wallet); this is service evidence, not a successful end-to-end live browser check.
+1. **Inherited casing exception** — `web/src/pages.tsx:214` and `:217`, `WHY SWORN` / `BUILT BY THE SWARM`. The probe measured two uppercase content headings at 1440px. The 390px snapshot confirms their presence farther down the page. A future editable release could use “Why Sworn” and “Built by the Swarm.” No correction here: changing those strings would break the required byte identity.
+2. **Inherited typography exception** — `web/src/styles.css:30`, global `ui-monospace` stack; `web/src/pages.tsx:44` supplies the introductory prose. The probe recorded 14 monospace prose boxes, one family, two weights. The screenshots confirm the instrument-panel treatment. A future redesign could distinguish reading prose, but the supplied style remains authoritative for this release.
+3. **Source type-scale limit** — `web/src/styles.css:23–29` declares seven global sizes, exceeding the generic six-token criterion. The rendered home nevertheless passed the actual probe (four repeated sizes/six including one-offs per width). Both facts are recorded; no token was changed to manufacture a pass.
+4. **Public-service availability** — `web/src/rpc.mjs` retains the supplied public-provider list. The archive-query and CORS failures above are reproducible external limitations. A future upstream release could revise provider strategy; this import cannot retarget it.
 
-No applicable source fix is authorized in the immutable folders. Corrections made in the deliverable are documentation/provenance corrections: obsolete root release/build claims were replaced with the current pin, actual no-build status, exact inventory, measured coverage and explicit limits. Final archive/blob comparisons were rerun after validation and documentation.
+No app/source design fix was applied. The release replacement, current documentation, verifier pins and updated test selectors are the authorized corrections. After documentation and evidence updates, the final integrity check again verifies unchanged `web/` and `dist/`.
 
-## Browser availability, screenshots and remaining limits
+## Retained evidence and limitations
 
-The supplied browser tool failed to launch Chromium with a crashpad database error. Local Playwright Chromium succeeded using temporary configuration/cache locations, and rendered screenshots were inspected directly. WebKit downloaded but could not launch because required system shared libraries are absent. Chromium evidence is not a Safari/iPhone compatibility claim.
+Current-release reports: `artifacts/export-manifest.json`, `artifacts/browser-validation.json`, `artifacts/live-browser-validation.json`, `artifacts/taste.json`, `artifacts/submission-audit.json`, this file, `README.md` and `DESIGN.md`.
 
-Current screenshots retained at existing permitted evidence paths:
+Current screenshots retained within the existing path budget:
 
-- `artifacts/screenshots/landing-390.png`: production entry, 390×844.
-- `artifacts/screenshots/focus-390.png`: keyboard-focused home action, visible 2px solid `rgb(217, 224, 218)` outline.
-- `artifacts/screenshots/catalog-390.png`, `fact-check-390.png`, `about-390.png`, `integrate-390.png`: current route entries.
-- `artifacts/screenshots/fact-history-390.png`: current indexed history with deterministic fixture replies, scrolled to fact rows.
+- `artifacts/screenshots/landing-390.png` and `landing-1280.png`
+- `artifacts/screenshots/catalog-390.png` and `claim-390.png`
+- `artifacts/screenshots/fact-check-390.png` and `fact-history-390.png`
+- `artifacts/screenshots/focus-390.png`
 
-The 1440 desktop entry and full-page probe screenshots were inspected in scratch; they are not delivered under a misleading 1280 filename. Other retained screenshots/reports not listed as current are historical project evidence, not checks rerun here. Current browser JSON and probe results are in artifacts/browser-validation.json and artifacts/taste.json. No fake screenshots or source-only rendered claims are used.
+Other screenshots captured by the runner/probe stayed in disposable `test/scratch/`; their names in the raw report describe capture, not permanent delivery. Unlisted earlier root artifacts and reports inside immutable `web/` describe earlier/upstream work and are not this worker's test results.
 
-Not performed: production rebuild (prohibited), real wallet connection/signature/transaction, Coinbase passkey enrollment, native mobile wallet-app handoff, physical touch-device session, screen reader, native 200% zoom, RTL, forced-colors, a separate automated accessibility audit, slow-motion animation replay or a new paid oracle request. IPFS gateways and public APIs may fail independently; fixture tests do not guarantee future availability. No claim of full accessibility or end-to-end financial operation is made.
+No real wallet connection, signature, network switch, approval, paid request or transaction broadcast was attempted. No physical iPhone, screen reader or native zoom session ran. WebKit could not start due to host libraries. Public RPC/API/IPFS behavior can change after these checks. The publisher has not been independently observed switching the site name during this worker run.
 
-## Completion
+**Complete for the exact-copy delivery scope**, with no build run, two inherited design-probe findings, the source type-scale exception and the explicit runtime/coverage limitations above. The generic build/redesign criteria are overridden by the specific immutable-release request, not silently satisfied.
 
-**Complete for the stated exact-copy delivery scope**, with the documented upstream design exceptions and external/browser validation limits. Both required folders are intact, root documentation is current, and the export is ready for the existing publisher under the same name. Submission size/protected-path checks are recorded in artifacts/submission-audit.json. No source/runtime deliverable was dropped to meet the budget.
+Guidance attribution: Jakub Krehel's Better Interface, MIT, pinned commit `267330e1adfc66a718fb65fa6918c1f06d0a689e`; documentation method adapted from Paul Bakaus's Impeccable, Apache-2.0, pinned commit `9d715cc4f5564a990ca8345abfdd5df6dc9b41c8`. Full retained notices: `web/LICENSES/Better-Interface.txt`.

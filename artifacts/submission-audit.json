@@ -1,47 +1,318 @@
 {
-  "version": 5,
-  "release": "1.0.1",
-  "upstreamCommit": "5e0dce32d16e034d02dc018323c8615f37188383",
-  "limitBytes": 8388608,
-  "measurement": "Every new/modified regular file counted uncompressed, plus a 64 KiB reserve. Also measured a complete-current-content gzip archive outside the repository. No Git metadata was written.",
-  "changedOrAddedRegularFiles": 46,
-  "changedOrAddedRawBytes": 2099284,
-  "reservedOverheadBytes": 65536,
-  "changedOrAddedConservativeBoundBytes": 2164820,
-  "submissionAdditionsUnderLimit": true,
-  "completeCurrentRegularFiles": 647,
-  "completeCurrentRawBytes": 10177048,
-  "completeContentTarGzBytes": 4214003,
-  "completeCompressedContentUnderLimit": true,
-  "protectedRootConfigurationOrPathsChanged": false,
+  "release": "1.0.2",
+  "upstreamCommit": "a4ee0244262b4e5cf8f3d22129814f5b74c7dec4",
+  "siteName": "sworn.site.identitymd.eth",
+  "productionBuildRun": false,
+  "exactUpstreamComparison": {
+    "passed": true,
+    "sourceFiles": 347,
+    "sourceBytes": 3925581,
+    "exportFiles": 90,
+    "exportBytes": 2440774,
+    "gitHubBlobsVerified": 437
+  },
+  "dependencyChanges": "Only the unchanged upstream 1.0.2 version labels in web/package.json and web/package-lock.json; dependency graphs, scripts, overrides and build settings are identical to baseline.",
+  "rootBuildAndContractPathsUnchanged": true,
   "ignoreFilesChanged": false,
   "newSubmodules": false,
-  "existingBuildSubmodulePointersPreserved": true,
-  "importedPackageMetadataChangedFromPreviousSite": [
-    "web/package.json",
-    "web/package-lock.json"
+  "dependencyCachesOrArchivesIncluded": false,
+  "bundleLimitBytes": 8388608,
+  "evidenceLimitBytes": 2097152,
+  "removedFiles": [
+    "dist/assets/FactCheckLive-Bqc65cI1.js",
+    "dist/assets/ccip-DBbGlw07.js",
+    "dist/assets/dist-DnuAEmUR.js",
+    "dist/assets/index-BCymCfQe.js",
+    "dist/assets/index-DavN5M48.css"
   ],
-  "packageMetadataChange": "Only package version changes from 1.0.0 to 1.0.1 and corresponding lockfile version fields; exact upstream bytes. Dependency entries unchanged.",
-  "generatedDependenciesOrCachesSubmitted": false,
-  "unnecessaryPackagingArchivesSubmitted": false,
-  "artifactPathBudgetBytes": 2097152,
-  "artifactBytesAtAudit": 1881126,
-  "sourceFiles": 333,
-  "sourceBytes": 3582497,
-  "distFiles": 90,
-  "distBytes": 2423835,
-  "githubBlobHashesMatched": 423,
-  "productionBuildRun": false,
-  "typecheckExitCode": 0,
-  "unitTestsPassed": 291,
-  "unitTestsFailed": 0,
-  "nativeNetworkBrowserChecksPassed": 57,
-  "nativeNetworkBrowserChecksTotal": 59,
-  "responsiveRouteLayoutsChecked": 40,
-  "supplementalBrowserChecksPassed": 5,
-  "supplementalBrowserChecksTotal": 5,
-  "upstreamHistoryOnlyPassed": true,
-  "tasteChecksPassed": 14,
-  "tasteChecksTotal": 16,
-  "webKitAvailable": false
+  "files": [
+    {
+      "path": "DESIGN.md",
+      "bytes": 12627
+    },
+    {
+      "path": "README.md",
+      "bytes": 7594
+    },
+    {
+      "path": "artifacts/browser-validation.json",
+      "bytes": 18138
+    },
+    {
+      "path": "artifacts/export-manifest.json",
+      "bytes": 61536
+    },
+    {
+      "path": "artifacts/live-browser-validation.json",
+      "bytes": 2405
+    },
+    {
+      "path": "artifacts/path-budget.json",
+      "bytes": 2032
+    },
+    {
+      "path": "artifacts/screenshots/catalog-390.png",
+      "bytes": 54576
+    },
+    {
+      "path": "artifacts/screenshots/claim-390.png",
+      "bytes": 68172
+    },
+    {
+      "path": "artifacts/screenshots/fact-check-390.png",
+      "bytes": 44160
+    },
+    {
+      "path": "artifacts/screenshots/fact-history-390.png",
+      "bytes": 47319
+    },
+    {
+      "path": "artifacts/screenshots/focus-390.png",
+      "bytes": 40873
+    },
+    {
+      "path": "artifacts/screenshots/landing-1280.png",
+      "bytes": 140038
+    },
+    {
+      "path": "artifacts/screenshots/landing-390.png",
+      "bytes": 71204
+    },
+    {
+      "path": "artifacts/submission-audit.json",
+      "bytes": 6837
+    },
+    {
+      "path": "artifacts/taste.json",
+      "bytes": 110579
+    },
+    {
+      "path": "artifacts/validation.md",
+      "bytes": 15094
+    },
+    {
+      "path": "dist/assets/FactCheckLive-DRTi-OrR.js",
+      "bytes": 46817
+    },
+    {
+      "path": "dist/assets/ccip-CXNZcBQn.js",
+      "bytes": 2881
+    },
+    {
+      "path": "dist/assets/dist-B8HNqCDi.js",
+      "bytes": 98183
+    },
+    {
+      "path": "dist/assets/index-C-BsDrg_.js",
+      "bytes": 914714
+    },
+    {
+      "path": "dist/assets/index-C5Os-TcY.css",
+      "bytes": 67016
+    },
+    {
+      "path": "dist/imd-deployment.json",
+      "bytes": 14577
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 1333
+    },
+    {
+      "path": "tools/validate-sworn-release.mjs",
+      "bytes": 22709
+    },
+    {
+      "path": "tools/verify-sworn-release.py",
+      "bytes": 2881
+    },
+    {
+      "path": "web/package-lock.json",
+      "bytes": 63780
+    },
+    {
+      "path": "web/package.json",
+      "bytes": 1526
+    },
+    {
+      "path": "web/round-steps.png",
+      "bytes": 25453
+    },
+    {
+      "path": "web/src/App.tsx",
+      "bytes": 9022
+    },
+    {
+      "path": "web/src/card-fact-guide.tsx",
+      "bytes": 1650
+    },
+    {
+      "path": "web/src/cell-pictures.mjs",
+      "bytes": 6819
+    },
+    {
+      "path": "web/src/chain.ts",
+      "bytes": 17855
+    },
+    {
+      "path": "web/src/claim.tsx",
+      "bytes": 63944
+    },
+    {
+      "path": "web/src/claimed-facts.mjs",
+      "bytes": 1335
+    },
+    {
+      "path": "web/src/community-rule.mjs",
+      "bytes": 8080
+    },
+    {
+      "path": "web/src/components.tsx",
+      "bytes": 12174
+    },
+    {
+      "path": "web/src/curator.tsx",
+      "bytes": 21319
+    },
+    {
+      "path": "web/src/data.ts",
+      "bytes": 7509
+    },
+    {
+      "path": "web/src/ens-name.ts",
+      "bytes": 1809
+    },
+    {
+      "path": "web/src/fact-check/CardShare.tsx",
+      "bytes": 5510
+    },
+    {
+      "path": "web/src/fact-check/FactCheckLive.tsx",
+      "bytes": 8643
+    },
+    {
+      "path": "web/src/fact-check/FactCheckRequest.tsx",
+      "bytes": 3412
+    },
+    {
+      "path": "web/src/fact-check/FactCheckView.tsx",
+      "bytes": 28605
+    },
+    {
+      "path": "web/src/fact-check/card-image.mjs",
+      "bytes": 3403
+    },
+    {
+      "path": "web/src/fact-check/fact-check.css",
+      "bytes": 26940
+    },
+    {
+      "path": "web/src/fact-check/request-model.mjs",
+      "bytes": 3675
+    },
+    {
+      "path": "web/src/fact-ui.tsx",
+      "bytes": 4873
+    },
+    {
+      "path": "web/src/main.tsx",
+      "bytes": 1174
+    },
+    {
+      "path": "web/src/pages.tsx",
+      "bytes": 31070
+    },
+    {
+      "path": "web/src/styles.css",
+      "bytes": 37552
+    },
+    {
+      "path": "web/src/swarm.tsx",
+      "bytes": 30174
+    },
+    {
+      "path": "web/src/task-navigation.mjs",
+      "bytes": 2485
+    },
+    {
+      "path": "web/src/title-case.mjs",
+      "bytes": 507
+    },
+    {
+      "path": "web/src/transactions.tsx",
+      "bytes": 19048
+    },
+    {
+      "path": "web/src/wallet-summary.css",
+      "bytes": 2932
+    },
+    {
+      "path": "web/src/wallet-summary.tsx",
+      "bytes": 10672
+    },
+    {
+      "path": "web/src/wallet.tsx",
+      "bytes": 8182
+    },
+    {
+      "path": "web/statusline.png",
+      "bytes": 233095
+    },
+    {
+      "path": "web/steps-1280.png",
+      "bytes": 24518
+    },
+    {
+      "path": "web/tests/after-task-navigation.test.mjs",
+      "bytes": 2986
+    },
+    {
+      "path": "web/tests/card-image.test.mjs",
+      "bytes": 1942
+    },
+    {
+      "path": "web/tests/cell-pictures.test.mjs",
+      "bytes": 5296
+    },
+    {
+      "path": "web/tests/claimed-facts.test.mjs",
+      "bytes": 2269
+    },
+    {
+      "path": "web/tests/fact-check-history-view.test.mjs",
+      "bytes": 8957
+    },
+    {
+      "path": "web/tests/fixtures/cells/empty-ring1.svg",
+      "bytes": 2967
+    },
+    {
+      "path": "web/tests/fixtures/cells/filled-601-k3.svg",
+      "bytes": 6379
+    },
+    {
+      "path": "web/tests/fixtures/cells/filled-601-ring1.svg",
+      "bytes": 3073
+    },
+    {
+      "path": "web/tests/fixtures/cells/hopper301-k2.svg",
+      "bytes": 5778
+    },
+    {
+      "path": "web/tests/indexer.test.mjs",
+      "bytes": 12327
+    },
+    {
+      "path": "web/tests/interface-labels.test.mjs",
+      "bytes": 5776
+    }
+  ],
+  "changedAndNewFileBytes": 2660790,
+  "changedAndNewFileCount": 70,
+  "evidenceBytes": 1869971,
+  "completeWebDistAndEvidenceBytes": 8236326,
+  "trackedBinaryDiffBytes": 2630797,
+  "untrackedFileBytes": 1456160,
+  "patchPlusUntrackedWithOverheadBytes": 4734957,
+  "withinBundleLimit": true
 }

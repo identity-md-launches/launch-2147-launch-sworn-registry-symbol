@@ -1,8 +1,8 @@
-# Sworn · implemented design, 1.0.1
+# Sworn · implemented design, 1.0.2
 
 ## Overview
 
-The source of truth is unchanged `web/` from `banse/sworn` commit `5e0dce32d16e034d02dc018323c8615f37188383`; `dist/` is that commit's supplied export. This describes the implementation, not a redesign or new build. The earlier `site/` frontend is historical.
+The source of truth is unchanged `web/` from `banse/sworn` commit `a4ee0244262b4e5cf8f3d22129814f5b74c7dec4`; `dist/` is that commit's supplied export. This describes the implementation, not a redesign or new build. The earlier `site/` frontend is historical.
 
 Sworn lets visitors inspect Ethereum wallet facts, mint an optional card, verify facts, define community rules and curate lists. Its instrument-panel character uses system monospace, near-black surfaces, green actions, square controls, thin rules and a thirteen-family hive. The landing places the address form before explanatory prose. Synthetic artwork is labeled as illustration rather than a wallet credential.
 
@@ -26,7 +26,7 @@ Global tokens are declared in `web/src/styles.css:1`.
 
 Evidence labels accompany color. `web/src/fact-check/fact-check.css` scopes matching `--fc-*` colors and `--fc-rule: #222`; progress strips add `#0d140d` and `#344333`. `web/src/progress-experience.css` uses `#0b130d`/`#285c35` progress surfaces and `#69ed8b`, `#ff9d9d`, `#bdc8bf` summary states. These are local exceptions, not global ramps.
 
-The handbook's `web/public/docs/style.css` uses `#090b09` background, `#101510` surface, `#dce3da` text, `#a0aca0` muted text, `#6be64b` accent, `#293329` borders and `#b2ff93` focus. Print styles use light paper colors. No app theme switch exists. The rendered landing passed the pinned solid-background contrast check; conditional states and inline link distinction are not certified.
+The handbook's `web/public/docs/style.css` uses `#090b09` background, `#101510` surface, `#dce3da` text, `#a0aca0` muted text, `#6be64b` accent, `#293329` borders and `#b2ff93` focus. Print styles use light paper colors. No app theme switch exists. The rendered landing passed the pinned solid-background contrast check; its lowest measured text ratio was 6.48:1. Conditional states and inline link distinction are not certified.
 
 ## Typography
 
@@ -44,7 +44,7 @@ The stack is `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`, with no
 
 `h1` uses 600 weight, 1.3 line-height, −0.02em tracking and balanced wrapping. The landing uses 1.25/−0.03em and a 19ch desktop/22ch phone measure. The wordmark tracks at 0.12em. `h4` and `.subpart-title` are muted uppercase. Modal/Fact Check styles include local sizes such as 20px. The source declares seven global size tokens even though the landing probe fits its per-viewport thresholds. Uppercase landing headings and monospace prose are inherited exceptions.
 
-At ≤600px the main address and form fields use 16px input text. Addresses, receipts and status text wrap with `overflow-wrap: anywhere`; code blocks scroll locally. Curator paragraphs cap at 78ch and payment explanations at 65ch. The handbook is a separate reading surface: 16px root (15px under 540px), 1.75 line-height, a responsive title and 74ch prose.
+At ≤600px the main address and form fields use 16px input text. Addresses, receipts and status text wrap with `overflow-wrap: anywhere`; code blocks scroll locally. Curator paragraphs cap at 78ch. The mint panel now uses its whole text column (`.mint-panel p { max-width: none }`). The handbook is a separate reading surface: 16px root (15px under 540px), 1.75 line-height, a responsive title and 74ch prose.
 
 ## Layout
 
@@ -58,20 +58,20 @@ The desktop landing uses `minmax(0, 1.1fr) minmax(0, 1fr)`, a 48px gap, form lef
 | ≤1150px | Landing gap becomes 32px; input/action groups wrap |
 | ≤1000px | Curator facts/ranges become two columns; progress adapts |
 | ≤900px | Evidence classes become two columns; Catalog proportions tighten |
-| ≤800px | Connected wallet text/art stack |
+| ≤800px | Wallet summary/preview stacks; the interactive hive comes before the fact list |
 | ≤780px | Landing, Explorer, mint and comparison layouts stack; record strip has two columns |
-| ≤760px | Fact Check canvas/agent surfaces adapt |
+| ≤760px | Fact Check canvas/agent surfaces adapt; the community three-step guide stacks |
 | ≤640px | Wallet bottom sheet; forms and fact/evidence rows stack |
 | ≤600px | 16px page padding, four-column header navigation, full-width address action and 16px inputs |
 | ≤480px | Task-tab/payment spacing tightens |
 
-Curator's 1,050px minimum-width table has a focusable horizontal scroll region; code and handbook tables also scroll locally. Handbook navigation stacks under 950px and tightens under 540px. Ten app routes were checked at 320, 390, 780 and 1440px with no page overflow. At 390×844 the home action spans y=475.39–519.39, visible with the heading and address field. Native zoom, RTL and pseudo-localization were not verified.
+Curator's 1,050px minimum-width table has a focusable horizontal scroll region; code and handbook tables also scroll locally. Handbook navigation stacks under 950px and tightens under 540px. Ten app routes were checked at 320, 390, 780 and 1440px with no page overflow. At 390×844 the home action spans y=486.58–530.58, visible with the heading and address field. Native zoom, RTL and pseudo-localization were not verified.
 
 ## Elevation & Depth
 
 The app is flat: one-pixel structural/state borders and subtle tonal surfaces, without decorative shadows or gradient text. Native dialogs use the top layer and a dark backdrop (`rgb(0 0 0 / 0.8)`). The wallet picker caps at 420px wide/85dvh high with local scrolling and `overscroll-behavior: contain`.
 
-Progress uses text labels. `swarm-wait` is guarded by `prefers-reduced-motion: no-preference`; Fact Check disables orbit/pulse/reveal motion for reduced motion. The landing probe found no endless animation or `transition: all`. Conditional paid-request animation was source-reviewed, not observed during a new paid request. The 1.0.1 `web/src/fact-check/hive-anchor.mjs` retains the progress hive's scroll position during phase changes, including dialogs/narrow screens; helper tests are in `web/tests/hive-anchor.test.mjs`.
+Progress uses text labels. `swarm-wait` is guarded by `prefers-reduced-motion: no-preference`; Fact Check disables orbit/pulse/reveal motion for reduced motion. The landing probe found no endless animation or `transition: all`. Conditional paid-request animation was source-reviewed, not observed during a new paid request. The retained `web/src/fact-check/hive-anchor.mjs` preserves the progress hive's scroll position during phase changes, including dialogs/narrow screens; helper tests are in `web/tests/hive-anchor.test.mjs`.
 
 ## Shapes
 
@@ -81,7 +81,7 @@ Buttons, fields and panels have square corners. Hexagons identify hive artwork/e
 
 | Source | Reuse and states |
 | --- | --- |
-| `web/src/components.tsx` | `Section`, `Status`, `Mark`, `AddressForm`, `Card`, `CommunityCard`, `WalletFactRows`, contract/source/code patterns |
+| `web/src/components.tsx` | `Section`, `Status`, `Mark`, `AddressForm` (now with optional Clear wallet), `Card` (multi-cell pressed states), `CommunityCard`, `WalletFactRows`, contract/source/code patterns |
 | `web/src/App.tsx` | Frame/footer, route titles, main focus, skip link, loading/recovery and lazy Fact Check |
 | `web/src/site-navigation.tsx` and `.css` | Primary links, native More disclosure, current destination and keyboard/focus |
 | `web/src/task-navigation.mjs` | Mint destinations and legacy bookmarks |
@@ -89,17 +89,25 @@ Buttons, fields and panels have square corners. Hexagons identify hive artwork/e
 | `web/src/claim.tsx` | Card preparation, fact picker, fees/consent and community-rule form |
 | `web/src/controllers/transactions.tsx` | Preparation, signature, pending, receipt and recovery |
 | `web/src/curator.tsx` and `.css` | Fact/weight filters, historical/current evidence, CSV/JSON and consumer tabs |
-| `web/src/wallet-summary.tsx` and `.css` | Held-fact table, card and family highlight |
+| `web/src/wallet-summary.tsx` and `.css` | Held-fact table and labeled synthetic `WalletPreview`; multi-cell selection, table highlighting and balanced desktop columns; fixed 36px cell-symbol slots |
+| `web/src/cell-pictures.mjs` | Extracts original Renderer cell/ring artwork for fact rows |
 | `web/src/fact-check/FactCheckLive.tsx` | Public/connected history, refresh/retry, loading/disconnected states |
-| `web/src/fact-check/FactCheckView.tsx` and `fact-check.css` | Stages, agents, agreement, Registry confirmation and evidence disclosure |
+| `web/src/fact-check/FactCheckView.tsx` and `fact-check.css` | Stages, agents, agreement, Registry confirmation and evidence disclosure; sticky progress and card in `.fc-pinned` |
+| `web/src/fact-check/CardShare.tsx` and `card-image.mjs` | Finished result sharing and PNG download, with question, wallet, artwork, result and busy/status feedback |
+| `web/src/ens-name.ts` | Mainnet primary-name lookup through forward-checked reverse resolution; missing/error/offchain-only names remain absent |
+| `web/src/title-case.mjs` | Shared title-case conversion for headings |
 | `web/src/community-rule.mjs` | Compact Mint rule/window/question; full raw Catalog rule |
 | `web/public/docs/app.js` | Handbook search, Escape clear and contents disclosure |
 
 Buttons have 44px minimum height, neutral borders, accent hover/active states and explicit disabled styling. `.primary` fills accent with dark text and uses `--shared` on hover. Inputs use matching square forms with danger borders when invalid. Focus is a 2px text-color outline offset 4px. Wallet rows are ≥48px; their close control is 36px. The home target-spacing probe passed the 24px baseline; that does not establish 44px targets everywhere.
 
-`AddressForm` validates on submit, focuses invalid input, sets `aria-invalid` and references its status/error with `aria-describedby="address-error"`. Native modal behavior contains focus; Escape/backdrop/close dismissal and focus restoration are supported. More supports keyboard opening and Escape. Hash navigation moves focus to the destination. These paths and Curator tab keyboard navigation were exercised.
+`AddressForm` validates on submit, focuses invalid input, sets `aria-invalid` and references its status/error with `aria-describedby="address-error"`. Native modal behavior contains focus; Escape/backdrop/close dismissal and focus restoration are supported. More supports keyboard opening and Escape. Hash navigation moves focus to the destination. These paths and Curator tab keyboard navigation were exercised. Preview hive cells also support Space, expose `aria-pressed` and show an accent focus outline; selecting cells leaves all 26 currently available preview rows present.
 
-Community facts reuse the mini hive. Mint's compact 1.0.1 summary describes qualifying IMD payments as paid swarm requests and separates rule/window from registrant; Catalog retains raw conditions/full addresses. Known negatives sit behind a counted disclosure. Loading/met/not-met/unavailable advice is textual, with `Source: indexer, block N` or `Source: chain scan`. Advice never substitutes for Registry proof. Fact Check distinguishes accepted/saved facts from API progress and retains read recovery.
+Community facts reuse the mini hive. The compact Wallet Facts summary describes qualifying IMD payments as paid swarm requests and separates rule/window from registrant; Catalog retains raw conditions/full addresses. Known negatives sit behind a counted, underlined disclosure aligned with the fact-group title. This is a smaller text control, not a 44px button. Loading/met/not-met/unavailable advice is textual, with `Source: indexer, block N` or `Source: chain scan`. Advice never substitutes for Registry proof. Fact Check distinguishes accepted/saved facts from API progress and retains read recovery.
+
+The 1.0.2 primary labels are Explorer, Sworn Card, Wallet Facts, Fact Check and Community Facts. The empty Explorer labels its hive as a preview rather than a real wallet; entering an address loads live facts, and Clear wallet returns to the preview and clears the remembered address. On desktop, `balancedSplit` in `wallet-summary.tsx` distributes table rows beside/below the card; on phones, all rows follow the card.
+
+The finished Fact Check PNG is a 1600×1000 composition rendered at 2× resolution (3200×2000). A live saved fact's download was inspected and contained its question, complete wallet, agents and result. Sharing uses native file sharing where supported, then native link sharing or clipboard. Native sharing/clipboard fallback and a named-wallet ENS success were not exercised. A historical completed result was inspected; no new paid request was started.
 
 ## Do's and Don'ts
 

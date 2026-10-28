@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the exact Sworn 1.0.1 source and export without building or writing files."""
+"""Check the exact Sworn 1.0.2 source and export without building or writing files."""
 
 import argparse
 import hashlib
@@ -8,7 +8,7 @@ import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-COMMIT = "5e0dce32d16e034d02dc018323c8615f37188383"
+COMMIT = "a4ee0244262b4e5cf8f3d22129814f5b74c7dec4"
 
 
 def digest(data):
@@ -31,7 +31,7 @@ def verify(archive=None):
                 assert entry.isfile() or entry.isdir(), "Unexpected archive file type"
                 if entry.isfile():
                     upstream[parts[1]][Path(*parts[2:]).as_posix()] = source.extractfile(entry).read()
-    for name, count, size in (("web", 333, 3582497), ("dist", 90, 2423835)):
+    for name, count, size in (("web", 347, 3925581), ("dist", 90, 2440774)):
         folder = ROOT / name
         paths = list(folder.rglob("*"))
         assert not any(p.is_symlink() for p in paths), f"Symlink in {name}"

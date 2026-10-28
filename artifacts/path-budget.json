@@ -36,5 +36,5 @@
     "artifacts/screenshots/fact-check-390.png": 262144,
     "artifacts/screenshots/fact-history-390.png": 262144
   },
-  "purpose": "Exact delivery evidence allowlist; no dependency or cache directories. This release adds only fact-check-390.png and fact-history-390.png to .gitignore, at 262,144 bytes each within the unchanged 2,097,152-byte aggregate budget."
+  "purpose": "Sworn 1.0.2 validation reuses the existing artifact allowlist and 2,097,152-byte aggregate budget. No ignore-file change; dependencies, caches and downloaded archives are not delivered."
 }

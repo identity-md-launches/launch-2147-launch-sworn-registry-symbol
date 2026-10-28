@@ -1,56 +1,77 @@
 {
-  "source": "https://ethereum-rpc.publicnode.com",
-  "indexer": "https://sworn.vibingco.de/api",
+  "release": "1.0.2",
+  "commit": "a4ee0244262b4e5cf8f3d22129814f5b74c7dec4",
+  "date": "2026-10-28",
+  "browser": "Chromium via browser tool",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "fixtureTransport": false,
+  "walletDiscovery": "registrant from live https://sworn.vibingco.de/api/rules",
+  "wallet": "0x84f4b7424e1b0464f9c749725c1f34bed9aa8ada",
+  "indexerLastIndexedBlock": 26287748,
   "checks": [
-    "Live rule 10001: 5, met=true",
-    "Live card 2 wallet: four verified requests and saved request details",
-    "Live rule 10001: 47, met=true",
-    "Live rule 10001: 0, met=false"
-  ],
-  "errors": [],
-  "timings": [
     {
-      "wallet": "0x887b86b6b6957f7bbea88b8cefd392f39236a88c",
-      "count": 5,
-      "met": true,
-      "elapsedMs": 999
+      "name": "Live public wallet history displays two recorded facts (601, 1301)",
+      "passed": true,
+      "displayedFacts": 2
     },
     {
-      "wallet": "0xe5b1275fb926613d983da33fbfe1f331b7f64f2a",
-      "count": 47,
-      "met": true,
-      "elapsedMs": 447
+      "name": "Refresh history returns two facts and restores enabled button",
+      "passed": true,
+      "status": "All fact history loaded."
     },
     {
-      "wallet": "0x84f4b7424e1b0464f9c749725c1f34bed9aa8ada",
-      "count": 0,
-      "met": false,
-      "elapsedMs": 494
+      "name": "Successful Ethereum receipts contain launch-2404 Registry events for that wallet",
+      "passed": true,
+      "receipts": [
+        {
+          "factId": 601,
+          "transactionHash": "0x79727c7a6770521fade2c379e0ec4d71f091633f6d4bbe1730ca6dc3e38ca519",
+          "status": "0x1",
+          "blockNumber": 26244370,
+          "registryEventForWallet": true
+        },
+        {
+          "factId": 1301,
+          "transactionHash": "0x6b906775ca96a7df57e63b05642464c77cdb0430da87b474a5109b3bc0fd9dd5",
+          "status": "0x1",
+          "blockNumber": 26259462,
+          "registryEventForWallet": true
+        }
+      ]
+    },
+    {
+      "name": "Finished Fact Check downloads a nonempty PNG with question, wallet, agents and result",
+      "passed": true,
+      "filename": "sworn-1301-0x84f4b742.png",
+      "bytes": 456152,
+      "dimensions": [
+        3200,
+        2000
+      ],
+      "status": "Image saved.",
+      "visuallyInspected": true
+    },
+    {
+      "name": "Preview cell supports Space key and exposes its pressed state with a visible focus outline",
+      "passed": true,
+      "cell": "Inspect Swarmed cell",
+      "ariaPressed": "true",
+      "outline": "2px solid rgb(0, 255, 65)"
+    },
+    {
+      "name": "No page overflow in reviewed live history and preview states",
+      "passed": true,
+      "viewport": 390,
+      "scrollWidth": 390
     }
   ],
-  "requests": [
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/rules/10001/eligibility?wallet=0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/wallets/0x887b86B6B6957F7bbeA88B8CEfD392f39236A88C",
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
-    "https://sworn.vibingco.de/api/rules/10001/eligibility?wallet=0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
-    "https://sworn.vibingco.de/api/rules",
-    "https://sworn.vibingco.de/api/wallets/0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA",
-    "https://sworn.vibingco.de/api/rules/10001/eligibility?wallet=0x84F4b7424e1B0464f9C749725C1F34bed9AA8aDA"
+  "limitations": [
+    "Native sharing/clipboard fallback not exercised.",
+    "ENS primary-name success not observed for this public wallet.",
+    "No wallet signature or transaction sent.",
+    "Historical request states inspected; no newly paid request started."
   ]
 }
