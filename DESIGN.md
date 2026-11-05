@@ -1,8 +1,8 @@
-# Sworn · implemented design, 1.0.2
+# Sworn · implemented design, 1.0.3
 
 ## Overview
 
-The source of truth is unchanged `web/` from `banse/sworn` commit `a4ee0244262b4e5cf8f3d22129814f5b74c7dec4`; `dist/` is that commit's supplied export. This describes the implementation, not a redesign or new build. The earlier `site/` frontend is historical.
+The source of truth is unchanged `web/` from `banse/sworn` commit `ad995de37801330cd5897a78afe6c2f757dab117`; `dist/` is that commit's supplied export. This describes the implementation, not a redesign or new build. The earlier `site/` frontend is historical.
 
 Sworn lets visitors inspect Ethereum wallet facts, mint an optional card, verify facts, define community rules and curate lists. Its instrument-panel character uses system monospace, near-black surfaces, green actions, square controls, thin rules and a thirteen-family hive. The landing places the address form before explanatory prose. Synthetic artwork is labeled as illustration rather than a wallet credential.
 
@@ -44,7 +44,7 @@ The stack is `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`, with no
 
 `h1` uses 600 weight, 1.3 line-height, −0.02em tracking and balanced wrapping. The landing uses 1.25/−0.03em and a 19ch desktop/22ch phone measure. The wordmark tracks at 0.12em. `h4` and `.subpart-title` are muted uppercase. Modal/Fact Check styles include local sizes such as 20px. The source declares seven global size tokens even though the landing probe fits its per-viewport thresholds. Uppercase landing headings and monospace prose are inherited exceptions.
 
-At ≤600px the main address and form fields use 16px input text. Addresses, receipts and status text wrap with `overflow-wrap: anywhere`; code blocks scroll locally. Curator paragraphs cap at 78ch. The mint panel now uses its whole text column (`.mint-panel p { max-width: none }`). The handbook is a separate reading surface: 16px root (15px under 540px), 1.75 line-height, a responsive title and 74ch prose.
+At ≤600px the main address and form fields use 16px input text. Addresses, receipts and status text wrap with `overflow-wrap: anywhere`; code blocks scroll locally. Curator paragraphs cap at 78ch. The mint panel uses its whole text column (`.mint-panel p { max-width: none }`). The handbook is a separate reading surface: 16px root (15px under 540px), 1.75 line-height, a responsive title and 74ch prose.
 
 ## Layout
 
@@ -65,7 +65,7 @@ The desktop landing uses `minmax(0, 1.1fr) minmax(0, 1fr)`, a 48px gap, form lef
 | ≤600px | 16px page padding, four-column header navigation, full-width address action and 16px inputs |
 | ≤480px | Task-tab/payment spacing tightens |
 
-Curator's 1,050px minimum-width table has a focusable horizontal scroll region; code and handbook tables also scroll locally. Handbook navigation stacks under 950px and tightens under 540px. Ten app routes were checked at 320, 390, 780 and 1440px with no page overflow. At 390×844 the home action spans y=486.58–530.58, visible with the heading and address field. Native zoom, RTL and pseudo-localization were not verified.
+Curator's 1,050px minimum-width table has a focusable horizontal scroll region; code and handbook tables also scroll locally. Handbook navigation stacks under 950px and tightens under 540px. Ten app routes were checked at 320, 390, 780 and 1440px with no page overflow. At 390×844 the home action spans y=438.48–482.48, visible with the heading and address field. Native zoom, RTL and pseudo-localization were not verified.
 
 ## Elevation & Depth
 
@@ -101,13 +101,13 @@ Buttons, fields and panels have square corners. Hexagons identify hive artwork/e
 
 Buttons have 44px minimum height, neutral borders, accent hover/active states and explicit disabled styling. `.primary` fills accent with dark text and uses `--shared` on hover. Inputs use matching square forms with danger borders when invalid. Focus is a 2px text-color outline offset 4px. Wallet rows are ≥48px; their close control is 36px. The home target-spacing probe passed the 24px baseline; that does not establish 44px targets everywhere.
 
-`AddressForm` validates on submit, focuses invalid input, sets `aria-invalid` and references its status/error with `aria-describedby="address-error"`. Native modal behavior contains focus; Escape/backdrop/close dismissal and focus restoration are supported. More supports keyboard opening and Escape. Hash navigation moves focus to the destination. These paths and Curator tab keyboard navigation were exercised. Preview hive cells also support Space, expose `aria-pressed` and show an accent focus outline; selecting cells leaves all 26 currently available preview rows present.
+`AddressForm` validates on submit, focuses invalid input, sets `aria-invalid` and references its status/error with `aria-describedby="address-error"`. Native modal behavior contains focus; Escape/backdrop/close dismissal and focus restoration are supported. More supports keyboard opening and Escape. Hash navigation moves focus to the destination. These paths and Curator tab keyboard navigation were exercised. Preview hive cells also support Space, expose `aria-pressed` and show an accent focus outline; selecting cells leaves all 25 preview rows present in this check.
 
 Community facts reuse the mini hive. The compact Wallet Facts summary describes qualifying IMD payments as paid swarm requests and separates rule/window from registrant; Catalog retains raw conditions/full addresses. Known negatives sit behind a counted, underlined disclosure aligned with the fact-group title. This is a smaller text control, not a 44px button. Loading/met/not-met/unavailable advice is textual, with `Source: indexer, block N` or `Source: chain scan`. Advice never substitutes for Registry proof. Fact Check distinguishes accepted/saved facts from API progress and retains read recovery.
 
-The 1.0.2 primary labels are Explorer, Sworn Card, Wallet Facts, Fact Check and Community Facts. The empty Explorer labels its hive as a preview rather than a real wallet; entering an address loads live facts, and Clear wallet returns to the preview and clears the remembered address. On desktop, `balancedSplit` in `wallet-summary.tsx` distributes table rows beside/below the card; on phones, all rows follow the card.
+The 1.0.3 primary labels are Explorer, Sworn Card, Wallet Facts, Fact Check and Community Facts. The empty Explorer labels its hive as a preview rather than a real wallet; entering an address loads live facts, and Clear wallet returns to the preview and clears the remembered address. On desktop, `balancedSplit` in `wallet-summary.tsx` distributes table rows beside/below the card; on phones, all rows follow the card.
 
-The finished Fact Check PNG is a 1600×1000 composition rendered at 2× resolution (3200×2000). A live saved fact's download was inspected and contained its question, complete wallet, agents and result. Sharing uses native file sharing where supported, then native link sharing or clipboard. Native sharing/clipboard fallback and a named-wallet ENS success were not exercised. A historical completed result was inspected; no new paid request was started.
+The finished Fact Check PNG is a 1600×1000 composition rendered at 2× resolution (3200×2000). The browser-generated PNG for a real saved fact was captured and visually inspected: it contains the question, complete wallet, resolved name `pawai.eth`, agent responses and saved result. Chromium canceled native file saving for both JSON and PNG, so native download completion remains unverified. Sharing uses native file sharing where supported, then native link sharing or clipboard; those paths were not exercised. No new paid request was started.
 
 ## Do's and Don'ts
 
@@ -118,4 +118,4 @@ The finished Fact Check PNG is a 1600×1000 composition rendered at 2× resoluti
 - Distinguish historical candidates, live reads, pending requests and confirmed Registry facts.
 - Recheck phone entry actions, modal keyboard behavior and static subpath assets after future changes.
 
-All six pinned Better Interface domains informed the review. Guidance: [Jakub Krehel, Better Interface](https://github.com/jakubkrehel/skills/tree/267330e1adfc66a718fb65fa6918c1f06d0a689e/skills/better-interface), MIT. Documentation method: [Paul Bakaus, Impeccable](https://github.com/pbakaus/impeccable/blob/9d715cc4f5564a990ca8345abfdd5df6dc9b41c8/skill/reference/document.md), Apache-2.0. Notices remain in `web/LICENSES/Better-Interface.txt`. Findings and unperformed checks are in `artifacts/validation.md`.
+Version 1.0.3 changes RPC resilience and shared-fact safety without changing these UI sources. All six pinned Better Interface domains informed the review; inherited uppercase headings and monospace prose remain under the exact-copy requirement. WebKit could not launch because required host libraries are missing. Native-device, screen-reader, browser-native zoom, RTL and pseudo-localization checks remain unperformed. Guidance: [Jakub Krehel, Better Interface](https://github.com/jakubkrehel/skills/tree/267330e1adfc66a718fb65fa6918c1f06d0a689e/skills/better-interface), MIT. Documentation method: [Paul Bakaus, Impeccable](https://github.com/pbakaus/impeccable/blob/9d715cc4f5564a990ca8345abfdd5df6dc9b41c8/skill/reference/document.md), Apache-2.0. Notices remain in `web/LICENSES/Better-Interface.txt`. Findings and unperformed checks are in `artifacts/validation.md`.

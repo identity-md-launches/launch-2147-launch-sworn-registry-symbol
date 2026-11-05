@@ -1,11 +1,11 @@
 {
-  "exportCommit": "a4ee0244262b4e5cf8f3d22129814f5b74c7dec4",
+  "exportCommit": "ad995de37801330cd5897a78afe6c2f757dab117",
   "productionBuildRun": false,
   "servedUnderSubpath": "/preview/",
   "mainnetSource": "https://ethereum-rpc.publicnode.com",
-  "rpcTransport": "Public browser RPCs",
+  "rpcTransport": "Contributor read-only RPC override; exported files unchanged",
   "engines": {
-    "chromium": "156.0.8078.4",
+    "chromium": "154.0.8037.0",
     "webkit": "Unavailable"
   },
   "checks": [
@@ -13,8 +13,8 @@
       "name": "390px first screen contains product, address field and main action",
       "passed": true,
       "result": {
-        "actionTop": 486.578125,
-        "actionBottom": 530.578125,
+        "actionTop": 438.484375,
+        "actionBottom": 482.484375,
         "viewportHeight": 844
       }
     },
@@ -29,14 +29,14 @@
     {
       "name": "Ethereum deployment verification and current price read",
       "passed": true,
-      "result": "Ethereum mainnet \u00b7 block 26,287,746 \u00b7 current oracle quote"
+      "result": "Ethereum mainnet · block 26,351,109 · current oracle quote"
     },
     {
       "name": "Explorer preview selects multiple hive cells and toggles them independently",
       "passed": true,
       "result": {
         "cells": 13,
-        "factRows": 26
+        "factRows": 25
       }
     },
     {
@@ -238,8 +238,15 @@
     },
     {
       "name": "Fact Check loads saved facts for a wallet discovered from Registry logs",
-      "passed": false,
-      "error": "{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"}"
+      "passed": true,
+      "result": {
+        "wallet": "0xe5b1275fb926613d983da33fbfe1f331b7f64f2a",
+        "source": "Ethereum Registry logs and successful history transaction receipt",
+        "transaction": "0xf43d85f7be29010ff076bbc2aeefb50655d7007db1cc18f8b63b9c8f4927bd10",
+        "displayedFacts": 2,
+        "viewport": 390,
+        "scrollWidth": 390
+      }
     },
     {
       "name": "An invalid oracle request link explains recovery and returns to Wallet Facts",
@@ -251,11 +258,8 @@
     },
     {
       "name": "Curator fact filtering exports a real historical JSON selection",
-      "passed": true,
-      "result": {
-        "exportedWallets": 4931,
-        "selectionSource": "historical-candidates"
-      }
+      "passed": false,
+      "error": "download.path: canceled"
     },
     {
       "name": "Curator tab keyboard navigation and malformed consumer validation",
@@ -279,7 +283,7 @@
     {
       "name": "No browser console errors, including external public services",
       "passed": false,
-      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Failed to load resource: the server responded with a status of 403 ()',\n+   'Failed to load resource: the server responded with a status of 403 ()',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\",\n+   'Failed to load resource: net::ERR_FAILED',\n+   \"Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control"
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE',\n+   'Failed to load resource: net::ERR_EMPTY_RESPONSE'\n+ ]\n- []\n"
     }
   ],
   "layouts": [
@@ -535,37 +539,214 @@
     "curator-390.png",
     "integrate-390.png",
     "about-390.png",
-    "landing-1440.png"
+    "landing-1440.png",
+    "fact-history-390.png"
   ],
   "pageErrors": [],
   "consoleErrors": [
-    "Failed to load resource: the server responded with a status of 403 ()",
-    "Failed to load resource: the server responded with a status of 403 ()",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED",
-    "Access to fetch at 'https://gateway.tenderly.co/public/mainnet' from origin '<preview>' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED"
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE"
+  ],
+  "requestFailures": [
+    {
+      "url": "<preview>/preview/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/rules",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "<preview>/preview/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/rules",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "<preview>/preview/data/eligibility/wallets-4.json",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "<preview>/preview/data/eligibility/wallets-b.json",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "<preview>/preview/data/eligibility/wallets-7.json",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://gateway.tenderly.co/public/mainnet",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://gateway.tenderly.co/public/mainnet",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/rules",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://api.imd.fun/oracle/requests/4bb73578-f283-4677-ba92-dfff5b09615e",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/wallets/0xe5B1275FB926613D983dA33fBfe1F331b7f64F2A",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://ethereum-rpc.publicnode.com/",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://sworn.vibingco.de/api/rules",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
   ],
   "localHttpErrors": [],
   "limitations": [
     "WebKit did not run: host system is missing required shared libraries.",
     "No wallet account, signature, transaction broadcast, native-device, screen-reader or browser-native zoom test."
-  ],
-  "screenshotCaptureDirectory": "test/scratch/sworn-1.0.2/browser (temporary)",
-  "retainedScreenshots": [
-    "artifacts/screenshots/landing-390.png",
-    "artifacts/screenshots/catalog-390.png",
-    "artifacts/screenshots/claim-390.png",
-    "artifacts/screenshots/fact-check-390.png"
   ]
 }

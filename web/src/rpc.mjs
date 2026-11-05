@@ -118,6 +118,7 @@ export function resilientRpc({
                 (![403, 429, 503].includes(response.status) &&
                   sizeRefused(text))),
             final: response.status === 403,
+            archiveRefusal: method === "eth_getLogs" && /archive/i.test(text),
           });
         }
         const body = JSON.parse(response.text);
@@ -139,6 +140,9 @@ export function resilientRpc({
               sizeRefusal:
                 method === "eth_getLogs" &&
                 sizeRefused(body.error.message || ""),
+              archiveRefusal:
+                method === "eth_getLogs" &&
+                /archive/i.test(body.error.message || ""),
             },
           );
           throw error;
@@ -147,7 +151,12 @@ export function resilientRpc({
         return body.result;
       } catch (error) {
         halt(signal);
-        if (error.contractRefusal || error.sizeRefusal || error.final)
+        if (
+          error.contractRefusal ||
+          error.sizeRefusal ||
+          error.archiveRefusal ||
+          error.final
+        )
           throw error;
         if (attempt) throw error;
       }
@@ -206,9 +215,12 @@ export function resilientRpc({
   // Logs count only when two endpoints return the same list. A range is read
   // in two halves only when every endpoint that refused it refused it for its
   // size; a rate limit, an archive refusal or an outage never splits a range.
+  // An endpoint that refuses logs as archive requests (publicnode without a token) sits out every
+  // later log read of this pool, and stays available for every other read.
+  const noArchiveLogs = new Set();
   async function logs(params, signal) {
     const answers = [];
-    const tried = new Set();
+    const tried = new Set(noArchiveLogs);
     let refused = 0,
       sizeRefused = 0;
     while (answers.length < 2) {
@@ -224,7 +236,8 @@ export function resilientRpc({
       } catch (error) {
         if (error.stopped) throw error;
         refused++;
-        if (error.sizeRefusal) sizeRefused++;
+        if (error.archiveRefusal) noArchiveLogs.add(url);
+        else if (error.sizeRefusal) sizeRefused++;
         else pause(url);
       }
     }

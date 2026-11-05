@@ -1,5 +1,5 @@
-// Read-only checks of the exact Sworn 1.0.2 export. This script never invokes a build.
-// npm ci in web/ supplies Playwright; an external module may also be selected.
+// Read-only checks of the exact Sworn 1.0.3 export. This script never invokes a build.
+// SWORN_PLAYWRIGHT_MODULE can select an isolated validation dependency installation.
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -17,12 +17,12 @@ const { chromium, webkit } = await import(moduleUrl);
 const preview = await server();
 const origin = new URL(preview.url).origin;
 const report = {
-  exportCommit: 'a4ee0244262b4e5cf8f3d22129814f5b74c7dec4',
+  exportCommit: 'ad995de37801330cd5897a78afe6c2f757dab117',
   productionBuildRun: false,
   servedUnderSubpath: '/preview/',
   mainnetSource: 'https://ethereum-rpc.publicnode.com',
   rpcTransport: process.env.SWORN_TEST_RPC ? 'Contributor read-only RPC override; exported files unchanged' : 'Public browser RPCs',
-  engines: {}, checks: [], layouts: [], screenshots: [], pageErrors: [], consoleErrors: [], localHttpErrors: [], limitations: [],
+  engines: {}, checks: [], layouts: [], screenshots: [], pageErrors: [], consoleErrors: [], requestFailures: [], localHttpErrors: [], limitations: [],
 };
 const readRpc = /https:\/\/(?:ethereum-rpc\.publicnode\.com|gateway\.tenderly\.co|rpc\.mevblocker\.io|eth\.drpc\.org|1\.rpc\.thirdweb\.com)(?:\/|$)/;
 const check = async (name, fn) => {
@@ -36,7 +36,11 @@ const shot = async (page, name) => {
 };
 let browser;
 try {
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({
+    headless: true,
+    downloadsPath: path.join(out, 'downloads'),
+    ...(process.env.SWORN_CHROMIUM_EXECUTABLE ? { executablePath: process.env.SWORN_CHROMIUM_EXECUTABLE } : {}),
+  });
   report.engines.chromium = browser.version();
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, acceptDownloads: true });
   if (process.env.SWORN_TEST_RPC) await context.route(readRpc, async route => {
@@ -48,6 +52,10 @@ try {
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
   page.on('pageerror', error => report.pageErrors.push(error.message));
+  page.on('requestfailed', request => report.requestFailures.push({
+    url: request.url().replaceAll(origin, '<preview>'),
+    error: request.failure()?.errorText,
+  }));
   page.on('console', message => {
     if (message.type() === 'error') report.consoleErrors.push(message.text().replaceAll(origin, '<preview>'));
   });

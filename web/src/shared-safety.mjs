@@ -1,4 +1,5 @@
 import { parseAbiItem, decodeEventLog, toEventSelector, toHex } from "viem";
+import { pinFor } from "./shared-pins.mjs";
 
 export function sharedMembership(value, wallet) {
   if(!value || /^0x0+$/.test(value.fact[0]))return 'not-stored';
@@ -16,6 +17,17 @@ export function unsafeTransferRanking(spec) {
 export const TRANSFER_WARNING =
   "Transfer rankings grouped by from or to can include mint or burn addresses below 2**80. The deployed Registry refuses them with Missed reason 9 and the request price is lost. Choose another rule.";
 
+function refuseUnusableHead(list, head) {
+  if (list.length < head)
+    throw Error(
+      `Only ${list.length} keys for a head of ${head}. Registry would refuse the short list (Missed reason 9); payment blocked.`,
+    );
+  if (list.some((a) => BigInt(a) < 2n ** 80n))
+    throw Error(
+      "A top-head address is below 2**80. Registry would refuse the answer (Missed reason 9); payment blocked.",
+    );
+}
+
 /** Inclusive, bounded chunks, strict decoding, endpoint agreement supplied by resilientRpc. */
 export async function checkSharedSpec(client, spec) {
   if (Number(spec.kind) !== 3) return null;
@@ -28,6 +40,21 @@ export async function checkSharedSpec(client, spec) {
   const start = BigInt(spec.fromBlock),
     end = BigInt(spec.toBlock);
   if (start > end) throw Error("Incomplete historical log window.");
+  // A closed window read once and pinned (shared-pins.mjs): confirm the chain, then use the pin.
+  const pin = pinFor(spec);
+  if (pin) {
+    const pinned = await client.getBlock({ blockNumber: end });
+    if (pinned?.hash !== pin.blockHash)
+      throw Error("Historical block changed; payment blocked.");
+    refuseUnusableHead(pin.list, head);
+    return {
+      list: [...pin.list],
+      count: pin.count,
+      fromBlock: start,
+      toBlock: end,
+      blockHash: pin.blockHash,
+    };
+  }
   const closing = await client.getBlock({ blockNumber: end });
   if (!closing?.hash)
     throw Error("Cannot pin the historical closing block; payment blocked.");
@@ -51,11 +78,17 @@ export async function checkSharedSpec(client, spec) {
           },
         ],
       });
-      // A provider cap can be a successful but truncated response. Split conservatively.
-      if (!Array.isArray(logs) || logs.length >= 1000)
-        throw Error("Possible truncated logs");
+      // A provider cap can be a successful but truncated response. Split conservatively. The
+      // keyless RPCs that serve these reads return far more than 1,000 logs per call (6,814 in
+      // one 2,000-block range of fact 1201), so only a round 10,000 counts as a possible cap.
+      if (!Array.isArray(logs) || logs.length >= 10000)
+        throw Object.assign(Error("Possible truncated logs"), {
+          truncated: true,
+        });
     } catch (error) {
-      if (span > 1n && !/Cannot read the chain|disagree/i.test(error.message)) {
+      // Only a possible cap splits the range. An unavailable or rate-limited pool is not a size
+      // problem: smaller ranges would only send more requests into the same limit.
+      if (span > 1n && error.truncated) {
         span = (span + 1n) / 2n;
         continue;
       }
@@ -110,14 +143,7 @@ export async function checkSharedSpec(client, spec) {
     )
     .slice(0, head)
     .map(([a]) => a);
-  if (list.length < head)
-    throw Error(
-      `Only ${list.length} keys for a head of ${head}. Registry would refuse the short list (Missed reason 9); payment blocked.`,
-    );
-  if (list.some((a) => BigInt(a) < 2n ** 80n))
-    throw Error(
-      "A top-head address is below 2**80. Registry would refuse the answer (Missed reason 9); payment blocked.",
-    );
+  refuseUnusableHead(list, head);
   return {
     list,
     count,

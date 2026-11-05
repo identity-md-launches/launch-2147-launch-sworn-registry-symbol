@@ -1,29 +1,31 @@
-# Sworn · 1.0.2
+# Sworn · 1.0.3
 
-This release replaces the site under the existing **sworn** name (`sworn.site.identitymd.eth`) with the exact `web/` and `dist/` folders from [banse/sworn, commit `a4ee0244262b4e5cf8f3d22129814f5b74c7dec4`](https://github.com/banse/sworn/tree/a4ee0244262b4e5cf8f3d22129814f5b74c7dec4), release branch `sworn-web-1.0.2`. No file in either folder was edited, omitted or added. **No production build was run for this delivery.** The publisher serves repository-root `dist/` after submission; it does not need to rebuild the source.
+The existing **sworn** site (`sworn.site.identitymd.eth`) receives the exact `web/` and `dist/` folders from [banse/sworn at `ad995de37801330cd5897a78afe6c2f757dab117`](https://github.com/banse/sworn/tree/ad995de37801330cd5897a78afe6c2f757dab117), branch `sworn-web-1.0.3`. This replaces version 1.0.2 from this project's commit `db99d4ce0fb139184fc0ecfb57e3c4bdb16dad4e`.
 
-| Delivered folder | Files | Bytes |
+**Every source and export file is unchanged from upstream. No production build ran here.** The committed root `dist/` is the publishing plane's input; it serves these files without rebuilding and retains the existing name. This worker did not independently change ENS, DNS or IPFS hosting.
+
+| Folder | Files | Bytes |
 | --- | ---: | ---: |
-| `web/` — source, dependency manifest, lockfile, tests and public assets | 347 | 3,925,581 |
-| `dist/` — complete upstream production export | 90 | 2,440,774 |
+| `web/` — source, manifest, lockfile, tests and public assets | 349 | 3,936,008 |
+| `dist/` — upstream production export | 90 | 2,443,354 |
 
-The app reads Ethereum mainnet, public RPCs, `api.imd.fun`, IPFS gateways and `https://sworn.vibingco.de/api` from the visitor's browser. Its Registry remains **`0x0da2679000ea5380d1361cc3cca7d4e8c881f766` (launch 2404)**. The hosting project's older launch-2147 contracts, Solidity sources and records are preserved. No contract was deployed or retargeted.
+The static app reads Ethereum mainnet, public RPCs, `api.imd.fun`, IPFS gateways and the [Sworn indexer](https://sworn.vibingco.de/api) from the visitor's browser. The Registry stays **`0x0da2679000ea5380d1361cc3cca7d4e8c881f766`, launch 2404**. Version 1.0.3 updates RPC failure handling and shared-fact preflight safety, including a block-hash-checked historical pin. Upstream addresses and wallet configuration remain intact. The hosting project's launch-2147 contracts and records are historical; no contract was deployed or retargeted.
 
-## Preview the delivered site
+## Preview
 
-No dependency installation is needed. From the repository root:
+No dependency installation is needed:
 
 ```sh
 python3 -m http.server 4173 --directory dist
 ```
 
-Open `http://localhost:4173/`. Vite's `base: './'`, relative assets and hash navigation support gateway subpaths. Browser validation also served these files under `/preview/`. The entry includes a title, description, favicon, `og:title` and local `og:image`.
+Open `http://localhost:4173/`. Relative asset URLs, Vite's `base: './'` and hash routes support static gateways and subpaths. Validation served the supplied export under `/preview/`. `dist/index.html` includes a title, description, favicon, `og:title` and local `og:image`.
 
-The home page explores a public wallet without connecting. Explorer, Sworn Card, Wallet Facts, Fact Check, Community Facts and About are in the main navigation; More exposes Curator and integration resources. The empty Explorer has an explicitly labeled interactive preview; Clear wallet returns to it. Completed Fact Check results can be downloaded as PNG images. `docs/index.html` is the bundled searchable handbook. Existing hash-route aliases remain. Wallet connection retains EIP-6963 discovery, wallet-app browser links and Coinbase's connector. Paid actions require the visitor's wallet.
+Explore any Ethereum address without connecting. Navigation provides Explorer, Sworn Card, Wallet Facts, Fact Check, Community Facts, About and Docs; More exposes Curator and integration resources. Explorer's synthetic preview is explicitly labeled. Paid actions require the visitor's wallet. The bundled handbook at `docs/index.html` has local search.
 
 ## Install and rebuild for future development
 
-The worker checks used Node **24.21.0** and npm **11.19.0**. Use a compatible Node 24/npm 11 installation. The pinned source already contains its public assets; no regeneration step is needed for this release.
+The worker used Node 24.22.1 and npm 11.19.1. Use compatible versions:
 
 ```sh
 cd web
@@ -35,11 +37,9 @@ npm run verify:export
 npm run preview
 ```
 
-Open the preview URL printed by Vite. `npm run dev` serves the development source. The production build verifies source/ABI pins, builds into `../dist/`, writes the deployment asset manifest and checks the static release. These are future rebuild instructions, not commands run for this exact-copy delivery. A rebuild replaces the supplied export and must be reviewed as a new release. Keep dependencies, caches and browser downloads outside Git; no vendored npm registry is required.
+Open the preview address printed by Vite; `npm run dev` serves the source. The build checks source/ABI pins, writes `../dist/`, generates its asset manifest and verifies the static release. These are future development instructions, **not commands run for this delivery**: rebuilding replaces the requested upstream export. Public assets are already included. Keep dependency installations, browser binaries and caches out of Git.
 
-## Verify release integrity
-
-[`artifacts/export-manifest.json`](artifacts/export-manifest.json) records every delivered path, size and SHA-256, export Git blob hashes and source/export tree digests. Check without building:
+## Check release integrity without building
 
 ```sh
 python3 tools/verify-sworn-release.py
@@ -47,35 +47,37 @@ node web/scripts/manifest.mjs --check
 node web/scripts/static-release.mjs
 ```
 
-For an independent comparison, download GitHub's archive of the pinned commit and pass its local path to `python3 tools/verify-sworn-release.py --archive /path/to/archive.tar.gz`. This checks both folders, including extra and missing files. Older `tools/*sworn-v2*` scripts refer to historical releases.
+[`artifacts/export-manifest.json`](artifacts/export-manifest.json) records every path, size, SHA-256, folder digest and export Git blob hash. All **439** imported files were independently compared against GitHub's recursive tree API. Download the pinned commit archive to repeat the comparison:
 
-## Worker validation · 2026-10-28
+```sh
+python3 tools/verify-sworn-release.py --archive /path/to/pinned-archive.tar.gz
+```
 
-Both folders were copied from the commit archive and compared independently with GitHub's recursive tree API: **all 437 paths and Git blob hashes match**. No production build or asset generation ran. The source manifest and lockfile contain the upstream 1.0.2 version labels; dependency versions and build configuration are unchanged from the previous release.
+The verifier rejects missing, extra or changed files and changed file modes. Older `tools/*sworn-v2*` scripts describe historical releases.
 
-Dependencies were installed only in a temporary copy with `npm ci --ignore-scripts --no-audit --no-fund`. That copy also contained the exact export and the upstream `agents/sworn/SKILL.md` and `llms.txt` test inputs (identical to this repository's files). The following are this worker's results, not upstream claims:
+## Worker validation · 2026-11-05
+
+Dependencies were installed in an isolated disposable copy with `npm ci --ignore-scripts --no-audit --no-fund`. Checks ran against that copy or the root export without generating assets or building. The copy included upstream `agents/sworn/SKILL.md` and `llms.txt` test fixtures, both identical to this repository's versions.
 
 | Check | Actual result |
 | --- | --- |
-| Exact archive and GitHub blob comparison | 437/437 files match; no extra or missing files |
-| Typecheck (`npm run typecheck`) | Passed |
-| Unit suite, serial execution | 301 passed, 0 failed |
-| Source pin and ABI verification | Passed for Renderer, Composer and Registry |
-| Deployment manifest and static export verification | Passed; 89 assets plus manifest; 9 script/style assets |
-| Chromium production interaction runner | 60/62 passed, including all 40 route/width combinations |
-| Supplemental live history, download and keyboard checks | 6/6 passed |
+| Archive, path and GitHub blob comparison | 439/439 match; 349 source files and 90 export files |
+| `npm run typecheck` | Passed |
+| Serial unit suite | 312 passed; 0 failed or skipped |
+| `node scripts/verify-abis.mjs` | Passed source and ABI pins for launch-2404 Renderer, Composer and Registry |
+| Manifest and static-release checks | Passed; 89 assets plus manifest, 9 script/style assets |
+| Chromium production interaction runner | 60/62 passed, including all 40 route/width checks |
+| Supplemental payload, saved-history and keyboard checks | 4/4 passed |
 | Pinned design probe | 14/16 passed; inherited uppercase headings and monospace prose retained |
-| WebKit | Download succeeded; launch unavailable because required host shared libraries are missing |
-| Production build | Not run, as explicitly required |
+| WebKit | Downloaded; launch failed because required host libraries are missing |
+| Production build | Intentionally not run, as explicitly requested |
 
-The serial unit command was `RAYON_NUM_THREADS=2 UV_THREADPOOL_SIZE=2 node --test --test-concurrency=1 tests/*.test.mjs` from the temporary `web/`. The initial parallel run exhausted available processes; the temporary test setup also initially lacked parent-folder fixtures. Both test-setup problems were corrected before the successful complete run. Browser checks were run separately to avoid the same process limit.
+The unit command was `RAYON_NUM_THREADS=2 UV_THREADPOOL_SIZE=2 node --test --test-concurrency=1 tests/*.test.mjs` in the isolated `web/`. The production runner is `node tools/validate-sworn-release.mjs`; `SWORN_PLAYWRIGHT_MODULE` selects a separately installed Playwright module, `SWORN_CHROMIUM_EXECUTABLE` selects an installed Chromium binary, and optional `SWORN_TEST_RPC` selects a read-only verification transport without modifying exported files.
 
-The browser runner exercised the supplied export under `/preview/` at 320, 390, 780 and 1440px. It checked validation, wallet-dialog focus/dismissal, multi-cell Explorer selection, real wallet metadata, Clear wallet and reload, routes and aliases, request recovery, Curator filters/JSON export, handbook search and RPC failure messaging. At 390×844 the home action occupies y=486.58–530.58. No uncaught application error or missing local resource was observed.
+Browser checks exercised `/preview/` at 320, 390, 780 and 1440px: validation, live wallet metadata, Clear wallet/reload, hive selection, wallet-dialog focus/dismissal, routes and aliases, saved history, request recovery, Curator controls, handbook search and RPC failure messaging. At 390×844, the home action spans y=438.48–482.48. No uncaught app error or failed local HTTP resource was observed.
 
-Two runner checks failed: the public RPC denied an old log query, and external RPC requests produced HTTP/CORS console errors. Separately, a wallet discovered through the live indexer displayed two saved facts, refreshed successfully, and produced a visually inspected PNG download; both corresponding Ethereum receipts were verified. These successes do not erase the external-service limitations. Native sharing, ENS-name display for a named wallet, real wallet signatures and new paid/mainnet transactions were not tested.
+Two runner checks failed: Chromium canceled a native JSON download, and direct external requests logged `ERR_EMPTY_RESPONSE`. Follow-up checks captured and verified the actual browser-generated JSON (4,931 matching wallets) and PNG (3200×2000), refreshed two real saved facts and exercised Space-key cell selection. Read-only GET forwarding reached the real indexer and oracle API; the PNG was visually inspected, including the resolved `pawai.eth` name. **Native file saving remained canceled for both JSON and PNG.** These results do not establish direct public-browser service availability or successful native downloads. Wallet signing, paid transactions, native sharing, physical devices, screen readers and native browser zoom were not tested.
 
-See [`artifacts/validation.md`](artifacts/validation.md) for commands, the six-domain Better Interface review, findings, retained screenshots and unperformed checks. [`DESIGN.md`](DESIGN.md) documents the final implementation. Reports inside immutable `web/` describe upstream history; unlisted older root artifacts remain historical evidence.
+[`artifacts/validation.md`](artifacts/validation.md) records the six-domain Better Interface review, commands, evidence and limitations. [`DESIGN.md`](DESIGN.md) describes the final tokens, typography, components and responsive behavior. Current reports are `artifacts/browser-validation.json`, `artifacts/live-browser-validation.json` and `artifacts/taste.json`; other unlisted root artifacts and reports inside immutable `web/` remain historical.
 
-The complete upstream assets, including source screenshots and fixtures, remain intact. Dependencies, browser downloads, caches and downloaded archives are outside the submission. No ignore file changed. The final path and byte audit is in [`artifacts/submission-audit.json`](artifacts/submission-audit.json).
-
-The existing **sworn** name is retained. Repository-root `dist/` is the complete export handed to the publishing plane; this worker did not independently change DNS, ENS or IPFS hosting. Earlier `site/`, contracts and unrelated project records remain unchanged. Notices remain in `LICENSE` and `web/LICENSES/`.
+Required upstream assets and source fixtures remain complete. No ignore file changed or submodule was added. Dependencies, caches, browser binaries and downloaded archives are excluded from the submission. [`artifacts/submission-audit.json`](artifacts/submission-audit.json) records the final path and byte audit. Earlier `site/`, Solidity sources and unrelated records remain unchanged. Notices remain in `LICENSE` and `web/LICENSES/`.

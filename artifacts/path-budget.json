@@ -36,5 +36,5 @@
     "artifacts/screenshots/fact-check-390.png": 262144,
     "artifacts/screenshots/fact-history-390.png": 262144
   },
-  "purpose": "Sworn 1.0.2 validation reuses the existing artifact allowlist and 2,097,152-byte aggregate budget. No ignore-file change; dependencies, caches and downloaded archives are not delivered."
+  "purpose": "Sworn 1.0.3 validation reuses the existing artifact allowlist and 2,097,152-byte aggregate budget. No ignore-file change; dependencies, caches and downloaded archives are not delivered."
 }

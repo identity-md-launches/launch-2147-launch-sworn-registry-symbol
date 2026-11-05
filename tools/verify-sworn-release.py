@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the exact Sworn 1.0.2 source and export without building or writing files."""
+"""Check the exact Sworn 1.0.3 source and export without building or writing files."""
 
 import argparse
 import hashlib
@@ -8,7 +8,7 @@ import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-COMMIT = "a4ee0244262b4e5cf8f3d22129814f5b74c7dec4"
+COMMIT = "ad995de37801330cd5897a78afe6c2f757dab117"
 
 
 def digest(data):
@@ -31,7 +31,7 @@ def verify(archive=None):
                 assert entry.isfile() or entry.isdir(), "Unexpected archive file type"
                 if entry.isfile():
                     upstream[parts[1]][Path(*parts[2:]).as_posix()] = source.extractfile(entry).read()
-    for name, count, size in (("web", 347, 3925581), ("dist", 90, 2440774)):
+    for name, count, size in (("web", 349, 3936008), ("dist", 90, 2443354)):
         folder = ROOT / name
         paths = list(folder.rglob("*"))
         assert not any(p.is_symlink() for p in paths), f"Symlink in {name}"
@@ -45,6 +45,8 @@ def verify(archive=None):
             assert len(data) == record["bytes"] and digest(data) == record["sha256"], f"Changed: {name}/{path}"
             if "gitBlob" in record:
                 assert hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest() == record["gitBlob"]
+            if "fileMode" in manifest:
+                assert (folder / path).stat().st_mode & 0o777 == int(manifest["fileMode"], 8) & 0o777, f"Changed mode: {name}/{path}"
         tree = "".join(f"{path}\0{digest(data)}\n" for path, data in sorted(actual.items()))
         assert digest(tree.encode()) == manifest[name]["treeSha256"]
         if archive:

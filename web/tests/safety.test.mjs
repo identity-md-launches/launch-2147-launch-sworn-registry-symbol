@@ -211,3 +211,82 @@ test("C historical empty logs require a second agreeing endpoint; disagreement r
   });
   await assert.rejects(disagree.request({ method: "eth_getLogs" }), /disagree/);
 });
+test("A an RPC outage during a shared scan fails once instead of splitting the range", async () => {
+  const c = client();
+  let reads = 0;
+  c.request = async () => {
+    reads++;
+    throw Error(
+      "Historical logs need two agreeing RPCs; logs were not read in full. Payment blocked.",
+    );
+  };
+  await assert.rejects(checkSharedSpec(c, spec), /not read in full/);
+  assert.equal(reads, 1);
+});
+test("A a range with 1,500 logs is read in one request", async () => {
+  const many = Array.from({ length: 1500 }, (_, i) => ({
+    ...logs([
+      "0x" +
+        (0x3000000000000000000000000000000000000000n + BigInt(i)).toString(16),
+    ])[0],
+    logIndex: toHex(i),
+  }));
+  const c = client(many);
+  const ranges = [];
+  const original = c.request;
+  c.request = async (r) => {
+    ranges.push(r.params[0]);
+    return original(r);
+  };
+  const result = await checkSharedSpec(c, { ...spec, toBlock: 1099n });
+  assert.equal(result.count, 1500);
+  assert.equal(ranges.length, 1);
+});
+test("C an archive refusal keeps that RPC out of log reads without pausing its other reads", async () => {
+  const urls = [
+    "https://archive-refusing.invalid",
+    "https://second.invalid",
+    "https://third.invalid",
+  ];
+  const calls = [];
+  const r = resilientRpc({
+    urls,
+    fetcher: async (url, request) => {
+      const { method } = JSON.parse(request.body);
+      calls.push([url, method]);
+      if (method === "eth_chainId") return Response.json({ result: "0x1" });
+      if (method === "eth_getLogs" && url === urls[0])
+        return Response.json(
+          {
+            jsonrpc: "2.0",
+            id: 1,
+            error: {
+              code: -32602,
+              message:
+                "Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
+            },
+          },
+          { status: 403 },
+        );
+      return Response.json({ result: method === "eth_getLogs" ? [] : "0x5" });
+    },
+  });
+  assert.deepEqual(
+    await r.request({ method: "eth_getLogs", params: [{}] }),
+    [],
+  );
+  assert.equal(await r.request({ method: "eth_blockNumber" }), "0x5");
+  assert.deepEqual(
+    calls.filter(([, m]) => m === "eth_blockNumber"),
+    [[urls[0], "eth_blockNumber"]],
+  );
+  calls.length = 0;
+  assert.deepEqual(
+    await r.request({ method: "eth_getLogs", params: [{}] }),
+    [],
+  );
+  assert.deepEqual(
+    calls.filter(([, m]) => m === "eth_getLogs").map(([u]) => u),
+    [urls[1], urls[2]],
+  );
+});
